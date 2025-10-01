@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Controllers | Hall Effect Controllers | GameZone Pro</title>
+    <meta name="description" content="Shop the best gaming controllers with Hall Effect technology. GameSir G7 SE, Super Nova, T7, and more. Professional controllers for PC, Xbox, PlayStation, and mobile gaming.">
+    <meta name="keywords" content="gaming controllers, hall effect controllers, gamesir controllers, wireless controllers, mobile gaming controllers, pc controllers, xbox controllers">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Libraries -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="controllers.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <span class="logo-text">GAME<span class="accent">ZONE</span></span>
+                    <span class="logo-subtitle">PRO</span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="controllers.html" class="nav-link active">Controllers</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="support.html" class="nav-link">Support</a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="search-icon" id="search-toggle">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="compare-icon" id="compare-toggle" onclick="openCompareModal()" title="Compare Products">
+                    <i class="fas fa-balance-scale"></i>
+                    <span class="compare-count" id="compare-counter" style="display: none;">0</span>
+                </div>
+                <div class="cart-icon" id="cart-toggle">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search controllers..." onkeyup="searchProducts(this.value)">
+            <button class="search-close" onclick="closeSearch()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="search-results" id="search-results"></div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="header-bg">
+            <div class="floating-particles"></div>
+            <div class="grid-overlay"></div>
+        </div>
+        <div class="header-content">
+            <h1 class="page-title" data-aos="fade-up">
+                <span class="title-line">GAMING</span>
+                <span class="title-line accent">CONTROLLERS</span>
+            </h1>
+            <p class="page-subtitle" data-aos="fade-up" data-aos-delay="200">
+                Discover our complete collection of premium gaming controllers with Hall Effect technology
+            </p>
+            <div class="breadcrumb" data-aos="fade-up" data-aos-delay="400">
+                <a href="index.html">Home</a>
+                <span>/</span>
+                <span>Controllers</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-container" data-aos="fade-up">
+                <div class="filter-tabs">
+                    <button class="filter-btn active" onclick="filterProducts('all')" data-category="all">
+                        <i class="fas fa-th"></i>
+                        All Controllers
+                    </button>
+                    <button class="filter-btn" onclick="filterProducts('gamesir')" data-category="gamesir">
+                        <i class="fas fa-gamepad"></i>
+                        GameSir
+                    </button>
+
+                    <button class="filter-btn" onclick="filterProducts('wireless')" data-category="wireless">
+                        <i class="fas fa-wifi"></i>
+                        Wireless
+                    </button>
+                    <button class="filter-btn" onclick="filterProducts('mobile')" data-category="mobile">
+                        <i class="fas fa-mobile-alt"></i>
+                        Mobile
+                    </button>
+                    <button class="filter-btn" onclick="filterProducts('pro')" data-category="pro">
+                        <i class="fas fa-trophy"></i>
+                        Pro Gaming
+                    </button>
+                </div>
+                
+                <div class="sort-options">
+                    <select id="sort-select" onchange="sortProducts(this.value)">
+                        <option value="featured">Featured</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="newest">Newest</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+        <div class="container">
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+            
+            <div class="load-more-container" id="load-more-container">
+                <button class="btn-secondary" onclick="loadMoreProducts()">
+                    <span>Load More Controllers</span>
+                    <i class="fas fa-arrow-down"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Why Choose Our Controllers?</h2>
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3>Hall Effect Technology</h3>
+                    <p>Zero stick drift guarantee with magnetic sensor technology for precise, long-lasting control.</p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3>Wireless Freedom</h3>
+                    <p>Low-latency wireless connectivity with extended battery life for uninterrupted gaming sessions.</p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Customizable</h3>
+                    <p>Programmable buttons, adjustable triggers, and customizable RGB lighting for personalized gaming.</p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>2-Year Warranty</h3>
+                    <p>Comprehensive warranty coverage with 24/7 customer support and free worldwide shipping.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be dynamically loaded here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total: $<span id="cart-total">0.00</span></span>
+            </div>
+            <button class="btn-primary cart-checkout" onclick="proceedToCheckout()">
+                <span>Checkout</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick View Modal -->
+    <div class="modal-overlay quick-view-modal" id="quick-view-modal">
+        <div class="modal-content quick-view-content">
+            <button class="modal-close" onclick="closeControllersQuickView()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="quick-view-body" id="quick-view-body">
+                <!-- Quick view content will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <span class="logo-text">GAME<span class="accent">ZONE</span></span>
+                        <span class="logo-subtitle">PRO</span>
+                    </div>
+                    <p>Your ultimate destination for premium gaming controllers with Hall Effect technology.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="controllers.html">Controllers</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="gamesir.html">GameSir</a></li>
+
+                        <li><a href="wireless.html">Wireless</a></li>
+                        <li><a href="mobile.html">Mobile</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="support.html">Help Center</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Warranty</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 GameZone Pro. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+    <script src="controllers.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeControllersPage();
+        });
+    </script>
+</body>
+</html>

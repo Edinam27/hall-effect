@@ -1,0 +1,42 @@
+# Render deployment configuration for GameZone Pro
+services:
+  - type: web
+    name: gamezone-pro
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: PAYSTACK_SECRET_KEY
+        sync: false  # Set this in Render dashboard
+      - key: PAYSTACK_PUBLIC_KEY
+        sync: false  # Set this in Render dashboard
+      - key: DOMAIN
+        value: https://gamezone-pro.onrender.com
+    domains:
+      - gamezone-pro.onrender.com
+    
+    # Auto-deploy settings
+    autoDeploy: true
+    
+    # Build settings
+    buildFilter:
+      paths:
+        - "**/*"
+      ignoredPaths:
+        - "README.md"
+        - ".env.example"
+        - "*.md"
+    
+    # Health check settings
+    healthCheck:
+      path: /health
+      intervalSeconds: 30
+      timeoutSeconds: 10
+      unhealthyThreshold: 3
+      healthyThreshold: 2

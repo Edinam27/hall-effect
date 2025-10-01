@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - GameZone Pro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/checkout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <style>
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .success-icon {
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+        
+        .success-icon i {
+            font-size: 80px;
+            animation: pulse 2s infinite;
+        }
+        
+        .success-message {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .order-details {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            text-align: left;
+        }
+        
+        .back-to-home {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .back-to-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">GameZone Pro</div>
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Loading your gaming experience...</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-text">Game<span class="accent">Zone</span> Pro</div>
+                <div class="logo-subtitle">NEXT-GEN GAMING</div>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="index.html#controllers" class="nav-link">Controllers</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                <li><a href="index.html#support" class="nav-link">Support</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="cart-icon" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Success Section -->
+    <section class="checkout-section">
+        <div class="container">
+            <h1 class="checkout-title">Payment Successful</h1>
+            
+            <div class="success-message" style="display: block;">
+                <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                <h2 class="success-title">Thank You for Your Order!</h2>
+                <p class="success-text">Your payment has been processed successfully and your order is now being prepared.</p>
+                <div class="order-details" id="order-details">
+                    <p><strong>Order Number:</strong> <span id="order-number">Loading...</span></p>
+                    <p><strong>Customer ID:</strong> <span id="customer-id">Loading...</span></p>
+                    <p><strong>Order Status:</strong> <span id="order-status">Processing</span></p>
+                    <p><strong>AliExpress Status:</strong> <span id="aliexpress-status">Pending</span></p>
+                    <p><strong>Total Amount:</strong> <span id="order-total">Loading...</span></p>
+                    <p><strong>Customer Email:</strong> <span id="customer-email">Loading...</span></p>
+                    <p><strong>Estimated Delivery:</strong> <span id="estimated-delivery">7-10 business days</span></p>
+                </div>
+                <div class="aliexpress-info" id="aliexpress-info" style="margin-top: 15px; padding: 15px; background: rgba(0, 255, 136, 0.1); border-radius: 8px; border-left: 4px solid var(--accent-color);">
+                    <h4 style="color: var(--accent-color); margin-bottom: 10px;"><i class="fas fa-shipping-fast"></i> AliExpress Integration</h4>
+                    <p id="aliexpress-message">Your order is being processed and will be automatically forwarded to AliExpress for fulfillment.</p>
+                </div>
+                <p>A confirmation email has been sent to your email address with all the details of your purchase.</p>
+                <p>We'll also send you updates when your order ships and when it's delivered.</p>
+                <a href="index.html" class="back-to-home">Continue Shopping</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>GameZone Pro</h2>
+                    <p>Elevate your gaming experience with premium controllers.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#controllers">Controllers</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                        <li><a href="index.html#support">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-envelope"></i> support@gamezonepro.com</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 GameZone Pro. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-empty" style="display: block;">
+            <i class="fas fa-shopping-cart"></i>
+            <p>Your cart is empty</p>
+            <button class="continue-shopping" onclick="toggleCart()">Continue Shopping</button>
+        </div>
+        <div class="cart-items">
+            <!-- Cart items will be populated here -->
+        </div>
+        <div class="cart-total">
+            <div class="subtotal">
+                <span>Subtotal:</span>
+                <span class="subtotal-amount">$0.00</span>
+            </div>
+            <div class="shipping">
+                <span>Shipping:</span>
+                <span class="shipping-amount">$0.00</span>
+            </div>
+            <div class="discount" style="display: none;">
+                <span>Discount:</span>
+                <span class="discount-amount">-$0.00</span>
+            </div>
+            <div class="total">
+                <span>Total:</span>
+                <span class="total-amount">$0.00</span>
+            </div>
+        </div>
+        <button class="checkout-btn" onclick="window.location.href='checkout.html'">SECURE CHECKOUT</button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Toggle cart sidebar
+        function toggleCart() {
+            const cartSidebar = document.querySelector('.cart-sidebar');
+            if (cartSidebar) {
+                cartSidebar.classList.toggle('open');
+            }
+        }
+        
+        // Initialize mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    menuToggle.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+    <script>
+        // Get order information from URL parameters and localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const reference = urlParams.get('reference');
+            const orderId = urlParams.get('order_id');
+            
+            // Try to get comprehensive order information from localStorage
+            let orderInfo = null;
+            const lastOrderData = localStorage.getItem('gamezonepro_last_order');
+            
+            if (lastOrderData) {
+                try {
+                    orderInfo = JSON.parse(lastOrderData);
+                } catch (e) {
+                    console.warn('Failed to parse last order data:', e);
+                }
+            }
+            
+            // Fallback to basic order ID if no comprehensive data
+            const finalOrderId = orderInfo?.orderId || orderId || localStorage.getItem('lastOrderId');
+            
+            console.log('Payment success page loaded with:', { 
+                reference, 
+                orderId: finalOrderId, 
+                orderInfo 
+            });
+            
+            if (finalOrderId || orderInfo) {
+                // Display order information
+                displayOrderInformation(orderInfo, finalOrderId, reference);
+                
+                // Add animation to success icon
+                const successIcon = document.querySelector('.success-icon i');
+                if (successIcon) {
+                    successIcon.style.animation = 'pulse 2s infinite';
+                }
+                
+                // Clear cart and discount from localStorage
+                localStorage.removeItem('gamezonepro_cart');
+                localStorage.removeItem('discount');
+                localStorage.removeItem('gamezonepro_pending_order');
+                
+                // Update cart UI
+                updateCartDisplay();
+                
+                // Track successful purchase
+                trackPurchaseEvent(orderInfo, finalOrderId, reference);
+            } else {
+                // Redirect to home if no order information is found
+                console.log('No order information found, redirecting to home');
+                window.location.href = 'index.html';
+            }
+        });
+        
+        function displayOrderInformation(orderInfo, orderId, reference) {
+            // Update order number
+            const orderNumberEl = document.getElementById('order-number');
+            if (orderNumberEl) {
+                orderNumberEl.textContent = orderInfo?.orderNumber || orderId || 'N/A';
+            }
+            
+            // Update customer ID
+            const customerIdEl = document.getElementById('customer-id');
+            if (customerIdEl) {
+                customerIdEl.textContent = orderInfo?.customerId || 'N/A';
+            }
+            
+            // Update order status
+            const orderStatusEl = document.getElementById('order-status');
+            if (orderStatusEl) {
+                orderStatusEl.textContent = orderInfo?.status || 'Processing';
+            }
+            
+            // Update AliExpress status
+            const aliexpressStatusEl = document.getElementById('aliexpress-status');
+            const aliexpressMessageEl = document.getElementById('aliexpress-message');
+            if (aliexpressStatusEl && aliexpressMessageEl) {
+                const aliExpressStatus = orderInfo?.aliExpressStatus || 'pending';
+                aliexpressStatusEl.textContent = aliExpressStatus.charAt(0).toUpperCase() + aliExpressStatus.slice(1);
+                
+                // Update AliExpress message based on status
+                switch (aliExpressStatus) {
+                    case 'ordered':
+                        aliexpressMessageEl.innerHTML = '<i class="fas fa-check-circle" style="color: var(--success-color);"></i> Your order has been successfully forwarded to AliExpress and is being processed.';
+                        break;
+                    case 'partially_ordered':
+                        aliexpressMessageEl.innerHTML = '<i class="fas fa-exclamation-triangle" style="color: #ffa500;"></i> Some items have been forwarded to AliExpress. Our team is working on the remaining items.';
+                        break;
+                    case 'error':
+                        aliexpressMessageEl.innerHTML = '<i class="fas fa-exclamation-circle" style="color: var(--error-color);"></i> There was an issue forwarding your order to AliExpress. Our team has been notified and will resolve this shortly.';
+                        break;
+                    default:
+                        aliexpressMessageEl.innerHTML = '<i class="fas fa-clock" style="color: var(--accent-color);"></i> Your order is being processed and will be automatically forwarded to AliExpress for fulfillment.';
+                }
+            }
+            
+            // Update total amount
+            const orderTotalEl = document.getElementById('order-total');
+            if (orderTotalEl) {
+                orderTotalEl.textContent = orderInfo?.total ? `$${orderInfo.total.toFixed(2)}` : 'N/A';
+            }
+            
+            // Update customer email
+            const customerEmailEl = document.getElementById('customer-email');
+            if (customerEmailEl) {
+                customerEmailEl.textContent = orderInfo?.customerEmail || 'N/A';
+            }
+            
+            // Update estimated delivery based on AliExpress status
+            const estimatedDeliveryEl = document.getElementById('estimated-delivery');
+            if (estimatedDeliveryEl) {
+                const aliExpressStatus = orderInfo?.aliExpressStatus || 'pending';
+                switch (aliExpressStatus) {
+                    case 'ordered':
+                        estimatedDeliveryEl.textContent = '7-14 business days';
+                        break;
+                    case 'partially_ordered':
+                        estimatedDeliveryEl.textContent = '7-21 business days';
+                        break;
+                    case 'error':
+                        estimatedDeliveryEl.textContent = 'Pending resolution';
+                        break;
+                    default:
+                        estimatedDeliveryEl.textContent = '7-10 business days';
+                }
+            }
+        }
+        
+        function updateCartDisplay() {
+            if (typeof updateCartUI === 'function') {
+                updateCartUI();
+            } else {
+                // Fallback if updateCartUI is not defined
+                const cartCount = document.querySelector('.cart-count');
+                if (cartCount) cartCount.textContent = '0';
+                
+                const cartEmpty = document.querySelector('.cart-empty');
+                if (cartEmpty) cartEmpty.style.display = 'block';
+                
+                const cartItems = document.querySelector('.cart-items');
+                if (cartItems) cartItems.innerHTML = '';
+            }
+        }
+        
+        function trackPurchaseEvent(orderInfo, orderId, reference) {
+            if (typeof trackEvent === 'function') {
+                trackEvent('purchase_complete', {
+                    transaction_id: orderInfo?.orderId || orderId,
+                    order_number: orderInfo?.orderNumber,
+                    customer_id: orderInfo?.customerId,
+                    payment_reference: reference,
+                    total_amount: orderInfo?.total,
+                    aliexpress_status: orderInfo?.aliExpressStatus
+                });
+            }
+        }
+    </script>
+</body>
+</html>

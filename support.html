@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Support - GameZone Pro</title>
+    <meta name="description" content="Get technical support for your GameZone Pro gaming controllers. Find troubleshooting guides, setup instructions, and contact our expert support team.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Libraries -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <span class="logo-text">GAME<span class="accent">ZONE</span></span>
+                    <span class="logo-subtitle">PRO</span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#products" class="nav-link">Controllers</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="faq.html" class="nav-link">FAQ</a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="cart-icon" id="cart-toggle">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Support Hero Section -->
+    <section class="page-hero">
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up">
+                <h1 class="page-title">Technical Support</h1>
+                <p class="page-subtitle">Expert help for your gaming controllers</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Options -->
+    <section class="support-options">
+        <div class="container">
+            <div class="support-grid">
+                <div class="support-option" data-aos="fade-up">
+                    <div class="option-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Live Chat</h3>
+                    <p>Get instant help from our support team</p>
+                    <div class="option-details">
+                        <span class="availability">Available 24/7</span>
+                        <span class="response-time">~2 min response</span>
+                    </div>
+                    <button class="support-btn" onclick="openLiveChat()">
+                        <i class="fas fa-comment-dots"></i>
+                        Start Chat
+                    </button>
+                </div>
+                
+                <div class="support-option" data-aos="fade-up" data-aos-delay="100">
+                    <div class="option-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>Phone Support</h3>
+                    <p>Speak directly with our technical experts</p>
+                    <div class="option-details">
+                        <span class="availability">Mon-Fri 8AM-8PM EST</span>
+                        <span class="phone-number">+1 (555) 123-GAME</span>
+                    </div>
+                    <button class="support-btn" onclick="window.location.href='tel:+15551234263'">
+                        <i class="fas fa-phone"></i>
+                        Call Now
+                    </button>
+                </div>
+                
+                <div class="support-option" data-aos="fade-up" data-aos-delay="200">
+                    <div class="option-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email Support</h3>
+                    <p>Detailed technical assistance via email</p>
+                    <div class="option-details">
+                        <span class="availability">24/7 Submission</span>
+                        <span class="response-time">~4 hour response</span>
+                    </div>
+                    <button class="support-btn" onclick="window.location.href='mailto:support@gamezonepro.com'">
+                        <i class="fas fa-envelope"></i>
+                        Send Email
+                    </button>
+                </div>
+                
+                <div class="support-option" data-aos="fade-up" data-aos-delay="300">
+                    <div class="option-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Video Support</h3>
+                    <p>Screen sharing for complex issues</p>
+                    <div class="option-details">
+                        <span class="availability">By Appointment</span>
+                        <span class="response-time">Same day available</span>
+                    </div>
+                    <button class="support-btn" onclick="scheduleVideoCall()">
+                        <i class="fas fa-calendar"></i>
+                        Schedule Call
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Troubleshooting -->
+    <section class="quick-troubleshooting">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Quick Troubleshooting</h2>
+                <p>Try these common solutions before contacting support</p>
+            </div>
+            
+            <div class="troubleshooting-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="connection">Connection Issues</button>
+                    <button class="tab-btn" data-tab="performance">Performance Problems</button>
+                    <button class="tab-btn" data-tab="charging">Charging Issues</button>
+                    <button class="tab-btn" data-tab="buttons">Button Problems</button>
+                </div>
+                
+                <div class="tab-content">
+                    <div class="tab-panel active" id="connection">
+                        <div class="troubleshooting-steps">
+                            <div class="step" data-aos="fade-up">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h3>Check Bluetooth Connection</h3>
+                                    <p>Ensure your controller is in pairing mode and your device's Bluetooth is enabled.</p>
+                                    <div class="step-details">
+                                        <ul>
+                                            <li>Hold the pairing button for 3 seconds</li>
+                                            <li>Look for flashing LED indicator</li>
+                                            <li>Select "GameZone Controller" from device list</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="step" data-aos="fade-up">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h3>Reset Connection</h3>
+                                    <p>Clear existing pairings and establish a fresh connection.</p>
+                                    <div class="step-details">
+                                        <ul>
+                                            <li>Forget the controller from your device</li>
+                                            <li>Hold Home + Y buttons for 10 seconds</li>
+                                            <li>Re-pair the controller</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="step" data-aos="fade-up">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h3>Check Distance & Interference</h3>
+                                    <p>Ensure optimal connection conditions.</p>
+                                    <div class="step-details">
+                                        <ul>
+                                            <li>Stay within 30 feet of your device</li>
+                                            <li>Remove obstacles between controller and device</li>
+                                            <li>Turn off other Bluetooth devices nearby</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-panel" id="performance">
+                        <div class="troubleshooting-steps">
+                            <div class="step" data-aos="fade-up">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h3>Update Firmware</h3>
+                                    <p>Ensure your controller has the latest firmware for optimal performance.</p>
+                                    <div class="step-details">
+                                        <ul>
+                                            <li>Download GameZone Pro app</li>
+                                            <li>Connect controller via USB</li>
+                                            <li>Follow firmware update prompts</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="step" data-aos="fade-up">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h3>Calibrate Analog Sticks</h3>
+                                    <p>Recalibrate sticks if experiencing drift or dead zones.</p>
+                                    <div class="step-details">
+                                        <ul>
+                                            <li>Hold both analog sticks down for 5 seconds</li>
+                                            <li>Rotate sticks in full circles 3 times</li>
+                                            <li>Release and test movement</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="step" data-aos="fade-up">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h3>Adjust Sensitivity Settings</h3>
+                                    <p>Fine-tune controller response in game or system settings.</p>
+                                    <div class="step-details">
+                                        <ul>
+                                            <li>Access controller settings in your game</li>
+                                            <li>Adjust deadzone and sensitivity</li>
+                                            <li>Test different profiles</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-panel" id="charging">
+                        <div class="troubleshooting-steps">
+                            <div class="step" data-aos="fade-up">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h3>Check Cable & Port</h3>
+                                    <p>Verify charging cable and port are functioning properly.</p>
+                                    <div class="step-details">
+                                        <ul>
+                                            <li>Try a different USB-C cable</li>
+                                            <li>Clean charging port with compressed air</li>
+                                            <li>Use a different power source</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="step" data-aos="fade-up">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h3>Reset Battery</h3>
+                                    <p>Perform a battery reset if charging issues persist.</p>
+                                    <div class="step-details">
+                                        <ul>
+                                            <li>Let battery drain completely</li>
+                                            <li>Charge for 4+ hours uninterrupted</li>
+                                            <li>Check LED charging indicator</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="step" data-aos="fade-up">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h3>Temperature Check</h3>
+                                    <p>Ensure optimal charging temperature conditions.</p>
+                                    <div class="step-details">
+                                        <ul>
+                                            <li>Charge at room temperature (68-77°F)</li>
+                                            <li>Avoid direct sunlight or heat sources</li>
+                                            <li>Let controller cool down if overheated</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-panel" id="buttons">
+                        <div class="troubleshooting-steps">
+                            <div class="step" data-aos="fade-up">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h3>Clean Button Areas</h3>
+                                    <p>Remove debris that might be affecting button response.</p>
+                                    <div class="step-details">
+                                        <ul>
+                                            <li>Use compressed air around buttons</li>
+                                            <li>Gently clean with isopropyl alcohol</li>
+                                            <li>Avoid getting liquid inside controller</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="step" data-aos="fade-up">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h3>Test Button Response</h3>
+                                    <p>Use built-in diagnostics to test button functionality.</p>
+                                    <div class="step-details">
+                                        <ul>
+                                            <li>Hold Start + Select for 5 seconds</li>
+                                            <li>Enter button test mode</li>
+                                            <li>Press each button to verify response</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="step" data-aos="fade-up">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h3>Remap Buttons</h3>
+                                    <p>Temporarily remap problematic buttons as a workaround.</p>
+                                    <div class="step-details">
+                                        <ul>
+                                            <li>Use GameZone Pro app</li>
+                                            <li>Create custom button layout</li>
+                                            <li>Save profile for affected games</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Setup Guides -->
+    <section class="setup-guides">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Setup Guides</h2>
+                <p>Step-by-step instructions for different platforms</p>
+            </div>
+            
+            <div class="guides-grid">
+                <div class="guide-card" data-aos="fade-up">
+                    <div class="guide-icon">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <h3>Windows PC</h3>
+                    <p>Connect your controller to Windows 10/11</p>
+                    <div class="guide-steps">
+                        <ol>
+                            <li>Enable Bluetooth in Windows Settings</li>
+                            <li>Put controller in pairing mode</li>
+                            <li>Select "Add Bluetooth device"</li>
+                            <li>Choose your GameZone controller</li>
+                            <li>Install drivers if prompted</li>
+                        </ol>
+                    </div>
+                    <a href="#" class="guide-link">View Full Guide <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="guide-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="guide-icon">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <h3>macOS</h3>
+                    <p>Setup instructions for Mac computers</p>
+                    <div class="guide-steps">
+                        <ol>
+                            <li>Open System Preferences</li>
+                            <li>Click on Bluetooth</li>
+                            <li>Put controller in pairing mode</li>
+                            <li>Click "Connect" when it appears</li>
+                            <li>Test in supported games</li>
+                        </ol>
+                    </div>
+                    <a href="#" class="guide-link">View Full Guide <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="guide-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="guide-icon">
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <h3>Android</h3>
+                    <p>Connect to Android phones and tablets</p>
+                    <div class="guide-steps">
+                        <ol>
+                            <li>Open Android Settings</li>
+                            <li>Go to Connected Devices</li>
+                            <li>Tap "Pair new device"</li>
+                            <li>Select GameZone controller</li>
+                            <li>Download GameZone app for customization</li>
+                        </ol>
+                    </div>
+                    <a href="#" class="guide-link">View Full Guide <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="guide-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="guide-icon">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <h3>iOS</h3>
+                    <p>Setup for iPhone and iPad</p>
+                    <div class="guide-steps">
+                        <ol>
+                            <li>Open iOS Settings</li>
+                            <li>Tap on Bluetooth</li>
+                            <li>Put controller in pairing mode</li>
+                            <li>Tap controller name to connect</li>
+                            <li>Test with MFi compatible games</li>
+                        </ol>
+                    </div>
+                    <a href="#" class="guide-link">View Full Guide <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="guide-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="guide-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Nintendo Switch</h3>
+                    <p>Use with Nintendo Switch console</p>
+                    <div class="guide-steps">
+                        <ol>
+                            <li>Go to System Settings</li>
+                            <li>Select "Controllers and Sensors"</li>
+                            <li>Choose "Pro Controller Wired Communication"</li>
+                            <li>Connect via USB-C cable</li>
+                            <li>Follow on-screen prompts</li>
+                        </ol>
+                    </div>
+                    <a href="#" class="guide-link">View Full Guide <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="guide-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="guide-icon">
+                        <i class="fab fa-steam"></i>
+                    </div>
+                    <h3>Steam Deck</h3>
+                    <p>Configure for Steam Deck gaming</p>
+                    <div class="guide-steps">
+                        <ol>
+                            <li>Enter Desktop Mode</li>
+                            <li>Open Bluetooth settings</li>
+                            <li>Pair controller normally</li>
+                            <li>Return to Gaming Mode</li>
+                            <li>Configure in Steam Input</li>
+                        </ol>
+                    </div>
+                    <a href="#" class="guide-link">View Full Guide <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Ticket Form -->
+    <section class="support-ticket">
+        <div class="container">
+            <div class="ticket-content">
+                <div class="ticket-text" data-aos="fade-right">
+                    <h2>Submit a Support Ticket</h2>
+                    <p>Can't find the solution you need? Submit a detailed support ticket and our technical team will get back to you within 4 hours.</p>
+                    
+                    <div class="ticket-benefits">
+                        <div class="benefit-item">
+                            <i class="fas fa-clock"></i>
+                            <span>4-hour response guarantee</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Dedicated technical specialist</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-history"></i>
+                            <span>Full ticket history tracking</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Priority warranty service</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ticket-form" data-aos="fade-left">
+                    <div class="form-container">
+                        <h3>Create Support Ticket</h3>
+                        <form id="support-ticket-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="ticket-name">Full Name</label>
+                                    <input type="text" id="ticket-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ticket-email">Email Address</label>
+                                    <input type="email" id="ticket-email" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="ticket-product">Product Model</label>
+                                    <select id="ticket-product" required>
+                                        <option value="">Select your controller</option>
+        
+                                        <option value="gamesir-nova-lite">GameSir Nova Lite</option>
+                                        <option value="other">Other/Multiple Products</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ticket-priority">Priority Level</label>
+                                    <select id="ticket-priority" required>
+                                        <option value="low">Low - General Question</option>
+                                        <option value="medium">Medium - Technical Issue</option>
+                                        <option value="high">High - Product Not Working</option>
+                                        <option value="urgent">Urgent - Warranty Claim</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="ticket-category">Issue Category</label>
+                                <select id="ticket-category" required>
+                                    <option value="">Select category</option>
+                                    <option value="connection">Connection/Pairing Issues</option>
+                                    <option value="performance">Performance Problems</option>
+                                    <option value="charging">Charging/Battery Issues</option>
+                                    <option value="buttons">Button/Control Problems</option>
+                                    <option value="firmware">Firmware/Software Issues</option>
+                                    <option value="warranty">Warranty Claim</option>
+                                    <option value="other">Other Technical Issue</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="ticket-subject">Subject</label>
+                                <input type="text" id="ticket-subject" placeholder="Brief description of your issue" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="ticket-description">Detailed Description</label>
+                                <textarea id="ticket-description" rows="6" placeholder="Please provide as much detail as possible about your issue, including:
+- What you were trying to do
+- What happened instead
+- Any error messages
+- Steps you've already tried
+- When the issue started" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="ticket-order">Order Number (if applicable)</label>
+                                <input type="text" id="ticket-order" placeholder="#GZP-">
+                            </div>
+                            
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="ticket-updates">
+                                    <span class="checkmark"></span>
+                                    Send me email updates on this ticket
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="submit-ticket-btn">
+                                <i class="fas fa-ticket-alt"></i>
+                                Submit Support Ticket
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <span class="logo-text">GAME<span class="accent">ZONE</span></span>
+                        <span class="logo-subtitle">PRO</span>
+                    </div>
+                    <p>Premium gaming controllers for champions.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Customer Care</h3>
+                    <ul>
+                        <li><a href="shipping.html">Shipping Info</a></li>
+                        <li><a href="returns.html">Returns & Refunds</a></li>
+                        <li><a href="warranty.html">Warranty</a></li>
+                        <li><a href="support.html">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 GameZone Pro. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Tab functionality for troubleshooting
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and panels
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding panel
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Support functions
+        function openLiveChat() {
+            // In a real implementation, this would open a chat widget
+            alert('Live chat feature would open here. For demo purposes, please use email or phone support.');
+        }
+        
+        function scheduleVideoCall() {
+            // In a real implementation, this would open a scheduling interface
+            alert('Video call scheduling would open here. Please contact support to arrange a video session.');
+        }
+        
+        // Support ticket form handling
+        const supportForm = document.getElementById('support-ticket-form');
+        if (supportForm) {
+            supportForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Generate ticket number
+            const ticketNumber = 'GZP-' + Date.now().toString().slice(-6);
+            
+            // Show success message
+            alert(`Support ticket created successfully!\n\nTicket Number: ${ticketNumber}\n\nYou'll receive a confirmation email shortly with your ticket details. Our team will respond within 4 hours.`);
+            
+            // Reset form
+            this.reset();
+            });
+        }
+    </script>
+</body>
+</html>

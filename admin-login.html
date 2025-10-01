@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - GameZone Pro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/android-chrome-512x512.png">
+    <link rel="manifest" href="images/site.webmanifest">
+    
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .login-logo {
+            margin-bottom: 30px;
+        }
+        
+        .login-logo .logo-text {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #333;
+            letter-spacing: -1px;
+        }
+        
+        .login-logo .accent {
+            color: #ff6b35;
+        }
+        
+        .admin-badge {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+            display: inline-block;
+        }
+        
+        .login-title {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            position: relative;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+        
+        .form-group .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            margin-top: 12px;
+        }
+        
+        .login-btn {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+        }
+        
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #fcc;
+            display: none;
+        }
+        
+        .success-message {
+            background: #efe;
+            color: #363;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #cfc;
+            display: none;
+        }
+        
+        .forgot-password {
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .forgot-password a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+        
+        .loading-spinner {
+            display: none;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-spinner.active {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-logo">
+                <span class="logo-text">GAME<span class="accent">ZONE</span></span>
+                <span class="admin-badge">ADMIN</span>
+            </div>
+            
+            <h2 class="login-title">Admin Login</h2>
+            
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                    <i class="fas fa-user input-icon"></i>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                    <i class="fas fa-lock input-icon"></i>
+                </div>
+                
+                <button type="submit" id="loginBtn" class="login-btn">
+                    <i id="loadingSpinner" class="fas fa-spinner loading-spinner"></i>
+                    Sign In
+                </button>
+            </form>
+            
+            <div class="forgot-password">
+                <a href="#" onclick="showForgotPassword()">Forgot your password?</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Admin credentials (in production, this should be handled server-side)
+        const ADMIN_CREDENTIALS = {
+            'admin': 'admin123',
+            'gamezonepro': 'secure2024',
+            'administrator': 'gzp@admin'
+        };
+        
+        // DOM elements
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        
+        // Check if already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            if (isLoggedIn()) {
+                redirectToAdmin();
+            }
+        });
+        
+        // Login form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleLogin();
+        });
+        
+        // Handle login
+        async function handleLogin() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value;
+            
+            if (!username || !password) {
+                showError('Please enter both username and password.');
+                return;
+            }
+            
+            setLoading(true);
+            hideMessages();
+            
+            // Simulate API call delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            if (validateCredentials(username, password)) {
+                // Store login session
+                const sessionData = {
+                    username: username,
+                    loginTime: new Date().toISOString(),
+                    sessionId: generateSessionId()
+                };
+                
+                localStorage.setItem('adminSession', JSON.stringify(sessionData));
+                localStorage.setItem('adminLoggedIn', 'true');
+                
+                showSuccess('Login successful! Redirecting...');
+                
+                setTimeout(() => {
+                    redirectToAdmin();
+                }, 1500);
+            } else {
+                showError('Invalid username or password. Please try again.');
+                setLoading(false);
+            }
+        }
+        
+        // Validate credentials
+        function validateCredentials(username, password) {
+            return ADMIN_CREDENTIALS[username] === password;
+        }
+        
+        // Check if user is logged in
+        function isLoggedIn() {
+            const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+            const sessionData = localStorage.getItem('adminSession');
+            
+            if (!isLoggedIn || !sessionData) {
+                return false;
+            }
+            
+            try {
+                const session = JSON.parse(sessionData);
+                const loginTime = new Date(session.loginTime);
+                const now = new Date();
+                const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
+                
+                // Session expires after 8 hours
+                if (hoursDiff > 8) {
+                    logout();
+                    return false;
+                }
+                
+                return true;
+            } catch (e) {
+                logout();
+                return false;
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminSession');
+        }
+        
+        // Redirect to admin dashboard
+        function redirectToAdmin() {
+            window.location.href = 'admin.html';
+        }
+        
+        // Generate session ID
+        function generateSessionId() {
+            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        }
+        
+        // UI helper functions
+        function setLoading(loading) {
+            loginBtn.disabled = loading;
+            if (loading) {
+                loadingSpinner.classList.add('active');
+                loginBtn.textContent = ' Signing In...';
+            } else {
+                loadingSpinner.classList.remove('active');
+                loginBtn.textContent = 'Sign In';
+            }
+        }
+        
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+        }
+        
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+        }
+        
+        function hideMessages() {
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+        }
+        
+        function showForgotPassword() {
+            alert('Please contact the system administrator to reset your password.\n\nDefault credentials:\nUsername: admin\nPassword: admin123');
+        }
+        
+        // Auto-focus username field
+        usernameInput.focus();
+    </script>
+</body>
+</html>

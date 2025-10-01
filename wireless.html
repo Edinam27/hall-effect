@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireless Controllers - Hall Effect Gaming</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="controllers.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <div class="logo-text">HALL EFFECT</div>
+                    <div class="logo-subtitle">GAMING</div>
+                </a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="controllers.html" class="nav-link">Controllers</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="support.html" class="nav-link">Support</a>
+            </div>
+            <div class="nav-actions">
+                <div class="cart-icon" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="brand-logo">
+                    <i class="fas fa-wifi wireless-icon"></i>
+                </div>
+                <h1 class="page-title">Wireless Controllers</h1>
+                <p class="page-subtitle">Experience ultimate freedom with our collection of wireless gaming controllers featuring Hall Effect technology</p>
+            </div>
+        </div>
+        <div class="floating-particles"></div>
+    </section>
+
+    <!-- Wireless Benefits -->
+    <section class="brand-info">
+        <div class="container">
+            <div class="brand-content">
+                <div class="brand-description">
+                    <h2>Why Choose Wireless?</h2>
+                    <p>Wireless gaming controllers offer unparalleled freedom and convenience, allowing you to game from anywhere in the room without being tethered by cables. Our wireless controllers feature advanced connectivity technology for lag-free gaming and extended battery life.</p>
+                    <div class="brand-features">
+                        <div class="feature-item">
+                            <i class="fas fa-wifi"></i>
+                            <span>Ultra-Low Latency</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-battery-full"></i>
+                            <span>Extended Battery Life</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                            <span>Freedom of Movement</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-bolt"></i>
+                            <span>Fast Charging</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search wireless controllers...">
+                </div>
+                <div class="filter-group">
+                    <label>Sort by:</label>
+                    <select id="sort-select">
+                        <option value="name">Name</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Rating</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Brand:</label>
+                    <select id="brand-filter">
+                        <option value="all">All Brands</option>
+                        <option value="gamesir">GameSir</option>
+                        
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Platform:</label>
+                    <select id="platform-filter">
+                        <option value="all">All Platforms</option>
+                        <option value="pc">PC</option>
+                        <option value="mobile">Mobile</option>
+                        <option value="console">Console</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Price Range:</label>
+                    <select id="price-filter">
+                        <option value="all">All Prices</option>
+                        <option value="0-58">Under $58</option>
+                            <option value="58-115">$58 - $115</option>
+                            <option value="115-230">$115 - $230</option>
+                            <option value="230+">$230+</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+        <div class="container">
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+            <div class="no-results" id="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No controllers found</h3>
+                <p>Try adjusting your search criteria or filters</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wireless Technology -->
+    <section class="technology-section">
+        <div class="container">
+            <h2 class="section-title">Wireless Technology</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-signal"></i>
+                    </div>
+                    <h3>2.4GHz Connection</h3>
+                    <p>Advanced 2.4GHz wireless technology provides stable, interference-free connection with ultra-low latency for competitive gaming.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fab fa-bluetooth"></i>
+                    </div>
+                    <h3>Bluetooth 5.0</h3>
+                    <p>Latest Bluetooth 5.0 technology ensures seamless connectivity across multiple devices with improved range and stability.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-charging-station"></i>
+                    </div>
+                    <h3>USB-C Charging</h3>
+                    <p>Fast USB-C charging with pass-through capability allows you to play while charging, ensuring uninterrupted gaming sessions.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-power-off"></i>
+                    </div>
+                    <h3>Auto Sleep Mode</h3>
+                    <p>Intelligent power management with auto sleep mode conserves battery life when the controller is not in use.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-cart" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be populated here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total: $<span id="cart-total">0.00</span></span>
+            </div>
+            <button class="checkout-btn" onclick="proceedToCheckout()">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+    <script src="controllers.js"></script>
+    <script>
+        // Initialize wireless page with connection filter
+        document.addEventListener('DOMContentLoaded', function() {
+            initControllersPage('wireless');
+        });
+    </script>
+
+    <style>
+        .wireless-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+    </style>
+</body>
+</html>

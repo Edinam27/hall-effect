@@ -1,0 +1,391 @@
+{
+  "lastUpdated": "2024-01-01T00:00:00.000Z",
+  "products": {
+    "gamesir-g7-se": {
+      "id": "gamesir-g7-se",
+      "name": "GameSir G7 SE Wired Gaming Controller",
+      "variants": [
+        {
+          "color": "White",
+          "stock": 15,
+          "temuStock": 8,
+          "officialStock": 7,
+          "wholesaleCost": 24.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "color": "Black",
+          "stock": 12,
+          "temuStock": 6,
+          "officialStock": 6,
+          "wholesaleCost": 24.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        }
+      ],
+      "totalStock": 27,
+      "sources": {
+        "temu": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        },
+        "official": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        }
+      },
+      "lastUpdated": "2024-01-01T00:00:00.000Z",
+      "isFallback": false
+    },
+    "gamesir-g7": {
+      "id": "gamesir-g7",
+      "name": "GameSir G7 Wired Gaming Controller",
+      "variants": [
+        {
+          "color": "White",
+          "stock": 20,
+          "temuStock": 12,
+          "officialStock": 8,
+          "wholesaleCost": 19.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "color": "Black",
+          "stock": 18,
+          "temuStock": 10,
+          "officialStock": 8,
+          "wholesaleCost": 19.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        }
+      ],
+      "totalStock": 38,
+      "sources": {
+        "temu": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        },
+        "official": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        }
+      },
+      "lastUpdated": "2024-01-01T00:00:00.000Z",
+      "isFallback": false
+    },
+    "gamesir-x2s": {
+      "id": "gamesir-x2s",
+      "name": "GameSir X2s Mobile Gaming Controller",
+      "variants": [
+        {
+          "color": "Black",
+          "stock": 25,
+          "temuStock": 15,
+          "officialStock": 10,
+          "wholesaleCost": 34.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        }
+      ],
+      "totalStock": 25,
+      "sources": {
+        "temu": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        },
+        "official": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        }
+      },
+      "lastUpdated": "2024-01-01T00:00:00.000Z",
+      "isFallback": false
+    },
+    "gamesir-nova-lite": {
+      "id": "gamesir-nova-lite",
+      "name": "GameSir Nova Lite Wireless Controller",
+      "variants": [
+        {
+          "color": "White",
+          "stock": 22,
+          "temuStock": 14,
+          "officialStock": 8,
+          "wholesaleCost": 16.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "color": "Black",
+          "stock": 18,
+          "temuStock": 12,
+          "officialStock": 6,
+          "wholesaleCost": 16.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "color": "Pink",
+          "stock": 15,
+          "temuStock": 10,
+          "officialStock": 5,
+          "wholesaleCost": 16.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "color": "Blue",
+          "stock": 20,
+          "temuStock": 13,
+          "officialStock": 7,
+          "wholesaleCost": 16.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "color": "Green",
+          "stock": 16,
+          "temuStock": 11,
+          "officialStock": 5,
+          "wholesaleCost": 16.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        }
+      ],
+      "totalStock": 91,
+      "sources": {
+        "temu": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        },
+        "official": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        }
+      },
+      "lastUpdated": "2024-01-01T00:00:00.000Z",
+      "isFallback": false
+    },
+    "gamesir-g7-pro": {
+      "id": "gamesir-g7-pro",
+      "name": "GameSir G7 Pro Wired Gaming Controller",
+      "variants": [
+        {
+          "color": "White",
+          "stock": 14,
+          "temuStock": 8,
+          "officialStock": 6,
+          "wholesaleCost": 42.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "color": "Black",
+          "stock": 16,
+          "temuStock": 9,
+          "officialStock": 7,
+          "wholesaleCost": 42.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        }
+      ],
+      "totalStock": 30,
+      "sources": {
+        "temu": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        },
+        "official": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        }
+      },
+      "lastUpdated": "2024-01-01T00:00:00.000Z",
+      "isFallback": false
+    },
+    "gamesir-super-nova": {
+      "id": "gamesir-super-nova",
+      "name": "GameSir Super Nova Wireless Controller",
+      "variants": [
+        {
+          "color": "Black",
+          "stock": 12,
+          "temuStock": 7,
+          "officialStock": 5,
+          "wholesaleCost": 38.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "color": "White",
+          "stock": 10,
+          "temuStock": 6,
+          "officialStock": 4,
+          "wholesaleCost": 38.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        }
+      ],
+      "totalStock": 22,
+      "sources": {
+        "temu": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        },
+        "official": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        }
+      },
+      "lastUpdated": "2024-01-01T00:00:00.000Z",
+      "isFallback": false
+    },
+    "gamesir-nova-2-lite": {
+      "id": "gamesir-nova-2-lite",
+      "name": "GameSir Nova 2 Lite Wireless Controller",
+      "variants": [
+        {
+          "color": "White",
+          "stock": 19,
+          "temuStock": 12,
+          "officialStock": 7,
+          "wholesaleCost": 28.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "color": "Black",
+          "stock": 17,
+          "temuStock": 10,
+          "officialStock": 7,
+          "wholesaleCost": 28.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        }
+      ],
+      "totalStock": 36,
+      "sources": {
+        "temu": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        },
+        "official": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        }
+      },
+      "lastUpdated": "2024-01-01T00:00:00.000Z",
+      "isFallback": false
+    },
+    "gamesir-t7": {
+      "id": "gamesir-t7",
+      "name": "GameSir T7 Mobile Gaming Controller",
+      "variants": [
+        {
+          "color": "White",
+          "stock": 21,
+          "temuStock": 13,
+          "officialStock": 8,
+          "wholesaleCost": 22.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "color": "Blue",
+          "stock": 14,
+          "temuStock": 9,
+          "officialStock": 5,
+          "wholesaleCost": 22.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "color": "Red",
+          "stock": 11,
+          "temuStock": 7,
+          "officialStock": 4,
+          "wholesaleCost": 22.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        }
+      ],
+      "totalStock": 46,
+      "sources": {
+        "temu": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        },
+        "official": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        }
+      },
+      "lastUpdated": "2024-01-01T00:00:00.000Z",
+      "isFallback": false
+    },
+    "gamesir-x5-lite": {
+      "id": "gamesir-x5-lite",
+      "name": "GameSir X5 Lite Type-C Mobile Gaming Controller",
+      "variants": [
+        {
+          "color": "Black",
+          "stock": 18,
+          "temuStock": 11,
+          "officialStock": 7,
+          "wholesaleCost": 26.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "color": "Lime",
+          "stock": 15,
+          "temuStock": 9,
+          "officialStock": 6,
+          "wholesaleCost": 26.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        }
+      ],
+      "totalStock": 33,
+      "sources": {
+        "temu": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        },
+        "official": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        }
+      },
+      "lastUpdated": "2024-01-01T00:00:00.000Z",
+      "isFallback": false
+    },
+    "gamesir-cyclone-2": {
+      "id": "gamesir-cyclone-2",
+      "name": "GameSir Cyclone 2 Multiplatform Controller",
+      "variants": [
+        {
+          "color": "Black",
+          "stock": 13,
+          "temuStock": 8,
+          "officialStock": 5,
+          "wholesaleCost": 36.99,
+          "lastUpdated": "2024-01-01T00:00:00.000Z"
+        }
+      ],
+      "totalStock": 13,
+      "sources": {
+        "temu": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        },
+        "official": {
+          "available": true,
+          "lastChecked": "2024-01-01T00:00:00.000Z",
+          "error": null
+        }
+      },
+      "lastUpdated": "2024-01-01T00:00:00.000Z",
+      "isFallback": false
+    }
+  }
+}

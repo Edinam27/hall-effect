@@ -1,0 +1,51 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://gamezonepro.com/sitemap.xml
+
+# Crawl-delay for better server performance
+Crawl-delay: 1
+
+# Allow all search engines to crawl important pages
+Allow: /index.html
+Allow: /checkout.html
+Allow: /about.html
+Allow: /contact.html
+Allow: /faq.html
+Allow: /payment-success.html
+
+# Allow crawling of images and CSS/JS files
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+# Disallow crawling of sensitive or unnecessary files
+Disallow: /api/
+Disallow: /config/
+Disallow: /data/
+Disallow: /services/
+Disallow: /routes/
+Disallow: /templates/
+Disallow: /*.json$
+Disallow: /test-*
+Disallow: /run-tests.js
+Disallow: /server.js
+Disallow: /package*.json
+Disallow: /.env
+
+# Crawl delay (optional - helps prevent server overload)
+Crawl-delay: 1
+
+# Specific instructions for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2

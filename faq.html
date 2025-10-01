@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - GameZone Pro</title>
+    <meta name="description" content="Frequently asked questions about GameZone Pro gaming controllers, shipping, returns, and support.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Libraries -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <span class="logo-text">GAME<span class="accent">ZONE</span></span>
+                    <span class="logo-subtitle">PRO</span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#products" class="nav-link">Controllers</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="faq.html" class="nav-link active">FAQ</a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="cart-icon" id="cart-toggle">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- FAQ Hero Section -->
+    <section class="page-hero">
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up">
+                <h1 class="page-title">Frequently Asked Questions</h1>
+                <p class="page-subtitle">Find answers to common questions about our products and services</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Search -->
+    <section class="faq-search">
+        <div class="container">
+            <div class="search-container" data-aos="fade-up">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="faq-search" placeholder="Search for answers...">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Categories -->
+    <section class="faq-categories">
+        <div class="container">
+            <div class="category-tabs" data-aos="fade-up">
+                <button class="tab-btn active" data-category="all">All Questions</button>
+                <button class="tab-btn" data-category="products">Products</button>
+                <button class="tab-btn" data-category="shipping">Shipping</button>
+                <button class="tab-btn" data-category="returns">Returns</button>
+                <button class="tab-btn" data-category="technical">Technical</button>
+                <button class="tab-btn" data-category="warranty">Warranty</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Content -->
+    <section class="faq-content">
+        <div class="container">
+            <div class="faq-list">
+                <!-- Products Category -->
+                <div class="faq-item" data-category="products" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>What gaming platforms are your controllers compatible with?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our controllers are designed for maximum compatibility. The GameSir controllers work with Nintendo Switch, PC (Windows/Mac/Linux), Android, iOS, and Steam Deck. Each product page lists specific compatibility details.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="products" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>What is Hall Effect technology and why is it better?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Hall Effect sensors use magnetic fields instead of physical contact to detect stick movement. This eliminates stick drift, provides more precise control, and significantly extends the controller's lifespan. Unlike traditional potentiometer-based sticks, Hall Effect sticks maintain their accuracy over millions of inputs.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="products" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>Do your controllers work wirelessly and wired?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! All our controllers support both wireless (Bluetooth/2.4GHz) and wired (USB-C) connections. Wireless mode offers freedom of movement, while wired mode ensures zero latency for competitive gaming and keeps the controller charged.</p>
+                    </div>
+                </div>
+
+                <!-- Shipping Category -->
+                <div class="faq-item" data-category="shipping" data-aos="fade-up" id="shipping">
+                    <div class="faq-question">
+                        <h3>How fast is your shipping?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer multiple shipping options:<br>
+                        • Standard Shipping: 5-7 business days (FREE on orders over $86)<br>
+                                • Express Shipping: 2-3 business days ($11.49)<br>
+                                • Overnight Shipping: Next business day ($22.99)<br>
+                        Orders placed before 2 PM EST ship the same day.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="shipping" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>Do you ship internationally?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we ship worldwide! International shipping typically takes 7-14 business days depending on your location. Shipping costs are calculated at checkout based on your address. Note that international customers may be responsible for customs duties and taxes.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="shipping" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>How can I track my order?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Once your order ships, you'll receive a tracking number via email. You can track your package using this number on our website or the carrier's website. We also send updates when your package is out for delivery.</p>
+                    </div>
+                </div>
+
+                <!-- Returns Category -->
+                <div class="faq-item" data-category="returns" data-aos="fade-up" id="returns">
+                    <div class="faq-question">
+                        <h3>What is your return policy?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer a 30-day money-back guarantee. If you're not completely satisfied, you can return your controller within 30 days of delivery for a full refund. The item must be in original condition with all accessories and packaging.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="returns" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>How do I start a return?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Contact our support team at support@gamezonepro.com or call +1 (555) 123-GAME. We'll provide you with a prepaid return label and instructions. Most returns are processed within 3-5 business days of receipt.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="returns" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>Can I exchange my controller for a different model?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! We offer free exchanges within 30 days. If there's a price difference, we'll either refund the difference or send you a secure payment link for the additional amount.</p>
+                    </div>
+                </div>
+
+                <!-- Technical Category -->
+                <div class="faq-item" data-category="technical" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>How do I connect my controller to different devices?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Each controller comes with detailed setup instructions. Generally:<br>
+                        • PC: Use USB-C cable or Bluetooth pairing<br>
+                        • Nintendo Switch: Hold pairing button, then pair in Switch settings<br>
+                        • Mobile: Enable Bluetooth and pair like any Bluetooth device<br>
+                        • Steam Deck: Works natively via USB or Bluetooth</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="technical" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>My controller isn't responding. What should I do?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Try these troubleshooting steps:<br>
+                        1. Charge the controller for at least 30 minutes<br>
+                        2. Reset the controller (hold power button for 10 seconds)<br>
+                        3. Re-pair the controller with your device<br>
+                        4. Update your device's drivers/firmware<br>
+                        If issues persist, contact our technical support team.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="technical" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>How long does the battery last?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Battery life varies by model and usage:<br>
+
+                        • GameSir Nova Lite: Up to 12 hours with RGB on, 20+ hours with RGB off<br>
+                        All controllers support fast charging via USB-C and can be used while charging.</p>
+                    </div>
+                </div>
+
+                <!-- Warranty Category -->
+                <div class="faq-item" data-category="warranty" data-aos="fade-up" id="warranty">
+                    <div class="faq-question">
+                        <h3>What does your warranty cover?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>All controllers come with a 2-year comprehensive warranty covering:<br>
+                        • Manufacturing defects<br>
+                        • Button/stick malfunctions<br>
+                        • Charging issues<br>
+                        • Connectivity problems<br>
+                        The warranty does not cover physical damage from drops, spills, or normal wear and tear.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="warranty" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>How do I claim warranty service?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Contact our support team with your order number and description of the issue. We'll guide you through diagnostics and, if needed, provide a prepaid shipping label for warranty service. Most warranty claims are resolved within 7-10 business days.</p>
+                    </div>
+                </div>
+
+                <!-- General Questions -->
+                <div class="faq-item" data-category="general" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>Do you offer bulk discounts for teams or organizations?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! We offer special pricing for esports teams, gaming cafes, schools, and organizations ordering 10+ controllers. Contact us at partnerships@gamezonepro.com for a custom quote.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="general" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>Are your controllers tournament legal?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, our controllers comply with major tournament regulations including EVO, CEO, and most FGC events. However, tournament rules can vary, so we recommend checking specific event guidelines before competing.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Still Need Help Section -->
+            <div class="help-section" data-aos="fade-up">
+                <div class="help-content">
+                    <h2>Still Need Help?</h2>
+                    <p>Can't find the answer you're looking for? Our expert support team is here to help!</p>
+                    <div class="help-actions">
+                        <a href="contact.html" class="help-btn primary">
+                            <i class="fas fa-envelope"></i>
+                            Contact Support
+                        </a>
+                        <a href="tel:+15551234263" class="help-btn secondary">
+                            <i class="fas fa-phone"></i>
+                            Call Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <span class="logo-text">GAME<span class="accent">ZONE</span></span>
+                        <span class="logo-subtitle">PRO</span>
+                    </div>
+                    <p>Premium gaming controllers for champions.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Customer Care</h3>
+                    <ul>
+                        <li><a href="shipping.html">Shipping Info</a></li>
+                        <li><a href="returns.html">Returns & Refunds</a></li>
+                        <li><a href="warranty.html">Warranty</a></li>
+                        <li><a href="support.html">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 GameZone Pro. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // FAQ functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // FAQ accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                    });
+                    
+                    // Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+            
+            // Category filtering
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const category = btn.dataset.category;
+                    
+                    // Update active tab
+                    tabBtns.forEach(otherBtn => otherBtn.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Filter FAQ items
+                    faqItems.forEach(item => {
+                        if (category === 'all' || item.dataset.category === category) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Search functionality
+            const searchInput = document.getElementById('faq-search');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                faqItems.forEach(item => {
+                    const question = item.querySelector('.faq-question h3').textContent.toLowerCase();
+                    const answer = item.querySelector('.faq-answer p').textContent.toLowerCase();
+                    
+                    if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

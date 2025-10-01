@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Order Has Been Delivered - GameZone Pro</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .accent {
+            color: #7e57c2;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #7e57c2;
+            font-size: 18px;
+            margin: 20px 0 10px;
+        }
+        p {
+            margin: 10px 0;
+        }
+        .delivery-info {
+            background-color: #f0fff0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #4caf50;
+        }
+        .order-summary {
+            margin: 20px 0;
+        }
+        .support-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 2px solid #f0f0f0;
+            color: #666;
+            font-size: 12px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #7e57c2;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .support-links {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .support-link {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            width: 45%;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+        .support-link:hover {
+            background-color: #e0e0e0;
+        }
+        @media (max-width: 600px) {
+            .support-link {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">GAME<span class="accent">ZONE</span> PRO</div>
+            <div class="subtitle">Premium Gaming Controllers</div>
+        </div>
+        
+        <div class="content">
+            <h1>Your Order Has Been Delivered!</h1>
+            
+            <p>Hello {{customerName}},</p>
+            
+            <p>Great news! Your order #{{orderNumber}} has been delivered. We hope you enjoy your new gaming controller!</p>
+            
+            <div class="delivery-info">
+                <h2>Delivery Confirmation</h2>
+                <p>Your order has been successfully delivered. If you haven't received your package, please contact our customer support team.</p>
+            </div>
+            
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+                <ul>
+                    {{#each items}}
+                    <li>{{name}} (Qty: {{quantity}})</li>
+                    {{/each}}
+                </ul>
+            </div>
+            
+            <div class="support-info">
+                <h2>Need Help?</h2>
+                <p>If you have any questions or need assistance with your product, our support team is here to help.</p>
+                
+                <div class="support-links">
+                    <a href="https://gamezonepro.com/support" class="support-link">
+                        <strong>Support Center</strong><br>
+                        Find answers to common questions
+                    </a>
+                    <a href="https://gamezonepro.com/warranty" class="support-link">
+                        <strong>Warranty Info</strong><br>
+                        Learn about your product warranty
+                    </a>
+                    <a href="https://gamezonepro.com/setup-guides" class="support-link">
+                        <strong>Setup Guides</strong><br>
+                        Get help setting up your controller
+                    </a>
+                    <a href="https://gamezonepro.com/contact" class="support-link">
+                        <strong>Contact Us</strong><br>
+                        Reach our customer service team
+                    </a>
+                </div>
+            </div>
+            
+            <p>Thank you for shopping with GameZone Pro!</p>
+            
+            <a href="https://gamezonepro.com/support" class="button">Visit Support Center</a>
+        </div>
+        
+        <div class="footer">
+            <p>© 2023 GameZone Pro. All rights reserved.</p>
+            <p>123 Gaming Street, Tech City, TC 12345</p>
+            <p>This email was sent to {{customer.email}}.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - GameZone Pro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/android-chrome-512x512.png">
+    <link rel="manifest" href="images/site.webmanifest">
+</head>
+<body>
+    <!-- Authentication Check -->
+    <script>
+        // Check authentication before loading admin content
+        function checkAdminAuth() {
+            const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+            const sessionData = localStorage.getItem('adminSession');
+            
+            if (!isLoggedIn || !sessionData) {
+                window.location.href = 'admin-login.html';
+                return false;
+            }
+            
+            try {
+                const session = JSON.parse(sessionData);
+                const loginTime = new Date(session.loginTime);
+                const now = new Date();
+                const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
+                
+                // Session expires after 8 hours
+                if (hoursDiff > 8) {
+                    localStorage.removeItem('adminLoggedIn');
+                    localStorage.removeItem('adminSession');
+                    window.location.href = 'admin-login.html';
+                    return false;
+                }
+                
+                return true;
+            } catch (e) {
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('adminSession');
+                window.location.href = 'admin-login.html';
+                return false;
+            }
+        }
+        
+        // Run auth check immediately
+        if (!checkAdminAuth()) {
+            // Prevent page from loading if not authenticated
+            document.documentElement.style.display = 'none';
+        }
+    </script>
+    
+    <!-- Admin Navigation -->
+    <nav class="admin-nav">
+        <div class="admin-nav-container">
+            <div class="admin-logo">
+                <span class="logo-text">GAME<span class="accent">ZONE</span></span>
+                <span class="admin-badge">ADMIN</span>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" title="Toggle mobile menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="admin-nav-links" id="adminNavLinks">
+                <a href="#dashboard" class="admin-nav-link active" data-section="dashboard">
+                    <i class="fas fa-chart-dashboard"></i> Dashboard
+                </a>
+                <a href="#orders" class="admin-nav-link" data-section="orders">
+                    <i class="fas fa-shopping-bag"></i> Orders
+                </a>
+                <a href="#inventory" class="admin-nav-link" data-section="inventory">
+                    <i class="fas fa-boxes"></i> Inventory
+                </a>
+                <a href="#temu" class="admin-nav-link" data-section="temu">
+                    <i class="fas fa-truck"></i> Temu Orders
+                </a>
+                <a href="#customers" class="admin-nav-link" data-section="customers">
+                    <i class="fas fa-users"></i> Customers
+                </a>
+            </div>
+            <div class="admin-user">
+                <i class="fas fa-user-circle"></i>
+                <span id="adminUsername">Admin User</span>
+                <button class="logout-btn" onclick="adminLogout()" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Content -->
+    <main class="admin-main">
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="admin-section active">
+            <div class="admin-header">
+                <h1>Dashboard Overview</h1>
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-orders">0</h3>
+                            <p>Total Orders</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-revenue">$0</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-inventory">0</h3>
+                            <p>Total Inventory</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="profit-margin">30%</h3>
+                            <p>Profit Margin</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Orders Section -->
+        <section id="orders-section" class="admin-section">
+            <div class="admin-header">
+                <h1>Order Management</h1>
+                <div class="admin-actions">
+                    <button class="btn btn-secondary" onclick="exportOrders()">Export Orders</button>
+                    <button class="btn btn-primary" onclick="refreshOrders()">
+                        <i class="fas fa-refresh"></i> Refresh
+                    </button>
+                    <select id="orderStatusFilter" onchange="filterOrders()" title="Filter orders by status" aria-label="Filter orders by status"></select>
+                        <option value="all">All Orders</option>
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="orders-container">
+                <div class="orders-table-container">
+                    <table class="orders-table" id="ordersTable">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Color</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <!-- Orders will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="orders-pagination">
+                    <!-- Pagination will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Inventory Section -->
+        <section id="inventory-section" class="admin-section">
+            <div class="admin-header">
+                <h1>Inventory Management</h1>
+                <div class="admin-actions">
+                    <button class="btn btn-primary" onclick="refreshInventory()" id="refresh-btn">
+                        <i class="fas fa-sync"></i> Refresh Real-Time Data
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadInventory()">
+                        <i class="fas fa-reload"></i> Reload Cache
+                    </button>
+                </div>
+            </div>
+            <div class="inventory-status" id="inventory-status">
+                <span id="last-updated">Loading inventory status...</span>
+                <span id="refresh-indicator" class="refresh-indicator"></span>
+                    <i class="fas fa-spinner fa-spin"></i> Refreshing...
+                </span>
+            </div>
+            <div class="inventory-container">
+                <div class="inventory-grid" id="inventory-grid">
+                    <!-- Inventory items will be populated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Temu Orders Section -->
+        <section id="temu-section" class="admin-section">
+            <div class="admin-header">
+                <h1>Temu Order Processing</h1>
+                <div class="admin-actions">
+                    <button class="btn btn-success" onclick="processPendingOrders()">
+                        <i class="fas fa-play"></i> Process Pending Orders
+                    </button>
+                </div>
+            </div>
+            <div class="temu-container">
+                <div class="temu-orders">
+                    <h3>Orders Ready for Temu</h3>
+                    <div id="temu-orders-list">
+                        <!-- Temu orders will be populated here -->
+                    </div>
+                </div>
+                <div class="temu-config">
+                    <h3>Temu Configuration</h3>
+                    <div class="config-form">
+                        <div class="form-group">
+                            <label>Temu Account Email:</label>
+                            <input type="email" id="temu-email" placeholder="Enter Temu account email">
+                        </div>
+                        <div class="form-group">
+                            <label>Default Shipping Method:</label>
+                            <select id="shipping-method" title="Select shipping method" aria-label="Select shipping method"></select>
+                                <option value="standard">Standard Shipping</option>
+                                <option value="express">Express Shipping</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveTemuConfig()">
+                            <i class="fas fa-save"></i> Save Configuration
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Customers Section -->
+        <section id="customers-section" class="admin-section">
+            <div class="admin-header">
+                <h1>Customer Management</h1>
+                <div class="admin-actions">
+                    <button class="btn btn-primary" onclick="exportCustomers()">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+            <div class="customers-container">
+                <div class="customers-table">
+                    <table id="customers-table">
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Orders</th>
+                                <th>Total Spent</th>
+                                <th>Last Order</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customers-tbody">
+                            <!-- Customers will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Order Details Modal -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <span class="close" onclick="closeOrderModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="order-modal-body">
+                <!-- Order details will be populated here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeOrderModal()">Close</button>
+                <button class="btn btn-primary" onclick="processTemuOrder()">Process with Temu</button>
+                <button class="btn btn-success" onclick="markAsShipped()">Mark as Shipped</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/fallbacks.js"></script>
+    <script src="js/admin.js"></script>
+    
+    <!-- Admin Authentication Scripts -->
+    <script>
+        // Display logged in username
+        function displayAdminUsername() {
+            const sessionData = localStorage.getItem('adminSession');
+            if (sessionData) {
+                try {
+                    const session = JSON.parse(sessionData);
+                    const usernameElement = document.getElementById('adminUsername');
+                    if (usernameElement) {
+                        usernameElement.textContent = session.username;
+                    }
+                } catch (e) {
+                    console.error('Error parsing session data:', e);
+                }
+            }
+        }
+        
+        // Logout function
+        function adminLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('adminSession');
+                window.location.href = 'admin-login.html';
+            }
+        }
+        
+        // Initialize username display when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            displayAdminUsername();
+        });
+    </script>
+</body>
+</html>
