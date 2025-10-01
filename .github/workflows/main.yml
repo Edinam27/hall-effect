@@ -1,0 +1,61 @@
+# Render deployment configuration for Hall Effect Gaming Controllers
+services:
+  - type: web
+    name: hall-effect
+    env: node
+    plan: free
+    buildCommand: npm install --production
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: PAYSTACK_SECRET_KEY
+        sync: false  # Set this in Render dashboard
+      - key: PAYSTACK_PUBLIC_KEY
+        sync: false  # Set this in Render dashboard
+      - key: DATABASE_URL
+        sync: false  # Set this in Render dashboard
+      - key: EMAIL_USER
+        sync: false  # Set this in Render dashboard
+      - key: EMAIL_PASS
+        sync: false  # Set this in Render dashboard
+      - key: JWT_SECRET
+        sync: false  # Set this in Render dashboard
+      - key: GOOGLE_CLIENT_ID
+        sync: false  # Set this in Render dashboard
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false  # Set this in Render dashboard
+      - key: DOMAIN
+        value: https://hall-effect.onrender.com
+    
+    # Auto-deploy settings
+    autoDeploy: true
+    
+    # Build settings
+    buildFilter:
+      paths:
+        - "**/*"
+      ignoredPaths:
+        - "README.md"
+        - ".env.example"
+        - "*.md"
+        - "test-*.js"
+        - "Document*.pdf"
+        - "*-SETUP.md"
+    
+    # Health check settings
+    healthCheck:
+      path: /health
+      intervalSeconds: 30
+      timeoutSeconds: 10
+      unhealthyThreshold: 3
+      healthyThreshold: 2
+    
+    # Static files configuration
+    staticPublishPath: ./
+    
+    # Node.js specific settings
+    nodeVersion: 18
