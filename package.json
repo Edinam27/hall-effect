@@ -21,7 +21,14 @@
     "tournament-controller",
     "paystack-integration",
     "e-commerce",
-    "gaming-store"
+    "gaming-store",
+    "xbox",
+    "playstation",
+    "nintendo-switch",
+    "nintendo",
+    "pc",
+    "gaming",
+    "gamezonepro"
   ],
   "author": "",
   "license": "ISC",
