@@ -1,12 +1,13 @@
-# Render deployment configuration for GameZone Pro
+# Render deployment configuration for Hall Effect
 services:
   - type: web
-    name: gamezone-pro
+    name: hall-effect
     env: node
     plan: free
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /health
+    # Remove publishDir since this is a Node.js server, not a static site
     envVars:
       - key: NODE_ENV
         value: production
@@ -17,9 +18,9 @@ services:
       - key: PAYSTACK_PUBLIC_KEY
         sync: false  # Set this in Render dashboard
       - key: DOMAIN
-        value: https://gamezone-pro.onrender.com
+        value: https://hall-effect.onrender.com
     domains:
-      - gamezone-pro.onrender.com
+      - hall-effect.onrender.com
     
     # Auto-deploy settings
     autoDeploy: true
