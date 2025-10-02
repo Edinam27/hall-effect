@@ -118,7 +118,7 @@ router.get('/orders', async (req, res) => {
 router.get('/orders/:orderId', async (req, res) => {
   try {
     const { orderId } = req.params;
-    const order = orderService.getOrderById(orderId);
+    const order = await orderService.getOrderById(orderId);
     
     if (!order) {
       return res.status(404).json({

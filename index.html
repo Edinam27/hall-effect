@@ -226,13 +226,8 @@
                 <div class="auth-section" id="auth-section">
                     <!-- Login/Signup buttons (shown when not logged in) -->
                     <div class="auth-buttons" id="auth-buttons">
-                        <button class="btn-login" id="login-btn">
-                            <i class="fas fa-sign-in-alt"></i>
-                            Login
-                        </button>
-                        <button class="btn-google-login" id="google-login-btn">
-                            <i class="fab fa-google"></i>
-                            Sign in with Google
+                        <button class="btn-google-login btn-icon-only" id="google-login-btn" aria-label="Sign in with Google">
+                            <i class="fab fa-google" aria-hidden="true"></i>
                         </button>
                     </div>
                     
@@ -311,17 +306,17 @@
                     </div>
                 </div>
                 <div class="hero-cta">
-                    <button class="btn-primary" onclick="scrollToProducts()">
+                    <a class="btn-primary" href="controllers.html">
                         <span>SHOP NOW</span>
                         <i class="fas fa-arrow-right"></i>
-                    </button>
+                    </a>
                     <button class="btn-secondary" onclick="openCompareModal()">
                         <span>COMPARE CONTROLLERS</span>
                     </button>
                 </div>
             </div>
             
-            <div class="hero-visual" data-aos="fade-left">
+            <div class="hero-visual" data-aos="fade-up">
                 <div class="controller-showcase">
                     <div class="controller-3d" id="hero-controller">
                         <img src="images/GameSir Nova Lite (white).webp" alt="GameSir Nova Lite Controller" class="controller-img">

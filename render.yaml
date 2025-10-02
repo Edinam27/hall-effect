@@ -4,7 +4,7 @@ services:
     name: hall-effect
     env: node
     plan: free
-    buildCommand: npm install --production
+    buildCommand: npm ci
     startCommand: npm start
     healthCheckPath: /health
     envVars:
@@ -30,6 +30,8 @@ services:
         sync: false  # Set this in Render dashboard
       - key: DOMAIN
         value: https://hall-effect.onrender.com
+      - key: CALLBACK_URL
+        value: https://hall-effect.onrender.com/payment/callback
     
     # Auto-deploy settings
     autoDeploy: true
@@ -54,8 +56,7 @@ services:
       unhealthyThreshold: 3
       healthyThreshold: 2
     
-    # Static files configuration
-    staticPublishPath: ./
+    # Static files configuration is handled by Express in server.js
     
     # Node.js specific settings
     nodeVersion: 18

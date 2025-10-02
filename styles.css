@@ -626,6 +626,45 @@ input:focus, textarea:focus, select:focus {
     box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);
 }
 
+/* Icon-only auth button variant */
+.btn-icon-only {
+    width: var(--touch-target-min);
+    height: var(--touch-target-min);
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.btn-icon-only i {
+    font-size: 1.1rem;
+}
+
+/* Improve hero visual centering and image aspect ratio */
+.hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.controller-showcase {
+    position: relative;
+    width: 100%;
+    max-width: 520px; /* slightly larger for balance */
+}
+.controller-3d {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: clamp(220px, 35vh, 420px);
+}
+.controller-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
 /* User Profile Dropdown */
 .user-profile {
     position: relative;
@@ -2797,8 +2836,10 @@ input:focus, textarea:focus, select:focus {
 @media (max-width: 1024px) {
     .hero-content {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 32px;
         text-align: center;
+        padding-left: max(12px, env(safe-area-inset-left));
+        padding-right: max(12px, env(safe-area-inset-right));
     }
     
     .feature-highlights {
@@ -2825,6 +2866,43 @@ input:focus, textarea:focus, select:focus {
     
     .footer-content {
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile-specific hero centering and sizing */
+@media (max-width: 768px) {
+    .hero {
+        padding-top: 70px; /* account for fixed navbar */
+    }
+    .hero-visual {
+        justify-content: center;
+        align-items: center;
+    }
+    .controller-showcase {
+        margin: 0 auto;
+        max-width: 420px;
+    }
+    .controller-3d {
+        height: clamp(180px, 32vh, 360px);
+    }
+    .feature-highlights {
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-subtitle {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .controller-showcase {
+        max-width: 360px;
+    }
+    .controller-3d {
+        height: clamp(160px, 30vh, 320px);
     }
 }
 

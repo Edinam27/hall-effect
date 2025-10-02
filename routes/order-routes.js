@@ -5,6 +5,45 @@ const router = express.Router();
 const orderService = require('../services/order-service');
 const emailService = require('../services/email-service');
 
+// Normalize DB order row to API camelCase response
+function normalizeOrder(order) {
+  if (!order) return null;
+  return {
+    id: order.id,
+    orderNumber: order.order_number,
+    customer: order.customer_info ? {
+      name: order.customer_info.fullName || order.customer_info.name,
+      email: order.customer_info.email,
+      phone: order.customer_info.phone,
+      street: order.customer_info.address,
+      city: order.customer_info.city,
+      state: order.customer_info.state,
+      zip: order.customer_info.zipCode || order.customer_info.zip,
+      country: order.customer_info.country,
+      notes: order.customer_info.notes
+    } : undefined,
+    items: order.items || [],
+    total: Number(order.total_amount),
+    status: order.status,
+    paymentStatus: order.payment_status,
+    paymentReference: order.payment_reference,
+    shippingAddress: order.shipping_info ? {
+      name: order.shipping_info.fullName || order.shipping_info.name,
+      street: order.shipping_info.address || order.shipping_info.street,
+      city: order.shipping_info.city,
+      state: order.shipping_info.state,
+      zip: order.shipping_info.zipCode || order.shipping_info.zip,
+      country: order.shipping_info.country,
+      phone: order.shipping_info.phone
+    } : undefined,
+    tracking: order.tracking_info,
+    createdAt: order.created_at,
+    updatedAt: order.updated_at,
+    deliveredAt: order.delivered_at,
+    paymentVerifiedAt: order.payment_verified_at
+  };
+}
+
 /**
  * @route   POST /api/orders
  * @desc    Create a new order
@@ -37,7 +76,7 @@ router.post('/', async (req, res) => {
     const order = await orderService.createOrder(orderData);
     res.status(201).json({
       success: true,
-      order
+      order: normalizeOrder(order)
     });
   } catch (error) {
     console.error('Error creating order:', error);
@@ -54,10 +93,10 @@ router.post('/', async (req, res) => {
  * @desc    Get order by ID
  * @access  Public
  */
-router.get('/:orderId', (req, res) => {
+router.get('/:orderId', async (req, res) => {
   try {
     const { orderId } = req.params;
-    const order = orderService.getOrderById(orderId);
+    const order = await orderService.getOrderById(orderId);
     
     if (!order) {
       return res.status(404).json({
@@ -68,7 +107,7 @@ router.get('/:orderId', (req, res) => {
     
     res.json({
       status: 'success',
-      order
+      order: normalizeOrder(order)
     });
   } catch (error) {
     console.error('Error fetching order:', error);
@@ -85,24 +124,24 @@ router.get('/:orderId', (req, res) => {
  * @desc    Get all orders or filter by status or customer
  * @access  Private
  */
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const { status, email } = req.query;
     
     let filteredOrders;
     
     if (status) {
-      filteredOrders = orderService.getOrdersByStatus(status);
+      filteredOrders = await orderService.getOrdersByStatus(status);
     } else if (email) {
-      filteredOrders = orderService.getOrdersByCustomer(email);
+      filteredOrders = await orderService.getOrdersByCustomer(email);
     } else {
-      filteredOrders = orderService.getAllOrders();
+      filteredOrders = await orderService.getAllOrders();
     }
     
     res.json({
       status: 'success',
       count: filteredOrders.length,
-      orders: filteredOrders
+      orders: filteredOrders.map(normalizeOrder)
     });
   } catch (error) {
     console.error('Error fetching orders:', error);
@@ -135,7 +174,7 @@ router.put('/:orderId/status', async (req, res) => {
     
     res.json({
       status: 'success',
-      order
+      order: normalizeOrder(order)
     });
   } catch (error) {
     console.error('Error updating order status:', error);
@@ -168,7 +207,7 @@ router.put('/:orderId/tracking', async (req, res) => {
     
     res.json({
       status: 'success',
-      order: result.order
+      order: normalizeOrder(result.order)
     });
   } catch (error) {
     console.error('Error updating order tracking:', error);
@@ -193,7 +232,7 @@ router.put('/:orderId/delivered', async (req, res) => {
     
     res.json({
       status: 'success',
-      order: result.order
+      order: normalizeOrder(result.order)
     });
   } catch (error) {
     console.error('Error marking order as delivered:', error);

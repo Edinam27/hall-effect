@@ -5,12 +5,16 @@ const express = require('express');
 const router = express.Router();
 const authService = require('../services/auth-service');
 const { authenticateToken, requireAdmin, rateLimitAuth, logAdminAction } = require('../middleware/auth-middleware');
+// Use rate limiting only in production to ease local testing
+const isProd = process.env.NODE_ENV === 'production';
+const registerRateLimit = isProd ? rateLimitAuth(3, 15 * 60 * 1000) : (req, res, next) => next();
+const loginRateLimit = isProd ? rateLimitAuth(5, 15 * 60 * 1000) : (req, res, next) => next();
 
 /**
  * POST /api/auth/register
  * Register a new user
  */
-router.post('/register', rateLimitAuth(3, 15 * 60 * 1000), async (req, res) => {
+router.post('/register', registerRateLimit, async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
 
@@ -55,7 +59,7 @@ router.post('/register', rateLimitAuth(3, 15 * 60 * 1000), async (req, res) => {
  * POST /api/auth/login
  * User login
  */
-router.post('/login', rateLimitAuth(5, 15 * 60 * 1000), async (req, res) => {
+router.post('/login', loginRateLimit, async (req, res) => {
   try {
     const { email, password } = req.body;
 
