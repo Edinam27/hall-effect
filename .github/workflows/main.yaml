@@ -65,7 +65,7 @@ jobs:
       - name: Upload production-ready build
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./build   # 👈 change this if your build output folder is different (e.g. "build")
+          path: .         # Upload the repository root since there's no build output
 
   deploy:
     runs-on: ubuntu-latest
