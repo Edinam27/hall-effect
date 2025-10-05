@@ -35,11 +35,16 @@ try {
   console.log('Some optional modules not found, continuing with basic functionality');
 }
 
-// Initialize database on startup
+// Initialize database on startup (optional skip via env)
 async function startServer() {
   try {
-    await initializeDatabase();
-    console.log('Database initialized successfully');
+    const skipDbInit = process.env.SKIP_DB_INIT === 'true';
+    if (skipDbInit) {
+      console.log('Skipping database initialization via SKIP_DB_INIT=true');
+    } else {
+      await initializeDatabase();
+      console.log('Database initialized successfully');
+    }
   } catch (error) {
     console.error('Database initialization failed:', error);
     process.exit(1);

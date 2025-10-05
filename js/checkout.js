@@ -8,6 +8,8 @@ let shipping = 0;
 let discount = 0;
 let total = 0;
 
+// Country codes mapping for international phone numbers is defined below
+
 // DOM elements
 const checkoutForm = document.getElementById('checkout-form');
 const checkoutItemsContainer = document.getElementById('checkout-items');
@@ -229,12 +231,36 @@ function loadSavedCustomerInfo() {
             // Auto-fill form with saved data
             document.getElementById('fullName').value = customerData.fullName || '';
             document.getElementById('email').value = customerData.email || '';
-            document.getElementById('phone').value = customerData.phone || '';
             document.getElementById('address').value = customerData.address || '';
             document.getElementById('city').value = customerData.city || '';
             document.getElementById('state').value = customerData.state || '';
             document.getElementById('zipCode').value = customerData.zipCode || '';
-            document.getElementById('country').value = customerData.country || '';
+            
+            // Set country first so we can apply country code to phone
+            const countrySelect = document.getElementById('country');
+            if (countrySelect) {
+                countrySelect.value = customerData.country || '';
+                
+                // Apply country code to phone if needed
+                const phoneInput = document.getElementById('phone');
+                if (phoneInput && customerData.country) {
+                    // If phone doesn't have country code, add it
+                    if (customerData.phone && !customerData.phone.startsWith('+')) {
+                        const countryCode = countryCodes[customerData.country];
+                        phoneInput.value = countryCode ? countryCode + ' ' + customerData.phone : customerData.phone;
+                    } else {
+                        phoneInput.value = customerData.phone || '';
+                    }
+                } else if (phoneInput) {
+                    phoneInput.value = customerData.phone || '';
+                }
+            } else {
+                // Fallback if country select not found
+                const phoneInput = document.getElementById('phone');
+                if (phoneInput) {
+                    phoneInput.value = customerData.phone || '';
+                }
+            }
             
             console.log('Customer information loaded from storage');
         }
@@ -275,9 +301,44 @@ function showValidationErrors(errors) {
     return true;
 }
 
+// Function to display payment errors
+function showPaymentError(message) {
+    // Remove existing error messages
+    const existingErrors = document.querySelectorAll('.payment-error-container');
+    existingErrors.forEach(error => error.remove());
+    
+    // Create error container
+    const errorContainer = document.createElement('div');
+    errorContainer.className = 'payment-error-container';
+    errorContainer.innerHTML = `
+        <div class="payment-error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            ${message || 'Error processing payment'}
+        </div>
+        <button class="close-error-btn" onclick="closePaymentError()">&times;</button>
+    `;
+    
+    // Insert error container before the form
+    checkoutForm.parentNode.insertBefore(errorContainer, checkoutForm);
+    
+    // Scroll to error container
+    errorContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Function to close payment error alert
+function closePaymentError() {
+    const errorContainer = document.querySelector('.payment-error-container');
+    if (errorContainer) {
+        errorContainer.remove();
+    }
+}
+
 // Handle form submission
 function handleCheckoutSubmit(event) {
     event.preventDefault();
+    
+    // Clear any previous errors
+    closePaymentError();
     
     // Get form data
     const formData = new FormData(checkoutForm);
@@ -313,7 +374,8 @@ function handleCheckoutSubmit(event) {
         processPayment(customerInfo);
     } catch (error) {
         hideLoadingIndicator();
-        alert(`Error saving customer information: ${error.message}`);
+        // Show error message in UI instead of alert
+        showPaymentError(`Error saving customer information: ${error.message}`);
     }
 }
 
@@ -468,6 +530,58 @@ function showSuccessMessage(orderId) {
     document.title = 'Order Confirmation - GameZone Pro';
 }
 
+// Country code mapping
+const countryCodes = {
+    'NG': '+234', // Nigeria
+    'GH': '+233', // Ghana
+    'ZA': '+27',  // South Africa
+    'KE': '+254', // Kenya
+    'CI': '+225', // Côte d'Ivoire
+    'RW': '+250', // Rwanda
+    'EG': '+20',  // Egypt
+    'US': '+1',   // United States
+    'CA': '+1',   // Canada
+    'GB': '+44',  // United Kingdom
+    'AU': '+61',  // Australia
+    'AE': '+971'  // United Arab Emirates
+};
+
+// Function to update phone field with country code
+function updatePhoneWithCountryCode() {
+    const countrySelect = document.getElementById('country');
+    const phoneInput = document.getElementById('phone');
+    
+    if (!countrySelect || !phoneInput) return;
+    
+    const selectedCountry = countrySelect.value;
+    const countryCode = countryCodes[selectedCountry] || '';
+    
+    // Only update if phone is empty or only contains a different country code
+    const currentValue = phoneInput.value.trim();
+    const hasCountryCode = Object.values(countryCodes).some(code => 
+        currentValue.startsWith(code));
+    
+    if (currentValue === '' || hasCountryCode) {
+        phoneInput.value = countryCode + (hasCountryCode ? currentValue.substring(currentValue.indexOf(' ') + 1) : '');
+    }
+}
+
+// Update phone input with country code
+function updatePhoneWithCountryCode() {
+    const countrySelect = document.getElementById('country');
+    const phoneInput = document.getElementById('phone');
+    
+    if (!countrySelect || !phoneInput) return;
+    
+    const countryCode = countryCodes[countrySelect.value];
+    if (!countryCode) return;
+    
+    // Only update if phone is empty or doesn't already have a country code
+    if (!phoneInput.value || !phoneInput.value.startsWith('+')) {
+        phoneInput.value = countryCode + ' ';
+    }
+}
+
 // Initialize the checkout page
 function initCheckout() {
     // Load cart data
@@ -489,6 +603,17 @@ function initCheckout() {
                 field.addEventListener('input', () => clearFieldError(fieldName));
             }
         });
+        
+        // Add country change event to update phone with country code
+        const countrySelect = document.getElementById('country');
+        if (countrySelect) {
+            countrySelect.addEventListener('change', updatePhoneWithCountryCode);
+            
+            // Apply country code on page load if country is selected but phone is empty
+            if (countrySelect.value) {
+                updatePhoneWithCountryCode();
+            }
+        }
     }
     
     // Check if this is a return from Paystack payment

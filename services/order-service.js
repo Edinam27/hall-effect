@@ -229,45 +229,52 @@ exports.createOrder = async (orderData) => {
  */
 exports.updateOrderStatus = async (orderId, statusUpdate) => {
   try {
-    const order = exports.getOrderById(orderId);
+    const order = await exports.getOrderById(orderId);
     
     if (!order) {
       throw new Error(`Order ${orderId} not found`);
     }
     
-    // Handle different types of status updates
-    if (typeof statusUpdate === 'string') {
-      order.status = statusUpdate;
-    } else if (typeof statusUpdate === 'object') {
-      // Update multiple fields
-      Object.assign(order, statusUpdate);
-    }
+    // Normalize update payload
+    const isStringUpdate = typeof statusUpdate === 'string';
+    const updateObj = isStringUpdate ? { status: statusUpdate } : (statusUpdate || {});
     
-    order.updatedAt = new Date().toISOString();
+    const newStatus = updateObj.status ?? order.status;
+    const newPaymentStatus = updateObj.payment_status ?? (newStatus === 'paid' ? 'completed' : order.payment_status);
+    const newPaymentReference = updateObj.payment_reference ?? order.payment_reference;
+    const newTrackingInfo = updateObj.tracking_info !== undefined ? updateObj.tracking_info : order.tracking_info;
     
-    // Handle specific status changes
-    if (order.status === 'paid' || statusUpdate.paymentStatus === 'completed') {
-      order.paymentStatus = 'completed';
-      
-      // Send order confirmation email
+    // Persist updates to DB
+    await sql`
+      UPDATE orders
+      SET 
+        status = ${newStatus},
+        payment_status = ${newPaymentStatus},
+        payment_reference = ${newPaymentReference},
+        tracking_info = ${newTrackingInfo ? JSON.stringify(newTrackingInfo) : newTrackingInfo},
+        updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${order.id}
+    `;
+    
+    // Send order confirmation when payment completes
+    if (newStatus === 'paid' || newPaymentStatus === 'completed') {
       try {
-        await emailService.sendOrderConfirmationEmail(order);
+        await emailService.sendOrderConfirmation(order.id);
       } catch (emailError) {
         console.error('Error sending order confirmation email:', emailError);
       }
     }
     
-    // Save orders to file
-    saveOrders();
+    const [updated] = await sql`SELECT * FROM orders WHERE id = ${order.id}`;
     
     console.log('Order status updated:', {
-      orderId: order.id,
-      orderNumber: order.orderNumber,
-      newStatus: order.status,
-      aliexpressStatus: order.aliexpressStatus
+      orderId: updated.id,
+      orderNumber: updated.order_number,
+      newStatus: updated.status,
+      paymentStatus: updated.payment_status
     });
     
-    return order;
+    return updated;
   } catch (error) {
     console.error(`Error updating order ${orderId} status:`, error);
     throw error;
@@ -293,45 +300,14 @@ exports.getOrderById = async (orderId) => {
 /**
  * Update order status
  */
-exports.updateOrderStatus = async (orderId, status) => {
-  try {
-    const order = exports.getOrderById(orderId);
-    
-    if (!order) {
-      throw new Error(`Order ${orderId} not found`);
-    }
-    
-    order.status = status;
-    order.updatedAt = new Date().toISOString();
-    
-    // If status is 'paid', update payment status as well
-    if (status === 'paid') {
-      order.paymentStatus = 'completed';
-      
-      // Send order confirmation email
-      try {
-        await emailService.sendOrderConfirmationEmail(order);
-      } catch (emailError) {
-        console.error('Error sending order confirmation email:', emailError);
-      }
-    }
-    
-    // Save orders to file
-    saveOrders();
-    
-    return order;
-  } catch (error) {
-    console.error(`Error updating order ${orderId} status:`, error);
-    throw error;
-  }
-};
+// Removed duplicate updateOrderStatus; unified above to support string or object updates
 
 /**
  * Process payment with Paystack
  */
 exports.processPayment = async (orderId, customerEmail) => {
   try {
-    const order = exports.getOrderById(orderId);
+    const order = await exports.getOrderById(orderId);
     
     if (!order) {
       throw new Error(`Order ${orderId} not found`);
@@ -343,14 +319,15 @@ exports.processPayment = async (orderId, customerEmail) => {
     // Initialize transaction with Paystack
     const paymentData = {
       email: customerEmail,
-      amount: order.total,
+      amount: Number(order.total_amount),
+      currency: process.env.PAYSTACK_CURRENCY || 'USD',
       reference,
       callbackUrl: `${process.env.WEBSITE_URL}/payment/callback`,
       metadata: {
         orderId: order.id,
-        orderNumber: order.orderNumber,
-        items: order.items.map(item => ({
-          id: item.id,
+        orderNumber: order.order_number,
+        items: (Array.isArray(order.items) ? order.items : []).map(item => ({
+          id: item.productId || item.id,
           name: item.name,
           quantity: item.quantity
         }))
@@ -359,16 +336,15 @@ exports.processPayment = async (orderId, customerEmail) => {
     
     const result = await paystackApi.initializeTransaction(paymentData);
     
-    // Update order with payment information
-    order.paymentReference = reference;
-    order.paymentStatus = 'initialized';
-    order.updatedAt = new Date().toISOString();
-    
-    // Save orders to file
-    saveOrders();
+    await sql`
+      UPDATE orders
+      SET payment_reference = ${reference}, payment_status = ${'initialized'}, updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${order.id}
+    `;
+    const [updated] = await sql`SELECT * FROM orders WHERE id = ${order.id}`;
     
     return {
-      order,
+      order: updated,
       paymentUrl: result.data.authorization_url
     };
   } catch (error) {
@@ -385,26 +361,25 @@ exports.verifyPayment = async (reference) => {
     const result = await paystackApi.verifyTransaction(reference);
     
     if (result.data.status === 'success') {
-      // Find the order by payment reference
-      const order = orders.find(o => o.paymentReference === reference);
-      
+      // Find the order by payment reference in DB
+      const [order] = await sql`SELECT * FROM orders WHERE payment_reference = ${reference}`;
       if (order) {
-        // Update order status
-        order.paymentStatus = 'paid';
-        order.status = 'paid';
-        order.updatedAt = new Date().toISOString();
-        
-        // Save orders to file
-        saveOrders();
+        await sql`
+          UPDATE orders
+          SET payment_status = ${'completed'}, status = ${'paid'}, payment_verified_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP
+          WHERE id = ${order.id}
+        `;
+        const [updated] = await sql`SELECT * FROM orders WHERE id = ${order.id}`;
         
         // Process the order with AliExpress
-        await exports.processAliExpressOrder(order.id);
+        await exports.processAliExpressOrder(updated.id);
         
         // Send confirmation email
-        await emailService.sendOrderConfirmation(order.id);
+        await emailService.sendOrderConfirmation(updated.id);
+        
+        return { success: true, order: updated };
       }
-      
-      return { success: true, order };
+      return { success: true, order: null };
     } else {
       return { success: false, message: 'Payment verification failed' };
     }
@@ -582,11 +557,11 @@ exports.processAliExpressOrder = async (orderId) => {
  */
 exports.retryFailedAliExpressOrders = async () => {
   try {
-    const failedOrders = orders.filter(order => 
-      order.aliexpressStatus === 'failed' || 
-      order.aliexpressStatus === 'partial' ||
-      (order.aliexpressFailedItems && order.aliexpressFailedItems.length > 0)
-    );
+    const failedOrders = await sql`
+      SELECT * FROM orders 
+      WHERE status IN ('error', 'partially_ordered')
+      ORDER BY updated_at DESC
+    `;
     
     console.log(`Found ${failedOrders.length} orders with AliExpress issues to retry`);
     
@@ -627,20 +602,23 @@ exports.retryFailedAliExpressOrders = async () => {
 /**
  * Get customer order history
  */
-exports.getCustomerOrderHistory = (customerId) => {
-  return orders.filter(order => order.customerId === customerId)
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+exports.getCustomerOrderHistory = async (customerEmail) => {
+  const rows = await sql`
+    SELECT * FROM orders 
+    WHERE customer_info->>'email' = ${customerEmail}
+    ORDER BY created_at DESC
+  `;
+  return rows;
 };
 
 /**
  * Get orders requiring AliExpress retry
  */
-exports.getOrdersRequiringAliExpressRetry = () => {
-  return orders.filter(order => 
-    order.aliexpressStatus === 'failed' || 
-    order.aliexpressStatus === 'partial' ||
-    order.aliexpressStatus === 'pending'
-  );
+exports.getOrdersRequiringAliExpressRetry = async () => {
+  const rows = await sql`
+    SELECT * FROM orders WHERE status IN ('error', 'partially_ordered')
+  `;
+  return rows;
 };
 
 /**
@@ -648,24 +626,27 @@ exports.getOrdersRequiringAliExpressRetry = () => {
  */
 exports.updateOrderTracking = async (orderId, trackingInfo) => {
   try {
-    const order = exports.getOrderById(orderId);
+    const order = await exports.getOrderById(orderId);
     
     if (!order) {
       throw new Error(`Order ${orderId} not found`);
     }
     
-    // Update order with tracking information
-    order.tracking = trackingInfo;
-    order.status = 'shipped';
-    order.updatedAt = new Date().toISOString();
-    
-    // Save orders to file
-    saveOrders();
+    // Persist tracking info and status
+    await sql`
+      UPDATE orders
+      SET 
+        tracking_info = ${JSON.stringify(trackingInfo)},
+        status = ${'shipped'},
+        updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${order.id}
+    `;
     
     // Send shipping confirmation email
     await emailService.sendShippingConfirmation(orderId, trackingInfo);
     
-    return { success: true, order };
+    const [updated] = await sql`SELECT * FROM orders WHERE id = ${order.id}`;
+    return { success: true, order: updated };
   } catch (error) {
     console.error(`Error updating tracking for order ${orderId}:`, error);
     throw error;
@@ -677,24 +658,27 @@ exports.updateOrderTracking = async (orderId, trackingInfo) => {
  */
 exports.markOrderDelivered = async (orderId) => {
   try {
-    const order = exports.getOrderById(orderId);
+    const order = await exports.getOrderById(orderId);
     
     if (!order) {
       throw new Error(`Order ${orderId} not found`);
     }
     
-    // Update order status
-    order.status = 'delivered';
-    order.deliveredAt = new Date().toISOString();
-    order.updatedAt = new Date().toISOString();
-    
-    // Save orders to file
-    saveOrders();
+    // Persist delivery status
+    await sql`
+      UPDATE orders
+      SET 
+        status = ${'delivered'},
+        delivered_at = CURRENT_TIMESTAMP,
+        updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${order.id}
+    `;
     
     // Send delivery confirmation email
     await emailService.sendDeliveryConfirmation(orderId);
     
-    return { success: true, order };
+    const [updated] = await sql`SELECT * FROM orders WHERE id = ${order.id}`;
+    return { success: true, order: updated };
   } catch (error) {
     console.error(`Error marking order ${orderId} as delivered:`, error);
     throw error;
@@ -801,7 +785,7 @@ exports.getInventoryWithProfitMargins = () => {
  */
 exports.processTemuOrder = async (orderId, adminNotes = '') => {
   try {
-    const order = exports.getOrderById(orderId);
+    const order = await exports.getOrderById(orderId);
     
     if (!order) {
       throw new Error(`Order ${orderId} not found`);
@@ -822,21 +806,21 @@ exports.processTemuOrder = async (orderId, adminNotes = '') => {
     // Simulate Temu order placement
     const temuResponse = await simulateTemuOrderPlacement(temuOrderData);
     
-    // Update order with Temu information
-    order.temuOrderId = temuResponse.orderId;
-    order.temuStatus = 'placed';
-    order.temuOrderData = temuOrderData;
-    order.adminNotes = adminNotes;
-    order.status = 'processing';
-    order.updatedAt = new Date().toISOString();
-    order.temuPlacedAt = new Date().toISOString();
-    
-    // Save orders
-    saveOrders();
+    // Update order with Temu information in DB
+    await sql`
+      UPDATE orders
+      SET temu_order_id = ${temuResponse.orderId}, status = ${'processing'}, admin_notes = ${adminNotes}, updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${order.id}
+    `;
+    const [updated] = await sql`SELECT * FROM orders WHERE id = ${order.id}`;
     
     // Send customer notification
     if (emailService) {
-      await emailService.sendOrderProcessingEmail(order);
+      try {
+        await emailService.sendOrderConfirmation(updated.id);
+      } catch (emailError) {
+        console.error('Error sending order processing email:', emailError);
+      }
     }
     
     return {
@@ -871,38 +855,43 @@ async function simulateTemuOrderPlacement(orderData) {
  */
 exports.updateTemuOrderStatus = async (orderId, temuStatus, trackingInfo = {}) => {
   try {
-    const order = exports.getOrderById(orderId);
+    const order = await exports.getOrderById(orderId);
     
     if (!order) {
       throw new Error(`Order ${orderId} not found`);
     }
 
-    order.temuStatus = temuStatus;
-    order.trackingInfo = { ...order.trackingInfo, ...trackingInfo };
-    order.updatedAt = new Date().toISOString();
-    
-    // Update main order status based on Temu status
+    // Merge tracking info and update status
+    const mergedTracking = { ...(order.tracking_info || {}), ...trackingInfo };
+    let newStatus = order.status;
+    let deliveredAt = null;
     if (temuStatus === 'shipped') {
-      order.status = 'shipped';
-      order.shippedAt = new Date().toISOString();
-      
-      // Send shipping notification
-      if (emailService) {
-        await emailService.sendShippingNotification(order);
-      }
+      newStatus = 'shipped';
     } else if (temuStatus === 'delivered') {
-      order.status = 'delivered';
-      order.deliveredAt = new Date().toISOString();
-      
-      // Send delivery confirmation
-      if (emailService) {
-        await emailService.sendDeliveryConfirmation(order.id);
+      newStatus = 'delivered';
+      deliveredAt = new Date().toISOString();
+    }
+    await sql`
+      UPDATE orders
+      SET status = ${newStatus}, tracking_info = ${JSON.stringify(mergedTracking)}, updated_at = CURRENT_TIMESTAMP, delivered_at = ${deliveredAt}
+      WHERE id = ${order.id}
+    `;
+    const [updated] = await sql`SELECT * FROM orders WHERE id = ${order.id}`;
+    
+    // Send notifications
+    if (emailService) {
+      try {
+        if (temuStatus === 'shipped') {
+          await emailService.sendShippingConfirmation(order.id);
+        } else if (temuStatus === 'delivered') {
+          await emailService.sendDeliveryConfirmation(order.id);
+        }
+      } catch (emailError) {
+        console.error('Error sending Temu status email:', emailError);
       }
     }
     
-    saveOrders();
-    
-    return { success: true, order };
+    return { success: true, order: updated };
   } catch (error) {
     console.error('Error updating Temu order status:', error);
     throw error;

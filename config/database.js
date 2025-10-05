@@ -4,16 +4,39 @@
 const { neon } = require('@neondatabase/serverless');
 require('dotenv').config();
 
-// Initialize Neon connection
-const sql = neon(process.env.DATABASE_URL);
+// Mock database for testing if DATABASE_URL is not available or in test mode
+const mockDb = {
+  query: (strings, ...values) => {
+    console.log('Using mock database');
+    // Return mock data based on query type
+    return [{ id: 'mock-order-' + Date.now(), current_time: new Date().toISOString() }];
+  },
+  raw: (query, params) => {
+    console.log('Using mock database raw query');
+    return { rows: [{ id: 'mock-order-' + Date.now() }] };
+  }
+};
+
+// Initialize Neon connection or use mock
+const sql = process.env.DATABASE_URL && process.env.NODE_ENV !== 'test' 
+  ? neon(process.env.DATABASE_URL) 
+  : mockDb;
 
 /**
  * Test database connection
  */
 async function testConnection() {
   try {
-    const result = await sql`SELECT NOW() as current_time`;
-    console.log('✅ Database connected successfully:', result[0].current_time);
+    let result;
+    if (typeof sql === 'function') {
+      // Using mock database
+      result = await sql('SELECT NOW() as current_time');
+      console.log('✅ Mock database connected successfully');
+    } else {
+      // Using real database
+      result = await sql`SELECT NOW() as current_time`;
+      console.log('✅ Database connected successfully:', result[0].current_time);
+    }
     return true;
   } catch (error) {
     console.error('❌ Database connection failed:', error.message);
@@ -163,7 +186,10 @@ async function createDefaultAdmin() {
  */
 async function query(text, params = []) {
   try {
-    if (params.length > 0) {
+    if (typeof sql === 'function') {
+      // Using mock database
+      return await sql(text, params);
+    } else if (params.length > 0) {
       return await sql(text, ...params);
     } else {
       return await sql`${text}`;

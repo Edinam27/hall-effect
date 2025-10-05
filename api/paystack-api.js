@@ -7,22 +7,75 @@ const crypto = require('crypto');
 const PAYSTACK_API_URL = 'https://api.paystack.co';
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY; // Using the environment variable
 
+// Hardcoded list of supported currencies for Paystack
+// Based on testing, only GHS is supported for this merchant account
+const SUPPORTED_CURRENCIES = ['GHS']; 
+
+// Export the supported currencies for use in other modules
+exports.SUPPORTED_CURRENCIES = SUPPORTED_CURRENCIES;
+
 /**
  * Initialize a transaction with Paystack
  */
 exports.initializeTransaction = async (data) => {
   try {
-    const { email, amount, reference, callbackUrl, metadata } = data;
-    
+    if (!PAYSTACK_SECRET_KEY) {
+      const err = new Error('PAYSTACK_SECRET_KEY is not configured');
+      err.code = 'PAYSTACK_MISCONFIGURED';
+      throw err;
+    }
+    const { email, amount, reference, callbackUrl, metadata, currency } = data;
+    // Always enforce a currency, defaulting to NGN if not provided
+    const txCurrency = (currency || process.env.PAYSTACK_CURRENCY || 'NGN').toUpperCase();
+
+    const requestBody = {
+      email,
+      amount: Math.round(Number(amount) * 100), // smallest unit
+      currency: txCurrency,
+      reference,
+      callback_url: callbackUrl,
+      metadata
+    };
+
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${PAYSTACK_SECRET_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    };
+
     const response = await axios.post(
       `${PAYSTACK_API_URL}/transaction/initialize`,
-      {
-        email,
-        amount: Math.round(amount * 100), // Convert to kobo/cents (Paystack uses the smallest currency unit)
-        reference,
-        callback_url: callbackUrl,
-        metadata
-      },
+      requestBody,
+      config
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Paystack transaction initialization failed:', {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data
+    });
+    // Normalize error with message for upstream handlers
+    const err = new Error(error.response?.data?.message || error.message || 'Paystack initialization error');
+    err.response = error.response;
+    throw err;
+  }
+};
+
+/**
+ * Get merchant profile from Paystack to detect supported currencies
+ */
+exports.getMerchant = async () => {
+  try {
+    if (!PAYSTACK_SECRET_KEY) {
+      const err = new Error('PAYSTACK_SECRET_KEY is not configured');
+      err.code = 'PAYSTACK_MISCONFIGURED';
+      throw err;
+    }
+    const response = await axios.get(
+      `${PAYSTACK_API_URL}/merchant`,
       {
         headers: {
           'Authorization': `Bearer ${PAYSTACK_SECRET_KEY}`,
@@ -30,11 +83,16 @@ exports.initializeTransaction = async (data) => {
         }
       }
     );
-    
     return response.data;
   } catch (error) {
-    console.error('Paystack transaction initialization failed:', error.response?.data || error.message);
-    throw error;
+    console.error('Paystack get merchant failed:', {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data
+    });
+    const err = new Error(error.response?.data?.message || error.message || 'Paystack merchant fetch error');
+    err.response = error.response;
+    throw err;
   }
 };
 

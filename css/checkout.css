@@ -1,5 +1,47 @@
 /* Checkout Page Styles */
 
+/* Payment Error Alert */
+.payment-error-alert {
+    background-color: #ff3b30;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    animation: fadeIn 0.3s ease-in-out;
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.2);
+}
+
+.payment-error-alert i.fa-exclamation-circle {
+    font-size: 20px;
+    margin-right: 12px;
+}
+
+.payment-error-alert span {
+    flex-grow: 1;
+    font-weight: 500;
+}
+
+.payment-error-alert .close-error {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.payment-error-alert .close-error:hover {
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .checkout-section {
     padding: 120px 0 80px;
     background-color: var(--dark-bg);

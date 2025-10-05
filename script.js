@@ -9,6 +9,7 @@ let isLoading = true;
 let currentFilter = 'all';
 let userCurrency = 'USD';
 let exchangeRates = {};
+const FORCE_USD_DISPLAY = true;
 
 // Currency Configuration
 const currencyConfig = {
@@ -26,6 +27,10 @@ const currencyConfig = {
 
 // Currency Detection and Conversion Functions
 async function detectUserCurrency() {
+    if (FORCE_USD_DISPLAY) {
+        userCurrency = 'USD';
+        return;
+    }
     try {
         // Try to get user's location
         const response = await fetch('https://ipapi.co/json/');
@@ -48,6 +53,10 @@ async function detectUserCurrency() {
 }
 
 async function fetchExchangeRates() {
+    if (FORCE_USD_DISPLAY) {
+        exchangeRates = { USD: 1 };
+        return;
+    }
     try {
         // Using a free exchange rate API
         const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
@@ -73,15 +82,16 @@ async function fetchExchangeRates() {
 }
 
 function convertPrice(usdPrice) {
+    if (FORCE_USD_DISPLAY) return usdPrice;
     if (!exchangeRates[userCurrency]) return usdPrice;
     return (usdPrice * exchangeRates[userCurrency]).toFixed(2);
 }
 
 function formatPrice(price) {
     const convertedPrice = convertPrice(price);
-    const currency = currencyConfig[userCurrency];
+    const currency = FORCE_USD_DISPLAY ? currencyConfig['USD'] : currencyConfig[userCurrency];
     
-    if (userCurrency === 'JPY' || userCurrency === 'CNY' || userCurrency === 'INR') {
+    if (!FORCE_USD_DISPLAY && (userCurrency === 'JPY' || userCurrency === 'CNY' || userCurrency === 'INR')) {
         return `${currency.symbol}${Math.round(convertedPrice)}`;
     }
     return `${currency.symbol}${convertedPrice}`;
@@ -89,6 +99,12 @@ function formatPrice(price) {
 
 // Initialize currency on page load
 async function initializeCurrency() {
+    if (FORCE_USD_DISPLAY) {
+        userCurrency = 'USD';
+        exchangeRates = { USD: 1 };
+        updateAllPrices();
+        return;
+    }
     await detectUserCurrency();
     await fetchExchangeRates();
     updateAllPrices();

@@ -32,7 +32,7 @@ router.get('/config', (req, res) => {
  */
 router.post('/initialize', async (req, res) => {
   try {
-    const { email, amount, reference, callbackUrl, metadata } = req.body;
+    const { email, amount, reference, callbackUrl, metadata, currency } = req.body;
     
     // Validate required fields
     if (!email || !amount) {
@@ -47,7 +47,8 @@ router.post('/initialize', async (req, res) => {
       amount,
       reference,
       callbackUrl,
-      metadata
+      metadata,
+      currency: process.env.PAYSTACK_CURRENCY || 'USD'
     });
     
     res.json(result);
