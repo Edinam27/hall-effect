@@ -236,11 +236,18 @@ function setupColorSelection() {
             e.target.classList.add('selected');
             
             // Update price and color name
-            const priceValue = card.querySelector('.price-value');
+            const priceValue = card.querySelector('.current-price');
             const colorNameSpan = card.querySelector('.selected-color-name');
             
-            if (priceValue) priceValue.textContent = colorPrice;
+            if (priceValue) {
+                priceValue.setAttribute('data-price', colorPrice);
+            }
             if (colorNameSpan) colorNameSpan.textContent = colorName;
+
+            // Apply currency formatting after updates
+            if (typeof updateAllPrices === 'function') {
+                updateAllPrices();
+            }
         }
     });
 }
@@ -403,6 +410,11 @@ function populateControllersQuickView(product) {
             </div>
         </div>
     `;
+
+    // Format prices within the quick view modal
+    if (typeof updateAllPrices === 'function') {
+        updateAllPrices();
+    }
 }
 
 function changeControllersQuickViewImage(src, thumbnail) {
@@ -456,7 +468,10 @@ function selectControllersQuickViewColor(productId, colorName, price) {
     // Update price if different
     const currentPriceSpan = document.querySelector('.controllers-quick-view-info .current-price');
     if (currentPriceSpan && price) {
-        currentPriceSpan.textContent = `$${price}`;
+        currentPriceSpan.setAttribute('data-price', price);
+        if (typeof updateAllPrices === 'function') {
+            updateAllPrices();
+        }
     }
 }
 
@@ -1116,6 +1131,11 @@ function displaySearchResults(results, query) {
             </div>
         </div>
     `).join('');
+    
+    // Apply currency formatting after inserting search results
+    if (typeof updateAllPrices === 'function') {
+        updateAllPrices();
+    }
 }
 
 function selectSearchResult(productId) {
@@ -1211,6 +1231,11 @@ function displayProducts(products) {
         const productCard = createProductCard(product);
         productsGrid.appendChild(productCard);
     });
+    
+    // Ensure currency formatting is applied to newly rendered prices
+    if (typeof updateAllPrices === 'function') {
+        updateAllPrices();
+    }
     
     // Animate product cards
     gsap.fromTo('.product-card', 
