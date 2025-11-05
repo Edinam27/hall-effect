@@ -223,11 +223,12 @@ function setupColorSelection() {
             if (!productId) return;
             const colorName = e.target.getAttribute('data-color');
             const colorPrice = e.target.getAttribute('data-price');
-            
+            const product = products[productId];
+
             // Update selected color
             selectedColors[productId] = {
                 name: colorName,
-                price: parseFloat(colorPrice)
+                price: product ? product.price : parseFloat(colorPrice)
             };
             
             // Update UI
@@ -238,15 +239,36 @@ function setupColorSelection() {
             // Update price and color name
             const priceValue = card.querySelector('.current-price');
             const colorNameSpan = card.querySelector('.selected-color-name');
-            
-            if (priceValue) {
-                priceValue.setAttribute('data-price', colorPrice);
+
+            // Keep price consistent across colors (use base product price)
+            if (priceValue && product) {
+                priceValue.setAttribute('data-price', product.price);
             }
             if (colorNameSpan) colorNameSpan.textContent = colorName;
 
             // Apply currency formatting after updates
             if (typeof updateAllPrices === 'function') {
                 updateAllPrices();
+            }
+
+            // Update preview image to match selected color, if available
+            if (product && product.images && product.images.length) {
+                const images = card.querySelectorAll('.product-img');
+                const dots = card.querySelectorAll('.dot');
+                const colorLower = colorName.toLowerCase();
+                let targetIndex = 0;
+                product.images.forEach((img, index) => {
+                    const imgLower = img.toLowerCase();
+                    if (imgLower.includes(`(${colorLower})`) || imgLower.includes(colorLower)) {
+                        targetIndex = index;
+                    }
+                });
+
+                images.forEach(img => img.classList.remove('active'));
+                if (images[targetIndex]) images[targetIndex].classList.add('active');
+
+                dots.forEach(dot => dot.classList.remove('active'));
+                if (dots[targetIndex]) dots[targetIndex].classList.add('active');
             }
         }
     });
@@ -260,9 +282,8 @@ function addToCartWithOptions(productId) {
     const selectedColor = selectedColors[productId];
     const colorName = selectedColor ? selectedColor.name : (product.colors ? product.colors[0].name : null);
     
-    // Find the color object to get the correct price
-    const colorObj = product.colors ? product.colors.find(c => c.name === colorName) : null;
-    const finalPrice = colorObj ? (colorObj.retailPrice || product.price) : product.price;
+    // Price stays consistent regardless of color
+    const finalPrice = product.price;
     
     // Find color-specific image
     let productImage = product.images[0]; // Default to first image
@@ -376,10 +397,10 @@ function populateControllersQuickView(product) {
                             ${product.colors.map((color, index) => 
                                 `<div class="color-option ${index === 0 ? 'selected' : ''}" 
                                      data-color="${color.name}" 
-                                     data-price="${color.retailPrice || product.price}"
+                                     data-price="${product.price}"
                                      style="background-color: ${color.code}" 
                                      title="${color.name}"
-                                     onclick="selectControllersQuickViewColor('${product.id}', '${color.name}', ${color.retailPrice || product.price})">
+                                     onclick="selectControllersQuickViewColor('${product.id}', '${color.name}', ${product.price})">
                                 </div>`
                             ).join('')}
                         </div>
@@ -428,8 +449,12 @@ function changeControllersQuickViewImage(src, thumbnail) {
 }
 
 function selectControllersQuickViewColor(productId, colorName, price) {
-    // Update selected color for this product
-    selectedColors[productId] = colorName;
+    const product = products[productId];
+    // Update selected color object for this product
+    selectedColors[productId] = {
+        name: colorName,
+        price: product ? product.price : (price || 0)
+    };
     
     // Update UI to show selected color
     const colorOptions = document.querySelectorAll('.controllers-quick-view-colors .color-option');
@@ -441,7 +466,6 @@ function selectControllersQuickViewColor(productId, colorName, price) {
     });
     
     // Update main image based on selected color
-    const product = products[productId];
     if (product && product.images) {
         const colorLower = colorName.toLowerCase();
         // Find image that contains the color name
@@ -465,10 +489,10 @@ function selectControllersQuickViewColor(productId, colorName, price) {
         colorNameSpan.textContent = colorName;
     }
     
-    // Update price if different
+    // Keep price consistent across colors (use base product price)
     const currentPriceSpan = document.querySelector('.controllers-quick-view-info .current-price');
-    if (currentPriceSpan && price) {
-        currentPriceSpan.setAttribute('data-price', price);
+    if (currentPriceSpan && product) {
+        currentPriceSpan.setAttribute('data-price', product.price);
         if (typeof updateAllPrices === 'function') {
             updateAllPrices();
         }
@@ -620,6 +644,16 @@ function loadProducts(filterType = 'all') {
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' }
     );
+
+    // Ensure currency formatting is applied after initial render
+    if (typeof updateAllPrices === 'function') {
+        updateAllPrices();
+    }
+
+    // Generate Product JSON-LD for the visible controllers
+    if (Array.isArray(controllerProducts) && controllerProducts.length) {
+        generateProductJsonLd(controllerProducts);
+    }
 }
 
 // Apply page-specific filters
@@ -681,9 +715,9 @@ function createProductCard(product) {
     const colorOptions = product.colors ? product.colors.map(color => 
         `<div class="color-option" 
              data-color="${color.name}" 
-             data-price="${color.retailPrice || product.price}"
+             data-price="${product.price}"
              style="background-color: ${color.code}" 
-             title="${color.name} - $${color.retailPrice || product.price}">
+             title="${color.name} - $${product.price}">
         </div>`
     ).join('') : '';
     
@@ -1236,12 +1270,80 @@ function displayProducts(products) {
     if (typeof updateAllPrices === 'function') {
         updateAllPrices();
     }
+
+    // Regenerate Product JSON-LD for the currently displayed set
+    if (Array.isArray(products) && products.length) {
+        generateProductJsonLd(products);
+    }
     
     // Animate product cards
     gsap.fromTo('.product-card', 
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' }
     );
+}
+
+// Generate and inject Product JSON-LD for a list of products
+function generateProductJsonLd(productList) {
+    try {
+        const origin = window.location.origin || '';
+        const priceCurrency = (typeof userCurrency === 'string' && userCurrency) ? userCurrency : 'USD';
+        const items = productList.map(p => {
+            const images = Array.isArray(p.images) ? p.images.map(img => img.startsWith('http') ? img : `${origin}/${img}`) : [];
+            const offers = (Array.isArray(p.colors) && p.colors.length)
+                ? p.colors.map(c => ({
+                    '@type': 'Offer',
+                    price: Number(c.retailPrice || p.price),
+                    priceCurrency,
+                    availability: 'https://schema.org/InStock',
+                    url: `${origin}/controllers.html#${encodeURIComponent(p.id)}-${encodeURIComponent(c.name)}`
+                  }))
+                : [{
+                    '@type': 'Offer',
+                    price: Number(p.price),
+                    priceCurrency,
+                    availability: 'https://schema.org/InStock',
+                    url: `${origin}/controllers.html#${encodeURIComponent(p.id)}`
+                  }];
+            const aggregateRating = (p.rating || p.reviews)
+                ? {
+                    '@type': 'AggregateRating',
+                    ratingValue: Number(p.rating || 0),
+                    reviewCount: Number(p.reviews || 0)
+                  }
+                : undefined;
+            return {
+                '@context': 'https://schema.org',
+                '@type': 'Product',
+                name: p.name,
+                description: p.description,
+                sku: p.id,
+                brand: p.brand ? { '@type': 'Brand', name: p.brand } : { '@type': 'Brand', name: 'GameZone Pro' },
+                image: images,
+                offers,
+                ...(aggregateRating ? { aggregateRating } : {})
+            };
+        });
+
+        const graph = {
+            '@context': 'https://schema.org',
+            '@graph': items
+        };
+
+        // Remove existing block to avoid duplicates
+        const existing = document.getElementById('product-jsonld');
+        if (existing && existing.parentNode) {
+            existing.parentNode.removeChild(existing);
+        }
+
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.id = 'product-jsonld';
+        script.textContent = JSON.stringify(graph);
+        document.head.appendChild(script);
+    } catch (e) {
+        console.warn('Failed to generate Product JSON-LD:', e);
+    }
 }
 
 // Export functions for global access

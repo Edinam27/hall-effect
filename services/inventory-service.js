@@ -55,7 +55,7 @@ const PRODUCT_SOURCES = {
     temuUrl: 'https://www.temu.com/gamesir-t7-mobile-controller',
     officialUrl: 'https://www.gamesir.hk/products/gamesir-t7',
     name: 'GameSir T7 Mobile Gaming Controller',
-    variants: ['Black', 'White']
+    variants: ['White', 'Blue']
   },
   'gamesir-x5-lite': {
     temuUrl: 'https://www.temu.com/gamesir-x5-lite-controller',

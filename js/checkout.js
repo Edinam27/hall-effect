@@ -81,6 +81,7 @@ function updateCheckoutSummary() {
             <img src="${item.image}" alt="${item.name}" class="cart-item-image">
             <div class="cart-item-details">
                 <div class="cart-item-name">${item.name}</div>
+                ${item.color ? `<div class="cart-item-variant">Color: ${item.color}</div>` : ''}
                 <div class="cart-item-price">$${item.price.toFixed(2)}</div>
                 <div class="cart-item-quantity">Qty: ${item.quantity}</div>
             </div>

@@ -315,8 +315,8 @@ const products = {
         temuUrl: 'https://www.temu.com/gamesir-t7-mobile-controller',
         colors: [
             {
-                name: 'Black',
-                code: '#000000',
+                name: 'White',
+                code: '#FFFFFF',
                 stock: 25,
                 wholesaleCost: 32.99,
                 retailPrice: 54.20 // 32.99 / (1 - 0.30) = 47.13
@@ -331,11 +331,11 @@ const products = {
         ],
         images: [
             'images/GameSir T7 Mobile Gaming Controller (white).webp',
-            'images/GameSir T7 Mobile Gaming Controller 1.webp',
+            'images/GameSir T7 Mobile Gaming Controller 1 (white).webp',
             'images/GameSir T7 Mobile Gaming Controller 2 (white).webp',
             'images/GameSir T7 Mobile Gaming Controller 3 (white).webp',
             'images/GameSir T7 Mobile Gaming Controller 4 (blue).webp',
-            'images/GameSir T7 Mobile Gaming Controller 5 (red).webp'
+            
         ],
         description: 'Compact mobile gaming controller with telescopic design. Perfect for mobile esports and cloud gaming.',
         features: [
@@ -958,13 +958,13 @@ function removeFromCart(productId, color = null) {
     }
 }
 
-function updateQuantity(productId, newQuantity) {
+function updateQuantity(productId, newQuantity, color = null) {
     if (newQuantity <= 0) {
-        removeFromCart(productId);
+        removeFromCart(productId, color);
         return;
     }
     
-    const item = cart.find(item => item.id === productId);
+    const item = cart.find(item => color ? (item.id === productId && item.color === color) : item.id === productId);
     if (item) {
         item.quantity = newQuantity;
         updateCartUI();
@@ -1010,18 +1010,19 @@ function updateCartUI() {
                     </div>
                     <div class="cart-item-info">
                         <div class="cart-item-title">${item.name}</div>
+                        ${item.color ? `<div class="cart-item-variant">Color: ${item.color}</div>` : ''}
                         <div class="cart-item-price">$${item.price.toFixed(2)}</div>
                         <div class="cart-item-controls">
                             <div class="quantity-controls">
-                                <button class="quantity-btn" onclick="updateQuantity('${item.id}', ${item.quantity - 1})">
+                                <button class="quantity-btn" onclick="updateQuantity('${item.id}', ${item.quantity - 1}, '${item.color || ''}')">
                                     <i class="fas fa-minus"></i>
                                 </button>
                                 <span class="quantity-display">${item.quantity}</span>
-                                <button class="quantity-btn" onclick="updateQuantity('${item.id}', ${item.quantity + 1})">
+                                <button class="quantity-btn" onclick="updateQuantity('${item.id}', ${item.quantity + 1}, '${item.color || ''}')">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
-                            <button class="remove-item" onclick="removeFromCart('${item.id}')">
+                            <button class="remove-item" onclick="removeFromCart('${item.id}', '${item.color || ''}')">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>

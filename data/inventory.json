@@ -295,17 +295,9 @@
           "officialStock": 5,
           "wholesaleCost": 22.99,
           "lastUpdated": "2024-01-01T00:00:00.000Z"
-        },
-        {
-          "color": "Red",
-          "stock": 11,
-          "temuStock": 7,
-          "officialStock": 4,
-          "wholesaleCost": 22.99,
-          "lastUpdated": "2024-01-01T00:00:00.000Z"
         }
       ],
-      "totalStock": 46,
+      "totalStock": 35,
       "sources": {
         "temu": {
           "available": true,
