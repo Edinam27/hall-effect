@@ -29,9 +29,11 @@ services:
       - key: GOOGLE_CLIENT_SECRET
         sync: false  # Set this in Render dashboard
       - key: DOMAIN
-        value: https://hall-effect.onrender.com
+        value: https://nextgamepro.store
       - key: CALLBACK_URL
-        value: https://hall-effect.onrender.com/payment/callback
+        value: https://nextgamepro.store/payment/callback
+      - key: CANONICAL_HOST
+        value: nextgamepro.store
     
     # Auto-deploy settings
     autoDeploy: true

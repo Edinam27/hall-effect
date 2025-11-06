@@ -18,6 +18,7 @@ const { initializeDatabase } = require('./config/database');
 const app = express();
 const PORT = process.env.PORT || 8000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
+const CANONICAL_HOST = process.env.CANONICAL_HOST || 'nextgamepro.store';
 
 // Import custom modules with error handling
 let paystackApi, emailService, orderService;
@@ -57,6 +58,18 @@ app.set('trust proxy', 1);
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Redirect non-canonical hosts to the preferred domain
+app.use((req, res, next) => {
+  const host = req.headers.host;
+  // Only enforce redirect in production
+  if (host && CANONICAL_HOST && NODE_ENV === 'production' && host !== CANONICAL_HOST) {
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+    const targetUrl = `${protocol}://${CANONICAL_HOST}${req.originalUrl}`;
+    return res.redirect(301, targetUrl);
+  }
+  next();
+});
 
 // Serve static files
 app.use(express.static(path.join(__dirname, '/')));
