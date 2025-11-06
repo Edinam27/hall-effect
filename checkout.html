@@ -184,70 +184,114 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">
-                    <h2>GameZone Pro</h2>
-                    <p>Elevate your gaming experience with premium controllers.</p>
-                </div>
-                <div class="footer-links">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="index.html#products">Products</a></li>
-                        <li><a href="index.html#features">Features</a></li>
-                        <li><a href="index.html#reviews">Reviews</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h3>Contact Us</h3>
-                    <p><i class="fas fa-envelope"></i> support@gamezonepro.com</p>
-                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
-                    <div class="social-icons">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <span class="logo-text">GAME<span class="accent">ZONE</span></span>
+                        <span class="logo-subtitle">PRO</span>
+                    </div>
+                    <p>Your ultimate destination for premium gaming controllers and accessories.</p>
+                    <div class="social-links">
                         <a href="#"><i class="fab fa-facebook"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html#products">Controllers</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#reviews">Reviews</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="support.html">Support</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Customer Care</h4>
+                    <ul>
+                        <li><a href="shipping.html">Shipping Info</a></li>
+                        <li><a href="returns.html">Returns & Refunds</a></li>
+                        <li><a href="warranty.html">Warranty</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>support@gamezonepro.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+1 (555) 123-GAME</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>24/7 Support Available</span>
+                        </div>
                     </div>
                 </div>
             </div>
+
             <div class="footer-bottom">
-                <p>&copy; 2023 GameZone Pro. All rights reserved.</p>
+                <div class="footer-bottom-content">
+                    <p>&copy; 2024 GameZone Pro. All rights reserved.</p>
+                    <div class="payment-methods">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-paypal"></i>
+                        <i class="fab fa-cc-apple-pay"></i>
+                        <i class="fab fa-google-pay"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Shopping Cart Sidebar -->
-    <div class="cart-sidebar">
+    <!-- Shopping Cart Sidebar (standardized) -->
+    <div class="cart-sidebar" id="cart-sidebar">
         <div class="cart-header">
-            <h3>Your Cart</h3>
-            <button class="close-cart" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+            <h3>Shopping Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
-        <div class="cart-empty" style="display: none;">
-            <i class="fas fa-shopping-cart"></i>
-            <p>Your cart is empty</p>
-            <button class="continue-shopping" onclick="toggleCart()">Continue Shopping</button>
-        </div>
-        <div class="cart-items">
-            <!-- Cart items will be populated here -->
-        </div>
-        <div class="cart-total">
-            <div class="subtotal">
-                <span>Subtotal:</span>
-                <span class="subtotal-amount">$0.00</span>
-            </div>
-            <div class="shipping">
-                <span>Shipping:</span>
-                <span class="shipping-amount">$0.00</span>
-            </div>
-            <div class="discount" style="display: none;">
-                <span>Discount:</span>
-                <span class="discount-amount">-$0.00</span>
-            </div>
-            <div class="total">
-                <span>Total:</span>
-                <span class="total-amount">$0.00</span>
+        
+        <div class="cart-items" id="cart-items">
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Your cart is empty</p>
+                <button class="btn-primary" onclick="toggleCart()">CONTINUE SHOPPING</button>
             </div>
         </div>
-        <button class="checkout-btn" onclick="window.location.href='checkout.html'">SECURE CHECKOUT</button>
+        
+        <div class="cart-footer" id="cart-footer" style="display: none;">
+            <div class="cart-total">
+                <div class="total-line">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal">$0.00</span>
+                </div>
+                <div class="total-line">
+                    <span>Shipping:</span>
+                    <span class="free-shipping">FREE</span>
+                </div>
+                <div class="total-line total">
+                    <span>Total:</span>
+                    <span id="cart-total">$0.00</span>
+                </div>
+            </div>
+            <button class="checkout-btn" onclick="proceedToCheckout()">
+                <i class="fas fa-lock"></i>
+                SECURE CHECKOUT
+            </button>
+        </div>
     </div>
 
     <!-- Scripts -->
