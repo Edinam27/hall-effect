@@ -1006,7 +1006,7 @@ function updateCartUI() {
             cartItems.innerHTML = cart.map(item => `
                 <div class="cart-item">
                     <div class="cart-item-image">
-                        <img src="${item.image}" alt="${item.name}">
+                        <img src="${item.image}" alt="${item.name}" loading="lazy">
                     </div>
                     <div class="cart-item-info">
                         <div class="cart-item-title">${item.name}</div>
@@ -1229,7 +1229,7 @@ function populateHomepageQuickView(product) {
                 ${product.images && product.images.length > 1 ? `
                     <div class="controllers-thumbnail-images">
                         ${product.images.map((img, index) => 
-                            `<img src="${img}" alt="${product.name}" 
+                            `<img src="${img}" alt="${product.name}" loading="lazy"
                                   class="controllers-thumbnail ${index === 0 ? 'active' : ''}" 
                                   onclick="changeHomepageQuickViewImage('${img}', this)">`
                         ).join('')}
@@ -1459,11 +1459,11 @@ function generateComparisonTable() {
                 <tr>
                     <th>Feature</th>
                     <th>
-                        <img src="${product1.images[0]}" alt="${product1.name}">
+                        <img src="${product1.images[0]}" alt="${product1.name}" loading="lazy">
                         <h4>${product1.name}</h4>
                     </th>
                     <th>
-                        <img src="${product2.images[0]}" alt="${product2.name}">
+                        <img src="${product2.images[0]}" alt="${product2.name}" loading="lazy">
                         <h4>${product2.name}</h4>
                     </th>
                 </tr>

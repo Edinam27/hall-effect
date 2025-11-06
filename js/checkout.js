@@ -78,7 +78,7 @@ function updateCheckoutSummary() {
         const itemElement = document.createElement('div');
         itemElement.className = 'cart-item';
         itemElement.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+            <img src="${item.image}" alt="${item.name}" class="cart-item-image" loading="lazy">
             <div class="cart-item-details">
                 <div class="cart-item-name">${item.name}</div>
                 ${item.color ? `<div class="cart-item-variant">Color: ${item.color}</div>` : ''}

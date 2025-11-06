@@ -180,7 +180,7 @@ function populateCompareModal() {
             ${compareProducts.map(product => `
                 <div class="compare-item">
                     <div class="compare-image">
-                        <img src="${product.images[0]}" alt="${product.name}">
+                        <img src="${product.images[0]}" alt="${product.name}" loading="lazy">
                         <button class="remove-compare" onclick="toggleCompare('${product.id}')">
                             <i class="fas fa-times"></i>
                         </button>
@@ -370,7 +370,7 @@ function populateControllersQuickView(product) {
                 ${product.images && product.images.length > 1 ? `
                     <div class="controllers-thumbnail-images">
                         ${product.images.map((img, index) => 
-                            `<img src="${img}" alt="${product.name}" 
+                            `<img src="${img}" alt="${product.name}" loading="lazy"
                                   class="controllers-thumbnail ${index === 0 ? 'active' : ''}" 
                                   onclick="changeControllersQuickViewImage('${img}', this)">`
                         ).join('')}
@@ -1158,7 +1158,7 @@ function displaySearchResults(results, query) {
     
     searchResults.innerHTML = results.map(product => `
         <div class="search-result-item" onclick="selectSearchResult('${product.id}')">
-            <img src="${product.images[0]}" alt="${product.name}">
+            <img src="${product.images[0]}" alt="${product.name}" loading="lazy">
             <div class="result-info">
                 <h4>${product.name}</h4>
                 <p data-price="${product.price}"></p>
