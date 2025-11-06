@@ -126,7 +126,8 @@
       ]
     }
     </script>
-</head>
+        <link rel="stylesheet" href="css/faq.css">
+    </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
@@ -897,6 +898,11 @@
 
             // Category filtering
             const tabBtns = document.querySelectorAll('.tab-btn');
+            const updateAriaPressed = () => {
+                tabBtns.forEach(b => b.setAttribute('aria-pressed', b.classList.contains('active') ? 'true' : 'false'));
+            };
+            // Set initial aria state
+            updateAriaPressed();
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const category = btn.dataset.category;
@@ -904,6 +910,7 @@
                     // Update active tab
                     tabBtns.forEach(otherBtn => otherBtn.classList.remove('active'));
                     btn.classList.add('active');
+                    updateAriaPressed();
                     
                     // Filter FAQ items
                     faqItems.forEach(item => {

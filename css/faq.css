@@ -1,0 +1,98 @@
+/* FAQ-specific styles, themed to match GameZone Pro */
+
+.faq-categories {
+  padding: 10px 0;
+}
+
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: thin;    /* Firefox */
+}
+
+.category-tabs::-webkit-scrollbar {
+  height: 6px;
+}
+
+.category-tabs::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+.tab-btn {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  min-height: var(--button-height);
+  backdrop-filter: blur(6px);
+}
+
+.tab-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  box-shadow: var(--shadow-small);
+  transform: translateY(-1px);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: var(--dark-bg);
+  border-color: transparent;
+  box-shadow: var(--shadow-medium);
+}
+
+.tab-btn:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .tab-btn {
+    padding: 10px 14px;
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Style for jump index links to align with theme */
+.faq-index .index-ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  columns: 1;
+}
+
+@media (min-width: 768px) {
+  .faq-index .index-ul {
+    columns: 2;
+  }
+}
+
+.faq-index .index-ul li {
+  break-inside: avoid;
+  margin-bottom: 8px;
+}
+
+.faq-index .index-ul a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color var(--transition-normal), border-color var(--transition-normal);
+}
+
+.faq-index .index-ul a:hover {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}

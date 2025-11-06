@@ -998,7 +998,7 @@ function updateCartUI() {
                 <div class="empty-cart">
                     <i class="fas fa-shopping-cart"></i>
                     <p>Your cart is empty</p>
-                    <button onclick="scrollToProducts()">START SHOPPING</button>
+                    <button class="btn-primary" onclick="scrollToProducts()">START SHOPPING</button>
                 </div>
             `;
             if (cartFooter) cartFooter.style.display = 'none';
