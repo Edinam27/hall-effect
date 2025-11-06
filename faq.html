@@ -175,6 +175,16 @@
         </div>
     </section>
 
+    <!-- FAQ Index -->
+    <section class="faq-index">
+        <div class="container">
+            <div class="index-content" data-aos="fade-up">
+                <h2>Jump to Topics</h2>
+                <div id="faq-index-list" class="index-list"></div>
+            </div>
+        </div>
+    </section>
+
     <!-- FAQ Content -->
     <section class="faq-content">
         <div class="container">
@@ -206,7 +216,7 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>Yes! All our controllers support both wireless (Bluetooth/2.4GHz) and wired (USB-C) connections. Wireless mode offers freedom of movement, while wired mode ensures zero latency for competitive gaming and keeps the controller charged.</p>
+                        <p>Yes! All our controllers support both wireless (Bluetooth/2.4GHz) and wired (USB-C) connections. Wireless mode offers freedom of movement, while wired mode ensures zero latency for competitive gaming and keeps the controller charged. See <a href="controllers.html">Controllers</a> for details.</p>
                     </div>
                 </div>
 
@@ -326,7 +336,7 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>Yes. Hall sensors read magnetic fields instead of physical contact, so the mechanism doesn’t wear out like potentiometers. If you see minor drift, recalibrate in your OS or game—it's typically a software setting, not wear.</p>
+                        <p>Yes. Hall sensors read magnetic fields instead of physical contact, so the mechanism doesn’t wear out like potentiometers. If you see minor drift, recalibrate in your OS or game—it's typically a software setting, not wear. Learn more in <a href="support.html">Support</a>.</p>
                     </div>
                 </div>
 
@@ -356,7 +366,7 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>Open the device calibration tool (Windows Game Controllers, Steam Input, Switch Controller Settings). Center the sticks, rotate them to full extents, press save/apply, and restart the game if needed.</p>
+                        <p>Open the device calibration tool (Windows Game Controllers, Steam Input, Switch Controller Settings). Center the sticks, rotate them to full extents, press save/apply, and restart the game if needed. See <a href="support.html">Support</a> for step-by-step guides.</p>
                     </div>
                 </div>
 
@@ -406,7 +416,68 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>Yes. Hall sensors don’t introduce banned macros or rapid-fire advantages. Always verify the specific event’s controller whitelist and rules before competing.</p>
+                        <p>Yes. Hall sensors don’t introduce banned macros or rapid-fire advantages. Always verify the specific event’s controller whitelist and rules before competing. Explore compatible models on <a href="controllers.html">Controllers</a>.</p>
+                    </div>
+                </div>
+
+                <!-- Additional SEO-targeted Q&A -->
+                <div class="faq-item" data-category="products" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>Which controllers use Hall Effect sensors?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Popular options include GameSir G7 SE, Super Nova, and Nova Lite. Browse <a href="gamesir.html">GameSir controllers</a> or see all <a href="controllers.html">Hall Effect controllers</a>.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="products" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>Best Hall Effect controller for PC, Xbox, or Switch?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>For PC and Xbox, consider the GameSir G7 SE. For Switch and mobile, Nova Lite and Super Nova are great. Compare models on <a href="controllers.html">Controllers</a>.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="technical" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>How do I fix stick drift on Switch, Steam, or Windows?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Run calibration, reduce deadzones, and ensure firmware is up to date. On Windows use “Game Controllers”, on Steam use “Calibrate Joysticks”, on Switch use “Calibrate Control Sticks”. See <a href="support.html">Support</a>.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="technical" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>How can I test for stick drift?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Use Windows “Game Controllers” test or Steam Input calibration to watch raw input. If idle values deviate, tune deadzones or recalibrate. Troubleshooting guides at <a href="support.html">Support</a>.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="technical" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>Do Hall Effect controllers support gyro and advanced features?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Many models support gyro, adjustable triggers, and remapping. Feature availability varies—check <a href="gamesir.html">GameSir controllers</a> and <a href="controllers.html">Controllers</a> for specifications.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="products" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h3>Can I retrofit Hall Effect sticks into an existing controller?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Retrofits are model-specific and often not supported by OEMs. We recommend purchasing controllers designed with Hall sensors from factory. See <a href="controllers.html">Controllers</a>.</p>
                     </div>
                 </div>
 
@@ -565,6 +636,33 @@
                 });
             });
             
+            // Generate anchors (IDs) and Jump-to index
+            const toSlug = (str) => str.toLowerCase()
+                .replace(/&/g, 'and')
+                .replace(/[^a-z0-9\s-]/g, '')
+                .trim()
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-');
+
+            const indexList = document.getElementById('faq-index-list');
+            if (indexList) {
+                const ul = document.createElement('ul');
+                ul.className = 'index-ul';
+                faqItems.forEach(item => {
+                    const titleEl = item.querySelector('.faq-question h3');
+                    if (!titleEl) return;
+                    const slug = toSlug(titleEl.textContent);
+                    if (!item.id) item.id = slug;
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = `#${slug}`;
+                    a.textContent = titleEl.textContent;
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                });
+                indexList.appendChild(ul);
+            }
+
             // Category filtering
             const tabBtns = document.querySelectorAll('.tab-btn');
             tabBtns.forEach(btn => {
@@ -586,19 +684,86 @@
                 });
             });
             
-            // Search functionality
+            // Search functionality with synonyms and highlight
             const searchInput = document.getElementById('faq-search');
+            const synonyms = {
+                'hall effect': ['magnetic', 'hall sensor', 'hall sensors'],
+                'stick drift': ['drift', 'joystick drift'],
+                'potentiometer': ['analog sensor', 'pot meter'],
+                'deadzone': ['dead zone', 'deadzones'],
+                'calibrate': ['calibration', 'recalibrate', 'calibrating'],
+                'controller': ['gamepad', 'joystick'],
+                'trigger': ['triggers', 'analog trigger'],
+                'steam': ['steam input'],
+                'switch': ['nintendo switch'],
+                'xbox': ['xbox series', 'xbox one'],
+                'pc': ['windows']
+            };
+
+            const removeHighlights = () => {
+                document.querySelectorAll('mark.__faq-highlight').forEach(m => {
+                    const parent = m.parentNode;
+                    parent.replaceChild(document.createTextNode(m.textContent), m);
+                    parent.normalize();
+                });
+            };
+
+            const highlightTerm = (element, term) => {
+                if (!term) return;
+                const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+                const texts = [];
+                while (walker.nextNode()) {
+                    texts.push(walker.currentNode);
+                }
+                const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, r => `\\${r}`)})`, 'gi');
+                texts.forEach(node => {
+                    const { textContent } = node;
+                    if (!textContent) return;
+                    const parts = textContent.split(regex);
+                    if (parts.length > 1) {
+                        const frag = document.createDocumentFragment();
+                        parts.forEach(part => {
+                            if (regex.test(part)) {
+                                const mark = document.createElement('mark');
+                                mark.className = '__faq-highlight';
+                                mark.textContent = part;
+                                frag.appendChild(mark);
+                            } else {
+                                frag.appendChild(document.createTextNode(part));
+                            }
+                        });
+                        node.parentNode.replaceChild(frag, node);
+                    }
+                });
+            };
+
             searchInput.addEventListener('input', function() {
                 const searchTerm = this.value.toLowerCase();
+                removeHighlights();
                 
                 faqItems.forEach(item => {
                     const question = item.querySelector('.faq-question h3').textContent.toLowerCase();
-                    const answer = item.querySelector('.faq-answer p').textContent.toLowerCase();
-                    
-                    if (question.includes(searchTerm) || answer.includes(searchTerm)) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
+                    const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                    const haystack = `${question} ${answer}`;
+
+                    // Build term set with synonyms
+                    const terms = new Set();
+                    if (searchTerm) {
+                        terms.add(searchTerm);
+                        Object.entries(synonyms).forEach(([key, vals]) => {
+                            if (searchTerm.includes(key)) {
+                                vals.forEach(v => terms.add(v));
+                            }
+                        });
+                    }
+
+                    const matches = searchTerm === '' || Array.from(terms).some(t => haystack.includes(t));
+                    item.style.display = matches ? 'block' : 'none';
+
+                    // Highlight matches
+                    if (matches && searchTerm) {
+                        highlightTerm(item.querySelector('.faq-question'), searchTerm);
+                        highlightTerm(item.querySelector('.faq-answer'), searchTerm);
                     }
                 });
             });
