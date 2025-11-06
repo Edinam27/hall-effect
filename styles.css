@@ -1942,7 +1942,7 @@ input:focus, textarea:focus, select:focus {
 /* Footer */
 .footer {
     background: var(--darker-bg);
-    padding: 60px 0 20px;
+    padding: 60px 0 30px;
     border-top: 1px solid var(--border-color);
 }
 
@@ -1953,7 +1953,8 @@ input:focus, textarea:focus, select:focus {
     margin-bottom: 40px;
 }
 
-.footer-section h4 {
+.footer-section h4,
+.footer-section h3 {
     color: var(--text-primary);
     font-weight: 700;
     margin-bottom: 20px;
@@ -2009,6 +2010,29 @@ input:focus, textarea:focus, select:focus {
     transform: translateY(-2px);
 }
 
+/* Footer Branding */
+.footer-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.footer-logo .logo-text {
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+}
+
+.footer-logo .accent {
+    color: var(--primary-color);
+}
+
+.footer-logo .logo-subtitle {
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
 .contact-info {
     display: flex;
     flex-direction: column;
@@ -2036,6 +2060,7 @@ input:focus, textarea:focus, select:focus {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
     color: var(--text-muted);
 }
 
@@ -2052,6 +2077,31 @@ input:focus, textarea:focus, select:focus {
 
 .payment-methods i:hover {
     color: var(--primary-color);
+}
+
+/* Responsive Footer */
+@media (max-width: 1024px) {
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 640px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin-bottom: 30px;
+    }
+
+    .footer-bottom-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .payment-methods {
+        justify-content: center;
+    }
 }
 
 /* Shopping Cart Sidebar */

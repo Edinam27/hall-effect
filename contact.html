@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - GameZone Pro</title>
     <meta name="description" content="Get in touch with GameZone Pro. Contact our expert team for support, inquiries, or feedback.">
+    <link rel="canonical" href="https://hall-effect2.onrender.com/contact.html">
+    <meta name="robots" content="index,follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Contact GameZone Pro">
+    <meta property="og:description" content="Support for orders, warranty, shipping, and returns. Reach us via email or social.">
+    <meta property="og:url" content="https://hall-effect2.onrender.com/contact.html">
+    <meta property="og:image" content="https://hall-effect2.onrender.com/images/og-default.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact GameZone Pro">
+    <meta name="twitter:description" content="Support for orders, warranty, shipping, and returns.">
+    <meta name="twitter:image" content="https://hall-effect2.onrender.com/images/og-default.jpg">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -15,6 +26,28 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "name": "Contact GameZone Pro",
+      "description": "Get in touch with GameZone Pro for support, orders, warranty, shipping, and returns.",
+      "url": "https://hall-effect2.onrender.com/contact.html",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "GameZone Pro",
+        "url": "https://hall-effect2.onrender.com/",
+        "logo": "https://hall-effect2.onrender.com/images/logo.png",
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "telephone": "+1-555-123-4567",
+          "contactType": "customer support",
+          "areaServed": "US",
+          "availableLanguage": ["English"]
+        }]
+      }
+    }
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -235,7 +268,7 @@
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Quick Links</h3>
+                    <h4>Quick Links</h4>
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About Us</a></li>
@@ -245,7 +278,7 @@
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Customer Care</h3>
+                    <h4>Customer Care</h4>
                     <ul>
                         <li><a href="shipping.html">Shipping Info</a></li>
                         <li><a href="returns.html">Returns & Refunds</a></li>
@@ -255,7 +288,7 @@
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Connect</h3>
+                    <h4>Connect</h4>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -266,13 +299,25 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2024 GameZone Pro. All rights reserved.</p>
+                <div class="footer-bottom-content">
+                    <p>&copy; 2024 GameZone Pro. All rights reserved.</p>
+                    <div class="payment-methods">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-paypal"></i>
+                        <i class="fab fa-cc-apple-pay"></i>
+                        <i class="fab fa-google-pay"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- JavaScript Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="js/fallbacks.js"></script>
     <script src="script.js"></script>
     
     <script>

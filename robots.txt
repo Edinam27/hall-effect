@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://gamezonepro.com/sitemap.xml
+Sitemap: https://hall-effect2.onrender.com/sitemap.xml
 
 # Crawl-delay for better server performance
 Crawl-delay: 1
@@ -35,7 +35,7 @@ Disallow: /package*.json
 Disallow: /.env
 
 # Crawl delay (optional - helps prevent server overload)
-Crawl-delay: 1
+# (already set above for all user agents)
 
 # Specific instructions for major search engines
 User-agent: Googlebot

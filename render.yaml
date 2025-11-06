@@ -4,7 +4,7 @@ services:
     name: hall-effect
     env: node
     plan: free
-    buildCommand: npm ci
+    buildCommand: npm install --production
     startCommand: npm start
     healthCheckPath: /health
     envVars:

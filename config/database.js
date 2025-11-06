@@ -29,13 +29,16 @@ async function testConnection() {
   try {
     let result;
     if (typeof sql === 'function') {
-      // Using mock database
-      result = await sql('SELECT NOW() as current_time');
+      // Using Neon tagged template interface
+      result = await sql`SELECT NOW() as current_time`;
+      const now = Array.isArray(result) ? result[0]?.current_time : undefined;
+      console.log('✅ Database connected successfully:', now || 'OK');
+    } else if (sql && typeof sql.query === 'function') {
+      // Using mock database helper
+      result = await sql.query('SELECT NOW() as current_time');
       console.log('✅ Mock database connected successfully');
     } else {
-      // Using real database
-      result = await sql`SELECT NOW() as current_time`;
-      console.log('✅ Database connected successfully:', result[0].current_time);
+      console.log('ℹ️ No database client available');
     }
     return true;
   } catch (error) {
@@ -68,6 +71,9 @@ async function initializeTables() {
         is_active BOOLEAN DEFAULT true
       )
     `;
+
+    // Ensure google_id column exists for older schemas
+    await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_id VARCHAR(255)`;
 
     // Create user profiles table for storing cart and user-specific data
     await sql`
@@ -187,13 +193,16 @@ async function createDefaultAdmin() {
 async function query(text, params = []) {
   try {
     if (typeof sql === 'function') {
-      // Using mock database
-      return await sql(text, params);
-    } else if (params.length > 0) {
-      return await sql(text, ...params);
-    } else {
-      return await sql`${text}`;
+      // Using Neon client: prefer conventional .query for parameterized calls
+      if (Array.isArray(params) && params.length > 0) {
+        return await sql.query(text, params);
+      }
+      return await sql.query(text);
+    } else if (sql && typeof sql.raw === 'function') {
+      // Using mock database raw helper
+      return await sql.raw(text, params);
     }
+    throw new Error('No database client available');
   } catch (error) {
     console.error('Database query error:', error);
     throw error;

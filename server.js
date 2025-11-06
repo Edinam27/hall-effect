@@ -52,6 +52,8 @@ async function startServer() {
 }
 
 // Middleware
+// Trust Render/Heroku reverse proxy to correctly report HTTPS
+app.set('trust proxy', 1);
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

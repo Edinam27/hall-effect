@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ - GameZone Pro</title>
     <meta name="description" content="Frequently asked questions about GameZone Pro gaming controllers, shipping, returns, and support.">
+    <link rel="canonical" href="https://hall-effect2.onrender.com/faq.html">
+    <meta property="og:title" content="FAQ - GameZone Pro">
+    <meta property="og:description" content="Answers to common questions about Hall Effect controllers, shipping, returns, and warranty.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hall-effect2.onrender.com/faq.html">
+    <meta property="og:image" content="https://hall-effect2.onrender.com/images/android-chrome-512x512.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="FAQ - GameZone Pro">
+    <meta name="twitter:description" content="Get quick answers about controllers, shipping, returns, and support.">
+    <meta name="twitter:image" content="https://hall-effect2.onrender.com/images/android-chrome-512x512.png">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -15,6 +25,41 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Schema Markup: FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What are Hall Effect joysticks?",
+          "acceptedAnswer": {"@type":"Answer","text":"Hall Effect joysticks use magnetic sensors, eliminating physical wear and stick drift for precise control."}
+        },
+        {
+          "@type": "Question",
+          "name": "Do these controllers work with PC and console?",
+          "acceptedAnswer": {"@type":"Answer","text":"Yes. Our controllers support PC, Xbox, PlayStation, Nintendo Switch, and mobile devices via USB or Bluetooth."}
+        },
+        {
+          "@type": "Question",
+          "name": "What is the warranty coverage?",
+          "acceptedAnswer": {"@type":"Answer","text":"All products include a 2-year comprehensive warranty against defects with dedicated support."}
+        },
+        {
+          "@type": "Question",
+          "name": "How fast is shipping?",
+          "acceptedAnswer": {"@type":"Answer","text":"We offer fast, free worldwide shipping with tracking. Typical delivery is 3–7 business days."}
+        },
+        {
+          "@type": "Question",
+          "name": "What’s your return policy?",
+          "acceptedAnswer": {"@type":"Answer","text":"30-day money-back guarantee. Start a return from the Returns page or contact support."}
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -310,7 +355,7 @@
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Quick Links</h3>
+                    <h4>Quick Links</h4>
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About Us</a></li>
@@ -320,7 +365,7 @@
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Customer Care</h3>
+                    <h4>Customer Care</h4>
                     <ul>
                         <li><a href="shipping.html">Shipping Info</a></li>
                         <li><a href="returns.html">Returns & Refunds</a></li>
@@ -330,7 +375,7 @@
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Connect</h3>
+                    <h4>Connect</h4>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -341,13 +386,25 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2024 GameZone Pro. All rights reserved.</p>
+                <div class="footer-bottom-content">
+                    <p>&copy; 2024 GameZone Pro. All rights reserved.</p>
+                    <div class="payment-methods">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-paypal"></i>
+                        <i class="fab fa-cc-apple-pay"></i>
+                        <i class="fab fa-google-pay"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- JavaScript Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="js/fallbacks.js"></script>
     <script src="script.js"></script>
     
     <script>
