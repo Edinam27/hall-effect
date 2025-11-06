@@ -14,6 +14,15 @@ Allow: /about.html
 Allow: /contact.html
 Allow: /faq.html
 Allow: /payment-success.html
+Allow: /controllers.html
+Allow: /shipping.html
+Allow: /returns.html
+Allow: /warranty.html
+Allow: /support.html
+Allow: /pro.html
+Allow: /gamesir.html
+Allow: /mobile.html
+Allow: /wireless.html
 
 # Allow crawling of images and CSS/JS files
 Allow: /images/
@@ -33,6 +42,8 @@ Disallow: /run-tests.js
 Disallow: /server.js
 Disallow: /package*.json
 Disallow: /.env
+Disallow: /admin.html
+Disallow: /admin-login.html
 
 # Crawl delay (optional - helps prevent server overload)
 # (already set above for all user agents)
