@@ -40,7 +40,7 @@
         "logo": "https://nextgamepro.store/images/logo.png",
         "contactPoint": [{
           "@type": "ContactPoint",
-          "telephone": "+1-555-123-4567",
+          "telephone": "+233542555423",
           "email": "nextgenpro19@gmail.com",
           "contactType": "customer support",
           "areaServed": "US",
@@ -63,13 +63,21 @@
             
             <div class="nav-menu" id="nav-menu">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="index.html#products" class="nav-link">Controllers</a>
+                <a href="controllers.html" class="nav-link">Controllers</a>
                 <a href="about.html" class="nav-link">About</a>
                 <a href="contact.html" class="nav-link active">Contact</a>
+                <a href="support.html" class="nav-link">Support</a>
                 <a href="faq.html" class="nav-link">FAQ</a>
             </div>
             
             <div class="nav-actions">
+                <div class="search-icon" id="search-toggle">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="compare-icon" id="compare-toggle" onclick="openCompareModal()" title="Compare Products">
+                    <i class="fas fa-balance-scale"></i>
+                    <span class="compare-count" id="compare-counter" style="display: none;">0</span>
+                </div>
                 <div class="cart-icon" id="cart-toggle">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count" id="cart-count">0</span>
@@ -109,7 +117,7 @@
                             </div>
                             <div class="method-info">
                                 <h3>Phone Support</h3>
-                                <p>+1 (555) 123-GAME</p>
+                                <p><a href="tel:+233542555423">+233542555423</a></p>
                                 <span>Mon-Fri: 9AM-8PM EST</span>
                             </div>
                         </div>
@@ -218,7 +226,7 @@
                             </label>
                         </div>
                         
-                        <button type="submit" class="submit-btn">
+                        <button type="submit" class="btn-primary submit-btn">
                             <i class="fas fa-paper-plane"></i>
                             Send Message
                         </button>
