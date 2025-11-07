@@ -1295,6 +1295,100 @@
     transform: rotate(180deg);
 }
 
+/* Explore Categories Section */
+.explore-categories {
+    padding: 4rem 0;
+    background: #0a0a0a;
+    border-top: 1px solid rgba(0, 255, 157, 0.08);
+}
+
+.explore-categories .section-title {
+    text-align: center;
+    color: #fff;
+}
+
+.link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.link-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.25rem;
+    background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+    border: 1px solid #333;
+    border-radius: 16px;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.link-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(0, 255, 157, 0.08), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.link-card:hover::before {
+    transform: translateX(100%);
+}
+
+.link-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent-color);
+    box-shadow: 0 14px 28px rgba(0, 255, 157, 0.15);
+}
+
+.link-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: linear-gradient(45deg, var(--accent-color), #00b894);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.link-content h3 {
+    font-size: 1.1rem;
+    margin: 0 0 0.25rem 0;
+    color: #fff;
+}
+
+.link-content p {
+    margin: 0;
+    color: #b0b0b0;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+    .link-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .link-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .page-title {
