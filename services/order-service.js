@@ -83,6 +83,143 @@ function generateOrderNumber() {
 }
 
 /**
+ * Sync successful Paystack transactions into Neon orders
+ * - Upserts orders based on Paystack metadata (orderId/orderNumber) or reference
+ * - Marks payment_status as completed and status as paid
+ * - Creates missing orders using transaction data
+ */
+exports.syncPaystackTransactionsToOrders = async (params = {}) => {
+  if (!paystackApi) {
+    throw new Error('Paystack API module unavailable');
+  }
+  try {
+    const query = { perPage: params.perPage || 100 };
+    if (params.status) query.status = params.status; else query.status = 'success';
+    if (params.customer) query.customer = params.customer;
+    if (params.from) query.from = params.from;
+    if (params.to) query.to = params.to;
+
+    const resp = await paystackApi.listTransactions(query);
+    const txs = Array.isArray(resp?.data) ? resp.data : [];
+
+    let created = 0;
+    let updated = 0;
+    const results = [];
+
+    for (const tx of txs) {
+      try {
+        const status = tx.status || tx.gateway_response || '';
+        if (String(status).toLowerCase() !== 'success') continue;
+
+        const reference = tx.reference;
+        const metadata = tx.metadata || {};
+        const metaOrderId = metadata.orderId || metadata.order_id || null;
+        const metaOrderNumber = metadata.orderNumber || metadata.order_number || null;
+
+        // Try to find existing order by id/number/reference
+        let order = null;
+        if (metaOrderId) {
+          const rows = await sql`SELECT * FROM orders WHERE id = ${String(metaOrderId)}`;
+          order = rows[0] || null;
+        }
+        if (!order && metaOrderNumber) {
+          const rows = await sql`SELECT * FROM orders WHERE order_number = ${String(metaOrderNumber)}`;
+          order = rows[0] || null;
+        }
+        if (!order && reference) {
+          const rows = await sql`SELECT * FROM orders WHERE payment_reference = ${String(reference)}`;
+          order = rows[0] || null;
+        }
+
+        const amount = typeof tx.amount === 'number' ? Math.round(tx.amount) / 100 : Number(tx.amount || 0) / 100;
+        const customer = tx.customer || {};
+
+        if (order) {
+          // Update payment status if not completed
+          await sql`
+            UPDATE orders
+            SET payment_status = ${'completed'}, status = ${order.status === 'delivered' ? order.status : 'paid'},
+                payment_reference = ${reference || order.payment_reference}, payment_verified_at = CURRENT_TIMESTAMP,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = ${order.id}
+          `;
+          const rows = await sql`SELECT * FROM orders WHERE id = ${order.id}`;
+          results.push({ action: 'updated', order: rows[0], reference });
+          updated += 1;
+        } else {
+          // Create a new order row from transaction data
+          const id = metaOrderId || uuidv4();
+          const orderNumber = metaOrderNumber || (reference ? `PS-${reference.slice(-8)}` : generateOrderNumber());
+          const items = Array.isArray(metadata.items) ? metadata.items : [
+            {
+              id: metadata.productId || 'unknown',
+              name: 'Paystack Payment',
+              quantity: 1,
+              price: amount
+            }
+          ];
+          const customerInfo = {
+            email: customer.email || metadata.customerEmail || 'unknown@customer',
+            fullName: customer.name || `${customer.first_name || ''} ${customer.last_name || ''}`.trim() || metadata.customerName || 'Unknown Customer',
+            phone: customer.phone || metadata.phone || null,
+            customerId: metadata.customerId || null
+          };
+          const shippingInfo = metadata.shippingInfo || {
+            address: metadata.address || null,
+            city: metadata.city || null,
+            state: metadata.state || null,
+            country: metadata.country || null,
+            zipCode: metadata.zip || null
+          };
+
+          await sql`
+            INSERT INTO orders (id, order_number, customer_info, items, total_amount, status, payment_status, payment_reference, shipping_info)
+            VALUES (${id}, ${orderNumber}, ${sql.json(customerInfo)}, ${sql.json(items)}, ${amount}, ${'paid'}, ${'completed'}, ${reference}, ${sql.json(shippingInfo)})
+            ON CONFLICT (id) DO NOTHING
+          `;
+          const rows = await sql`SELECT * FROM orders WHERE id = ${id}`;
+          results.push({ action: 'created', order: rows[0], reference });
+          created += 1;
+        }
+      } catch (rowErr) {
+        results.push({ action: 'error', reference: tx.reference, error: rowErr.message });
+      }
+    }
+
+    return { created, updated, processed: txs.length, results };
+  } catch (error) {
+    console.error('Error syncing Paystack transactions:', error);
+    throw error;
+  }
+};
+
+/**
+ * Persist order to local file as a fallback when DB is unavailable
+ */
+function saveOrderFallback(order) {
+  try {
+    const fallbackDir = path.join(__dirname, '..', 'data');
+    if (!fs.existsSync(fallbackDir)) {
+      fs.mkdirSync(fallbackDir, { recursive: true });
+    }
+    const file = path.join(fallbackDir, 'orders-fallback.json');
+    let existing = [];
+    if (fs.existsSync(file)) {
+      try {
+        existing = JSON.parse(fs.readFileSync(file, 'utf8')) || [];
+      } catch (_) {
+        existing = [];
+      }
+    }
+    existing.push(order);
+    fs.writeFileSync(file, JSON.stringify(existing, null, 2));
+    console.log('💾 Order persisted to fallback store:', { orderId: order.id, orderNumber: order.order_number });
+  } catch (err) {
+    console.error('❌ Failed to write fallback order:', err);
+  }
+}
+
+/**
  * Validate customer information
  */
 function validateCustomerInfo(customerInfo) {
@@ -180,22 +317,47 @@ exports.createOrder = async (orderData) => {
       phone: customerInfo.phone.trim()
     };
     
-    // Insert order into database
-    await sql`
-      INSERT INTO orders (
-        id, order_number, customer_info, items, total_amount,
-        status, payment_status, shipping_info
-      ) VALUES (
-        ${orderId}, ${orderNumber}, ${JSON.stringify(customerData)},
-        ${JSON.stringify(items)}, ${total},
-        ${status || 'pending'}, ${paymentStatus || 'pending'}, ${JSON.stringify(shippingData)}
-      )
-    `;
-    
-    // Retrieve the created order
-    const [order] = await sql`
-      SELECT * FROM orders WHERE id = ${orderId}
-    `;
+    let order;
+    try {
+      // Insert order into database
+      await sql`
+        INSERT INTO orders (
+          id, order_number, customer_info, items, total_amount,
+          status, payment_status, shipping_info
+        ) VALUES (
+          ${orderId}, ${orderNumber}, ${JSON.stringify(customerData)},
+          ${JSON.stringify(items)}, ${total},
+          ${status || 'pending'}, ${paymentStatus || 'pending'}, ${JSON.stringify(shippingData)}
+        )
+      `;
+
+      // Retrieve the created order
+      const [dbOrder] = await sql`
+        SELECT * FROM orders WHERE id = ${orderId}
+      `;
+      order = dbOrder;
+    } catch (dbError) {
+      const msg = (dbError && dbError.message) || '';
+      const isTimeout = msg.includes('fetch failed') || (dbError && dbError.sourceError && dbError.sourceError.code === 'UND_ERR_CONNECT_TIMEOUT');
+      if (!isTimeout) {
+        throw dbError;
+      }
+      // Graceful fallback to local file persistence
+      order = {
+        id: orderId,
+        order_number: orderNumber,
+        customer_info: customerData,
+        items,
+        total_amount: total,
+        status: status || 'pending',
+        payment_status: paymentStatus || 'pending',
+        shipping_info: shippingData,
+        created_at: new Date().toISOString(),
+        fallback: true
+      };
+      saveOrderFallback(order);
+      console.warn('⚠️ Database unavailable; order saved to local fallback.');
+    }
     
     // Update inventory for each item
     if (inventoryService) {
@@ -920,10 +1082,11 @@ exports.getAdminStats = async () => {
     const processingOrders = allOrders.filter(order => order.status === 'processing');
     const shippedOrders = allOrders.filter(order => order.status === 'shipped');
     
-    const totalRevenue = allOrders
+    // Default revenue derived from completed Neon orders (fallback)
+    let totalRevenueFallback = allOrders
       .filter(order => order.payment_status === 'completed')
       .reduce((total, order) => total + parseFloat(order.total_amount), 0);
-      
+    
     const totalProfit = allOrders
       .filter(order => order.payment_status === 'completed')
       .reduce((total, order) => {
@@ -936,17 +1099,51 @@ exports.getAdminStats = async () => {
         return total + orderProfit;
       }, 0);
     
+    // Derive totals from Paystack transactions (source of truth)
+    let paystackOrderCount = 0;
+    let paystackRevenue = 0;
+    const currencyCounts = {};
+    let dominantCurrency = null;
+    try {
+      const paystackApi = require('../api/paystack-api');
+      const perPage = 100;
+      let page = 1;
+      // Limit pagination to avoid heavy loads; adjust as needed
+      while (page <= 3) {
+        const txResp = await paystackApi.listTransactions({ status: 'success', perPage, page });
+        const txs = Array.isArray(txResp?.data) ? txResp.data : [];
+        txs.forEach(tx => {
+          paystackOrderCount += 1;
+          // Paystack amounts are in the smallest unit (e.g. kobo); normalize by /100
+          const amt = Number(tx.amount || 0) / 100;
+          paystackRevenue += amt;
+          const cur = (tx.currency || 'NGN').toUpperCase();
+          currencyCounts[cur] = (currencyCounts[cur] || 0) + 1;
+        });
+        if (txs.length < perPage) break;
+        page += 1;
+      }
+      dominantCurrency = Object.keys(currencyCounts).sort((a, b) => (currencyCounts[b] || 0) - (currencyCounts[a] || 0))[0] || null;
+    } catch (err) {
+      console.warn('Failed to fetch Paystack transactions for stats:', err.message);
+    }
+
+    const finalTotalOrders = paystackOrderCount || allOrders.length;
+    const finalTotalRevenue = paystackRevenue || totalRevenueFallback;
+    const finalProfitMargin = finalTotalRevenue > 0 ? Math.round((totalProfit / finalTotalRevenue) * 100) : 0;
+
     return {
-      totalOrders: allOrders.length,
+      totalOrders: finalTotalOrders,
       todayOrders: todayOrders.length,
       weekOrders: weekOrders.length,
       monthOrders: monthOrders.length,
       pendingOrders: pendingOrders.length,
       processingOrders: processingOrders.length,
       shippedOrders: shippedOrders.length,
-      totalRevenue: Math.round(totalRevenue * 100) / 100,
+      totalRevenue: Math.round(finalTotalRevenue * 100) / 100,
       totalProfit: Math.round(totalProfit * 100) / 100,
-      profitMargin: totalRevenue > 0 ? Math.round((totalProfit / totalRevenue) * 100) : 0
+      profitMargin: finalProfitMargin,
+      revenueCurrency: dominantCurrency // may be null; frontend should handle display
     };
   } catch (error) {
     console.error('Error getting admin stats:', error);
@@ -968,18 +1165,91 @@ exports.getAdminOrders = async (page = 1, limit = 20, status = 'all') => {
     }
     
     const allOrders = await query;
+
+    // Build a transaction map from Paystack to override Neon order fields
+    // Keys: orderId, orderNumber, reference
+    const txByKey = new Map();
+    try {
+      const paystackApi = require('../api/paystack-api');
+      const perPage = 100;
+      const statuses = ['success', 'failed', 'abandoned'];
+      for (const st of statuses) {
+        let p = 1;
+        // Limit pages to avoid heavy loads; adjust as needed
+        while (p <= 3) {
+          const txResp = await paystackApi.listTransactions({ status: st, perPage, page: p });
+          const txs = Array.isArray(txResp?.data) ? txResp.data : [];
+          txs.forEach(tx => {
+            const md = tx.metadata || {};
+            const keys = [
+              md.orderId,
+              md.order_id,
+              md.orderNumber,
+              md.order_number,
+              tx.reference
+            ].filter(Boolean).map(v => String(v));
+            keys.forEach(k => {
+              if (!txByKey.has(k)) txByKey.set(k, tx);
+            });
+          });
+          if (txs.length < perPage) break;
+          p += 1;
+        }
+      }
+    } catch (refErr) {
+      console.warn('Paystack transactions fetch failed for admin orders mapping:', refErr.message);
+    }
+    
+    // Normalize order fields from Paystack: status, payment_status, total_amount
+    const normalizedOrders = allOrders.map(order => {
+      let out = { ...order };
+      const matchKeys = [
+        order.id && String(order.id),
+        order.order_number && String(order.order_number),
+        order.payment_reference && String(order.payment_reference)
+      ].filter(Boolean);
+      const tx = matchKeys.map(k => txByKey.get(k)).find(Boolean);
+
+      if (tx) {
+        const txStatus = (tx.status || '').toLowerCase();
+        // payment_status
+        if (txStatus === 'success') out.payment_status = 'completed';
+        else if (txStatus === 'failed') out.payment_status = 'failed';
+        else if (txStatus === 'abandoned') out.payment_status = 'abandoned';
+
+        // status
+        if (txStatus === 'success') out.status = 'paid';
+        else if (txStatus === 'failed') out.status = 'failed';
+        else if (txStatus === 'abandoned' && (out.status === 'pending' || out.status === 'processing')) {
+          out.status = 'pending';
+        }
+
+        // amount override from Paystack (minor units → major)
+        if (typeof tx.amount === 'number') {
+          const majorAmount = Math.round((tx.amount / 100 + Number.EPSILON) * 100) / 100;
+          out.total_amount = majorAmount;
+        }
+      } else {
+        // If no tx found but DB says completed, keep 'paid'
+        if ((out.payment_status === 'completed') && (out.status === 'pending' || out.status === 'processing')) {
+          out.status = 'paid';
+        }
+      }
+
+      return out;
+    });
     
     // Pagination
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
-    const paginatedOrders = allOrders.slice(startIndex, endIndex);
+    const paginatedOrders = normalizedOrders.slice(startIndex, endIndex);
     
     return {
       orders: paginatedOrders,
-      totalOrders: allOrders.length,
-      totalPages: Math.ceil(allOrders.length / limit),
+      totalOrders: normalizedOrders.length,
+      totalPages: Math.ceil(normalizedOrders.length / limit),
       currentPage: page,
-      hasNextPage: endIndex < allOrders.length,
+      hasNextPage: endIndex < normalizedOrders.length,
       hasPrevPage: page > 1
     };
   } catch (error) {

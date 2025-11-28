@@ -44,16 +44,40 @@ async function apiCall(endpoint, options = {}) {
     
     try {
         const response = await fetch(endpoint, mergedOptions);
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(data.error || 'API request failed');
+        const contentType = response.headers.get('content-type') || '';
+        let data = null;
+
+        if (contentType.includes('application/json')) {
+            try {
+                data = await response.json();
+            } catch (e) {
+                data = null;
+            }
+        } else {
+            // Gracefully handle non-JSON responses (e.g., static preview without API)
+            let text = '';
+            try {
+                text = await response.text();
+            } catch (e) {
+                text = '';
+            }
+            try {
+                data = text ? JSON.parse(text) : null;
+            } catch (e) {
+                data = null;
+            }
         }
-        
-        return data;
+
+        if (!response.ok) {
+            const message = (data && data.error) ? data.error : `HTTP ${response.status}`;
+            throw new Error(message || 'API request failed');
+        }
+
+        // In preview mode, return an empty object if no JSON body
+        return data ?? {};
     } catch (error) {
         console.error('API Error:', error);
-        showNotification('Error: ' + error.message, 'error');
+        showNotification && showNotification('Error: ' + error.message, 'error');
         throw error;
     }
 }
@@ -134,6 +158,15 @@ function showSection(sectionName) {
             case 'dashboard':
                 loadDashboardData();
                 break;
+            case 'transactions':
+                loadTransactions();
+                break;
+            case 'users':
+                loadUsers();
+                break;
+            case 'password':
+                updatePasswordNotice();
+                break;
         }
     }
 }
@@ -141,83 +174,117 @@ function showSection(sectionName) {
 async function loadDashboardData() {
     try {
         showLoading && showLoading(true);
-        
-        // Use local data instead of API calls
-        const orders = getStoredOrders();
+
+        // Try to fetch stats and recent orders from backend
+        const [statsResp, ordersResp] = await Promise.all([
+            apiCall('/api/admin/stats'),
+            apiCall('/api/admin/orders?page=1&limit=20')
+        ]);
+
+        const stats = statsResp && statsResp.data ? statsResp.data : null;
+        const ordersData = ordersResp && ordersResp.data ? ordersResp.data : {};
+        currentOrders = Array.isArray(ordersData.orders) ? ordersData.orders : [];
+
+        // Render orders from backend
+        renderOrdersTable(currentOrders);
+
+        // Load inventory (use local fallback for count)
         const inventory = getInventoryData();
-        const customers = getCustomersData();
-        
-        // Update global variables
-        currentOrders = orders;
-        currentInventory = inventory;
-        currentCustomers = customers;
-        
-        // Calculate dashboard statistics from local data
-         const stats = {
-             totalOrders: orders.length,
-             totalRevenue: orders.reduce((sum, order) => sum + parseFloat(order.total || order.amount || 0), 0),
-             pendingOrders: orders.filter(order => order.status === 'pending').length,
-             totalCustomers: customers.length,
-             lowStockItems: inventory.filter(item => {
-                 if (item.colors && Array.isArray(item.colors)) {
-                     return item.colors.reduce((sum, color) => sum + color.stock, 0) < 10;
-                 }
-                 return (item.stock || 0) < 10;
-             }).length
-         };
-        
-        updateDashboardStats(stats);
-        
-        // Load initial data for all sections
-        renderOrdersTable(orders);
-        renderInventoryGrid(inventory);
-        renderCustomersTable(customers);
-        
+        currentInventory = inventory || [];
+        renderInventoryGrid(currentInventory);
+
+        // Load customers: try API, fallback to local
+        try {
+            const customersResp = await apiCall('/api/admin/customers');
+            currentCustomers = customersResp && customersResp.data ? customersResp.data : getCustomersData();
+        } catch (_) {
+            currentCustomers = getCustomersData();
+        }
+        renderCustomersTable(currentCustomers);
+
+        // Update stats; include inventory count if not present
+        const totalInventory = (currentInventory || []).reduce((sum, item) => {
+            if (item.colors && Array.isArray(item.colors)) {
+                return sum + item.colors.reduce((cSum, color) => cSum + (color.stock || 0), 0);
+            }
+            return sum + (item.stock || 0);
+        }, 0);
+
+        updateDashboardStats(stats ? { ...stats, totalInventory } : null);
+
+        // Render decision-focused charts
+        renderDashboardCharts({ stats, orders: currentOrders, customers: currentCustomers });
+
         showLoading && showLoading(false);
-        showNotification && showNotification('Dashboard loaded successfully (offline mode)', 'success');
-        
+        showNotification && showNotification('Dashboard loaded successfully', 'success');
     } catch (error) {
         console.error('Error loading dashboard data:', error);
         showLoading && showLoading(false);
-        showNotification && showNotification('Failed to load dashboard data', 'error');
-        // Fallback to local data
-        updateDashboardStats();
+        showNotification && showNotification('Backend unavailable, loading local data', 'warning');
+        // Fallback to local-only flow
+        loadFallbackData();
+        try {
+            renderDashboardCharts({ stats: null, orders: getStoredOrders() || [], customers: getCustomersData() || [] });
+        } catch (e) {
+            console.warn('Charts render skipped:', e.message);
+        }
     }
 }
 
 function updateDashboardStats(stats = null) {
+    const totalOrdersEl = document.getElementById('total-orders');
+    const totalRevenueEl = document.getElementById('total-revenue');
+    const totalInventoryEl = document.getElementById('total-inventory');
+
+    const symbolFor = (code) => {
+        const c = (code || '').toUpperCase();
+        switch (c) {
+            case 'USD': return '$';
+            case 'NGN': return '₦';
+            case 'EUR': return '€';
+            case 'GBP': return '£';
+            default: return c ? `${c} ` : '$';
+        }
+    };
+
     if (stats) {
-        // Use provided stats from API
-        const totalOrdersEl = document.getElementById('total-orders');
-        const totalRevenueEl = document.getElementById('total-revenue');
-        const totalInventoryEl = document.getElementById('total-inventory');
-        
-        if (totalOrdersEl) totalOrdersEl.textContent = stats.totalOrders || 0;
-        if (totalRevenueEl) totalRevenueEl.textContent = `$${(stats.totalRevenue || 0).toFixed(2)}`;
-        if (totalInventoryEl) totalInventoryEl.textContent = stats.totalInventory || 0;
-    } else {
-        // Calculate stats from local data
-        const orders = getStoredOrders() || [];
-        const inventory = getInventoryData() || [];
-        
-        const totalOrders = orders.length;
-        const totalRevenue = orders.reduce((sum, order) => sum + parseFloat(order.amount || 0), 0);
-        const totalInventory = inventory.reduce((sum, item) => {
-            if (item.colors && Array.isArray(item.colors)) {
-                return sum + item.colors.reduce((colorSum, color) => colorSum + (color.stock || 0), 0);
-            }
-            return sum + (item.stock || 0);
-        }, 0);
-        
-        // Update DOM with null checks
-        const totalOrdersEl = document.getElementById('total-orders');
-        const totalRevenueEl = document.getElementById('total-revenue');
-        const totalInventoryEl = document.getElementById('total-inventory');
-        
-        if (totalOrdersEl) totalOrdersEl.textContent = totalOrders;
-        if (totalRevenueEl) totalRevenueEl.textContent = `$${totalRevenue.toFixed(2)}`;
-        if (totalInventoryEl) totalInventoryEl.textContent = totalInventory;
+        // Use provided stats from API; fill missing inventory from local data
+        const ordersCount = stats.totalOrders || 0;
+        const revenue = stats.totalRevenue || 0;
+        const revenueCurrency = stats.revenueCurrency || 'USD';
+        let inventoryCount = stats.totalInventory;
+        if (typeof inventoryCount !== 'number') {
+            const inventory = currentInventory && currentInventory.length ? currentInventory : getInventoryData() || [];
+            inventoryCount = inventory.reduce((sum, item) => {
+                if (item.colors && Array.isArray(item.colors)) {
+                    return sum + item.colors.reduce((cSum, color) => cSum + (color.stock || 0), 0);
+                }
+                return sum + (item.stock || 0);
+            }, 0);
+        }
+
+        if (totalOrdersEl) totalOrdersEl.textContent = ordersCount;
+        if (totalRevenueEl) totalRevenueEl.textContent = `${symbolFor(revenueCurrency)}${Number(revenue).toFixed(2)}`;
+        if (totalInventoryEl) totalInventoryEl.textContent = inventoryCount;
+        return;
     }
+
+    // Calculate stats from local data only
+    const orders = getStoredOrders() || [];
+    const inventory = getInventoryData() || [];
+
+    const totalOrders = orders.length;
+    const totalRevenue = orders.reduce((sum, order) => sum + parseFloat(order.total || order.amount || 0), 0);
+    const totalInventory = inventory.reduce((sum, item) => {
+        if (item.colors && Array.isArray(item.colors)) {
+            return sum + item.colors.reduce((colorSum, color) => colorSum + (color.stock || 0), 0);
+        }
+        return sum + (item.stock || 0);
+    }, 0);
+
+    if (totalOrdersEl) totalOrdersEl.textContent = totalOrders;
+    if (totalRevenueEl) totalRevenueEl.textContent = `$${totalRevenue.toFixed(2)}`;
+    if (totalInventoryEl) totalInventoryEl.textContent = totalInventory;
 }
 
 async function loadOrders(page = 1, status = 'all') {
@@ -264,20 +331,36 @@ function renderOrdersTable(orders) {
     }
     
     orders.forEach(order => {
+        // Normalize fields for display across API/local schemas
+        const customerName = order.customerName
+            || order.customer?.fullName
+            || (order.customer_info && (order.customer_info.fullName || order.customer_info.full_name))
+            || 'N/A';
+        const firstItemName = Array.isArray(order.items) && order.items.length > 0
+            ? (order.items[0].name || order.items[0].title || 'Item')
+            : (order.productName || 'N/A');
+        const colorName = (order.color && order.color.name)
+            || (Array.isArray(order.items) && order.items[0] && (order.items[0].color || order.items[0].variant))
+            || 'Default';
+        const colorCode = (order.color && order.color.code)
+            || '#ccc';
+        const amount = parseFloat(order.total || order.amount || order.total_amount || 0);
+        const dateStr = order.createdAt || order.date || order.created_at || new Date().toISOString();
+
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${order.id}</td>
-            <td>${order.customerName}</td>
-            <td>${order.productName}</td>
+            <td>${customerName}</td>
+            <td>${firstItemName}</td>
             <td>
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <div style="width: 20px; height: 20px; background: ${order.color?.code || '#ccc'}; border-radius: 50%; border: 2px solid #fff;"></div>
-                    ${order.color?.name || 'Default'}
+                    <div style="width: 20px; height: 20px; background: ${colorCode}; border-radius: 50%; border: 2px solid #fff;"></div>
+                    ${colorName}
                 </div>
             </td>
-            <td>$${parseFloat(order.amount || 0).toFixed(2)}</td>
+            <td>$${amount.toFixed(2)}</td>
             <td><span class="status-badge status-${order.status}">${order.status}</span></td>
-            <td>${new Date(order.date).toLocaleDateString()}</td>
+            <td>${new Date(dateStr).toLocaleDateString()}</td>
             <td>
                 <button class="btn btn-primary" onclick="viewOrderDetails('${order.id}')" style="padding: 0.5rem 1rem; font-size: 0.8rem;">
                     <i class="fas fa-eye"></i> View
@@ -724,6 +807,265 @@ function renderCustomersTable(customers) {
         `;
         tbody.appendChild(row);
     });
+}
+
+// Transactions Management
+async function loadTransactions(page = 1, perPage = 20) {
+    try {
+        const statusSelect = document.getElementById('transactionStatusFilter');
+        const status = statusSelect ? statusSelect.value : '';
+        const params = new URLSearchParams({ page, perPage });
+        if (status) params.set('status', status);
+        const res = await apiCall(`/api/admin/paystack/transactions?${params.toString()}`);
+        const transactions = (res && res.data && res.data.transactions) ? res.data.transactions : [];
+        renderTransactionsTable(transactions);
+    } catch (error) {
+        console.error('Error loading transactions:', error);
+        showAlert && showAlert('Failed to load transactions', 'error');
+        const tbody = document.getElementById('transactionsTableBody');
+        if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">No transactions available</td></tr>';
+    }
+}
+
+function renderTransactionsTable(transactions) {
+    const tbody = document.getElementById('transactionsTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    if (!transactions || transactions.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">No transactions found</td></tr>';
+        return;
+    }
+    transactions.forEach(tx => {
+        const tr = document.createElement('tr');
+        const amount = typeof tx.amount === 'number' ? `$${(tx.amount / 100).toFixed(2)}` : '—';
+        const customer = (tx.customer && (tx.customer.name || tx.customer.email)) ? (tx.customer.name || tx.customer.email) : '—';
+        const date = tx.created_at || tx.transaction_date || tx.paid_at || tx.updated_at || '—';
+        tr.innerHTML = `
+            <td>${tx.id ?? '—'}</td>
+            <td>${tx.reference ?? '—'}</td>
+            <td>${customer}</td>
+            <td>${amount}</td>
+            <td>${tx.status ?? '—'}</td>
+            <td>${date}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// Trigger Paystack → Neon reconciliation
+async function syncPaystack() {
+    try {
+        showLoading && showLoading(true);
+        const res = await apiCall('/api/admin/paystack/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ perPage: 100, status: 'success' })
+        });
+        const data = res && res.data ? res.data : {};
+        const msg = `Synced ${data.processed || 0} txs: ${data.created || 0} created, ${data.updated || 0} updated`;
+        showNotification && showNotification(msg, 'success');
+        // Refresh dependent views
+        await loadTransactions();
+        await refreshOrders && refreshOrders();
+        await loadDashboardData();
+    } catch (error) {
+        console.error('Error syncing Paystack:', error);
+        showAlert && showAlert('Failed to sync Paystack transactions', 'error');
+    } finally {
+        showLoading && showLoading(false);
+    }
+}
+
+// Dashboard charts
+function renderDashboardCharts({ stats, orders, customers }) {
+    if (!(window.Chart)) return; // Chart.js not loaded
+    const revenueCtx = document.getElementById('revenueChart');
+    const ordersCtx = document.getElementById('ordersChart');
+    const paymentsCtx = document.getElementById('paymentsChart');
+    const topCustomersCtx = document.getElementById('topCustomersChart');
+    if (!revenueCtx || !ordersCtx || !paymentsCtx || !topCustomersCtx) return;
+
+    const safeOrders = Array.isArray(orders) ? orders : [];
+
+    // Prepare time buckets (last 14 days)
+    const days = Array.from({ length: 14 }, (_, i) => {
+        const d = new Date();
+        d.setDate(d.getDate() - (13 - i));
+        return d;
+    });
+    const dayLabels = days.map(d => d.toLocaleDateString());
+    const revenueByDay = days.map(d => 0);
+    const ordersByDay = days.map(d => 0);
+
+    safeOrders.forEach(o => {
+        const created = new Date(o.created_at || o.createdAt || Date.now());
+        const total = Number(o.total_amount || o.total || o.amount || 0);
+        const idx = days.findIndex(day => day.toDateString() === created.toDateString());
+        if (idx >= 0) {
+            revenueByDay[idx] += total;
+            ordersByDay[idx] += 1;
+        }
+    });
+
+    // Payments mix (paid/pending/failed/cancelled)
+    const mixCounts = { paid: 0, pending: 0, failed: 0, cancelled: 0 };
+    safeOrders.forEach(o => {
+        const status = (o.payment_status || '').toLowerCase();
+        if (status === 'completed' || o.status === 'paid') mixCounts.paid++;
+        else if (status === 'pending') mixCounts.pending++;
+        else if (status === 'failed') mixCounts.failed++;
+        else if (o.status === 'cancelled') mixCounts.cancelled++;
+    });
+
+    // Top customers by spend
+    const spendByCustomer = new Map();
+    safeOrders.forEach(o => {
+        const c = (o.customer_info && o.customer_info.email) || (o.customer && o.customer.email) || 'unknown@customer';
+        const total = Number(o.total_amount || o.total || o.amount || 0);
+        spendByCustomer.set(c, (spendByCustomer.get(c) || 0) + total);
+    });
+    const top = Array.from(spendByCustomer.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 7);
+    const topLabels = top.map(([email]) => email);
+    const topValues = top.map(([, v]) => v);
+
+    // Destroy existing charts if present to avoid duplicates
+    revenueCtx.chart && revenueCtx.chart.destroy();
+    ordersCtx.chart && ordersCtx.chart.destroy();
+    paymentsCtx.chart && paymentsCtx.chart.destroy();
+    topCustomersCtx.chart && topCustomersCtx.chart.destroy();
+
+    revenueCtx.chart = new Chart(revenueCtx, {
+        type: 'line',
+        data: { labels: dayLabels, datasets: [{ label: 'Revenue', data: revenueByDay, borderColor: '#36a2eb', backgroundColor: 'rgba(54,162,235,0.2)', tension: 0.3 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    });
+
+    ordersCtx.chart = new Chart(ordersCtx, {
+        type: 'bar',
+        data: { labels: dayLabels, datasets: [{ label: 'Orders', data: ordersByDay, backgroundColor: '#4bc0c0' }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    });
+
+    paymentsCtx.chart = new Chart(paymentsCtx, {
+        type: 'doughnut',
+        data: { labels: ['Paid', 'Pending', 'Failed', 'Cancelled'], datasets: [{ data: [mixCounts.paid, mixCounts.pending, mixCounts.failed, mixCounts.cancelled], backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c', '#95a5a6'] }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+    });
+
+    topCustomersCtx.chart = new Chart(topCustomersCtx, {
+        type: 'bar',
+        data: { labels: topLabels, datasets: [{ label: 'Spend', data: topValues, backgroundColor: '#9966ff' }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    });
+}
+
+// Users Management
+async function loadUsers() {
+    try {
+        const res = await apiCall('/api/admin/users');
+        const users = (res && res.data && res.data.users) ? res.data.users : [];
+        renderUsersTable(users);
+    } catch (error) {
+        console.error('Error loading users:', error);
+        showAlert && showAlert('Failed to load users', 'error');
+        const tbody = document.getElementById('users-tbody');
+        if (tbody) tbody.innerHTML = '<tr><td colspan="8" style="text-align:center">No users available</td></tr>';
+    }
+}
+
+function renderUsersTable(users) {
+    const tbody = document.getElementById('users-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    if (!users || users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center">No users found</td></tr>';
+        return;
+    }
+    users.forEach(u => {
+        const tr = document.createElement('tr');
+        const activeBadge = u.is_active ? '<span class="status-badge status-shipped">Active</span>' : '<span class="status-badge status-cancelled">Inactive</span>';
+        const created = u.created_at || '—';
+        const lastLogin = u.last_login || '—';
+        const toggleLabel = u.is_active ? 'Deactivate' : 'Activate';
+        tr.innerHTML = `
+            <td>${u.id}</td>
+            <td>${u.username ?? '—'}</td>
+            <td>${u.email ?? '—'}</td>
+            <td>${u.role ?? 'user'}</td>
+            <td>${created}</td>
+            <td>${lastLogin}</td>
+            <td>${activeBadge}</td>
+            <td>
+                <button class="btn btn-secondary" onclick="toggleUserActive('${u.id}', ${!u.is_active})">${toggleLabel}</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+async function toggleUserActive(userId, isActive) {
+    try {
+        await apiCall(`/api/admin/users/${userId}/status`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ isActive })
+        });
+        showNotification && showNotification('User status updated', 'success');
+        loadUsers();
+    } catch (error) {
+        console.error('Error updating user status:', error);
+        showAlert && showAlert('Failed to update user status', 'error');
+    }
+}
+
+// Password Change
+function hasJwtSession() {
+    const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+    return !!token;
+}
+
+function updatePasswordNotice() {
+    const el = document.getElementById('passwordNotice');
+    if (!el) return;
+    if (hasJwtSession()) {
+        el.innerHTML = '<div class="customers-summary-card"><p>You are authenticated via JWT. You can change your password below.</p></div>';
+    } else {
+        el.innerHTML = '<div class="customers-summary-card"><p>Legacy admin session detected. Password changes are unavailable in this mode.</p></div>';
+    }
+}
+
+async function changeAdminPassword() {
+    try {
+        const current = document.getElementById('current-password').value.trim();
+        const next = document.getElementById('new-password').value.trim();
+        const confirm = document.getElementById('confirm-password').value.trim();
+        if (!current || !next || !confirm) {
+            showAlert && showAlert('Please fill all password fields', 'error');
+            return;
+        }
+        if (next !== confirm) {
+            showAlert && showAlert('New passwords do not match', 'error');
+            return;
+        }
+        if (!hasJwtSession()) {
+            showAlert && showAlert('Password change unavailable in legacy admin mode', 'error');
+            return;
+        }
+        await apiCall('/api/auth/change-password', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ currentPassword: current, newPassword: next })
+        });
+        document.getElementById('current-password').value = '';
+        document.getElementById('new-password').value = '';
+        document.getElementById('confirm-password').value = '';
+        showNotification && showNotification('Password updated successfully', 'success');
+    } catch (error) {
+        console.error('Error changing password:', error);
+        showAlert && showAlert('Failed to change password', 'error');
+    }
 }
 
 // Order Management Functions
