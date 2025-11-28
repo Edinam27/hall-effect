@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ Detail | GameZone Pro</title>
+  <meta name="description" content="Detailed answer and guidance for common questions about GameZone Pro keyboards and accessories." />
+  <link rel="canonical" href="https://gamezonepro.com/faq-detail.html" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+
+  <!-- Fonts & Core CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/css/faq.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="/" class="logo">GameZone Pro</a>
+      <nav class="nav-links">
+        <a href="/faq.html">FAQ</a>
+        <a href="/support.html">Support</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero/Breadcrumb -->
+  <section class="hero-section">
+    <div class="container">
+      <h1 class="hero-title">FAQ Answer</h1>
+      <p class="hero-subtitle">In-depth explanation and steps to resolve your issue.</p>
+    </div>
+  </section>
+
+  <main class="faq-content">
+    <div class="container">
+      <nav aria-label="Breadcrumb" class="breadcrumb">
+        <a href="/faq.html" class="breadcrumb-link">FAQ</a>
+        <span class="breadcrumb-sep">/</span>
+        <span id="faq-detail-title">Answer</span>
+      </nav>
+
+      <article class="faq-detail card">
+        <header class="detail-header">
+          <h2 id="detail-heading">Question</h2>
+          <p id="detail-summary" class="text-secondary"></p>
+        </header>
+
+        <section id="detail-body" class="detail-body">
+          <!-- Filled dynamically -->
+        </section>
+
+        <footer class="detail-footer">
+          <a href="/faq.html" class="btn btn-secondary">Back to FAQ</a>
+        </footer>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> GameZone Pro</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Simple query param parser
+    function getParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    // Content map for FAQ answers
+    const answers = {
+      'compatibility-platforms': {
+        title: 'Compatibility with Platforms',
+        summary: 'Supported operating systems, connection methods, and tips for drivers.',
+        body: `
+          <h3>Supported Systems</h3>
+          <ul>
+            <li>Windows 10/11 via USB or Bluetooth (if supported model)</li>
+            <li>macOS 12+ with standard HID support</li>
+            <li>Linux distributions with generic keyboard drivers</li>
+            <li>Consoles that accept standard USB HID keyboards</li>
+          </ul>
+          <h3>Connection Tips</h3>
+          <ul>
+            <li>Prefer wired USB for lowest latency and maximum compatibility.</li>
+            <li>On macOS, remap function keys with system settings if needed.</li>
+            <li>Update firmware if keys aren’t recognized on certain platforms.</li>
+          </ul>
+          <h3>Driver Notes</h3>
+          <p>No special drivers are required. Advanced features (macros, lighting) use onboard memory and standard HID.</p>
+        `
+      },
+      'hall-effect-benefits': {
+        title: 'Benefits of Hall Effect Switches',
+        summary: 'Why magnetic sensing improves durability, feel, and customization.',
+        body: `
+          <h3>Durability</h3>
+          <p>Non-contact sensing reduces mechanical wear for extended lifespan.</p>
+          <h3>Consistency</h3>
+          <p>Actuation remains consistent over time with minimal deviation.</p>
+          <h3>Tunable Actuation</h3>
+          <p>Per-key adjustable actuation enables personalized travel and responsiveness.</p>
+          <h3>Gaming Advantages</h3>
+          <ul>
+            <li>Rapid key repeat without chatter</li>
+            <li>Smooth feel and reliable input under heavy usage</li>
+          </ul>
+        `
+      },
+      'wireless-vs-wired': {
+        title: 'Wireless vs Wired Performance',
+        summary: 'Latency trade-offs, battery considerations, and recommended scenarios.',
+        body: `
+          <h3>Latency</h3>
+          <p>Wired USB offers the lowest latency. Wireless (2.4GHz) is close; Bluetooth is higher.</p>
+          <h3>Battery</h3>
+          <p>Wireless requires charging. For tournaments or long sessions, use wired.</p>
+          <h3>Use Cases</h3>
+          <ul>
+            <li>Competitive play: choose wired or 2.4GHz</li>
+            <li>Casual/office: Bluetooth is convenient</li>
+          </ul>
+        `
+      }
+    };
+
+    const slug = getParam('q');
+    const data = answers[slug];
+    const titleEl = document.getElementById('faq-detail-title');
+    const headingEl = document.getElementById('detail-heading');
+    const summaryEl = document.getElementById('detail-summary');
+    const bodyEl = document.getElementById('detail-body');
+
+    if (data) {
+      titleEl.textContent = data.title;
+      headingEl.textContent = data.title;
+      summaryEl.textContent = data.summary;
+      bodyEl.innerHTML = data.body;
+    } else {
+      headingEl.textContent = 'Answer Not Found';
+      summaryEl.textContent = 'Please return to the FAQ and choose a question.';
+      bodyEl.innerHTML = '<p>We couldn\'t find this answer. Use the FAQ page or contact support for help.</p>';
+    }
+  </script>
+</body>
+</html>
