@@ -87,6 +87,15 @@
                 <a href="#customers" class="admin-nav-link" data-section="customers">
                     <i class="fas fa-users"></i> Customers
                 </a>
+                <a href="#transactions" class="admin-nav-link" data-section="transactions">
+                    <i class="fas fa-credit-card"></i> Transactions
+                </a>
+                <a href="#users" class="admin-nav-link" data-section="users">
+                    <i class="fas fa-user-shield"></i> Users
+                </a>
+                <a href="#password" class="admin-nav-link" data-section="password">
+                    <i class="fas fa-key"></i> Password
+                </a>
             </div>
             <div class="admin-user">
                 <i class="fas fa-user-circle"></i>
@@ -142,6 +151,24 @@
                         </div>
                     </div>
                 </div>
+                <div class="dashboard-charts" style="margin-top: 1.5rem; display: grid; grid-template-columns: repeat(2, minmax(280px, 1fr)); gap: 16px;">
+                    <div class="chart-card">
+                        <h3>Revenue (Last 14 Days)</h3>
+                        <canvas id="revenueChart" height="160"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Orders per Day</h3>
+                        <canvas id="ordersChart" height="160"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Payments Mix</h3>
+                        <canvas id="paymentsChart" height="160"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Top Customers</h3>
+                        <canvas id="topCustomersChart" height="160"></canvas>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -154,7 +181,7 @@
                     <button class="btn btn-primary" onclick="refreshOrders()">
                         <i class="fas fa-refresh"></i> Refresh
                     </button>
-                    <select id="orderStatusFilter" onchange="filterOrders()" title="Filter orders by status" aria-label="Filter orders by status"></select>
+                    <select id="orderStatusFilter" onchange="filterOrders()" title="Filter orders by status" aria-label="Filter orders by status">
                         <option value="all">All Orders</option>
                         <option value="pending">Pending</option>
                         <option value="processing">Processing</option>
@@ -242,10 +269,10 @@
                         </div>
                         <div class="form-group">
                             <label>Default Shipping Method:</label>
-                            <select id="shipping-method" title="Select shipping method" aria-label="Select shipping method"></select>
-                                <option value="standard">Standard Shipping</option>
-                                <option value="express">Express Shipping</option>
-                            </select>
+                    <select id="shipping-method" title="Select shipping method" aria-label="Select shipping method">
+                        <option value="standard">Standard Shipping</option>
+                        <option value="express">Express Shipping</option>
+                    </select>
                         </div>
                         <button class="btn btn-primary" onclick="saveTemuConfig()">
                             <i class="fas fa-save"></i> Save Configuration
@@ -287,6 +314,104 @@
                 </div>
             </div>
         </section>
+
+        <!-- Transactions Section -->
+        <section id="transactions-section" class="admin-section">
+            <div class="admin-header">
+                <h1>Transactions</h1>
+                <div class="admin-actions">
+                    <button class="btn btn-primary" onclick="loadTransactions()">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                    <button class="btn btn-success" onclick="syncPaystack()" title="Sync successful Paystack payments into Neon">
+                        <i class="fas fa-plug"></i> Sync from Paystack
+                    </button>
+                    <select id="transactionStatusFilter" onchange="loadTransactions()" title="Filter by status" aria-label="Filter transactions by status">
+                        <option value="">All</option>
+                        <option value="success">Success</option>
+                        <option value="failed">Failed</option>
+                        <option value="abandoned">Abandoned</option>
+                    </select>
+                </div>
+            </div>
+            <div class="transactions-container">
+                <div class="transactions-table-container">
+                    <table class="orders-table" id="transactionsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Reference</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Users Section -->
+        <section id="users-section" class="admin-section">
+            <div class="admin-header">
+                <h1>User Management</h1>
+                <div class="admin-actions">
+                    <button class="btn btn-primary" onclick="loadUsers()">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+            </div>
+            <div class="customers-container">
+                <div class="customers-table">
+                    <table id="users-table" class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Created</th>
+                                <th>Last Login</th>
+                                <th>Active</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Password Section -->
+        <section id="password-section" class="admin-section">
+            <div class="admin-header">
+                <h1>Change Password</h1>
+            </div>
+            <div class="temu-container">
+                <div class="config-form" style="max-width: 480px;">
+                    <div id="passwordNotice" class="customers-container" style="margin-bottom: 1rem;">
+                        <!-- Filled by JS depending on auth mode -->
+                    </div>
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" id="current-password" placeholder="Enter current password">
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" id="new-password" placeholder="Enter new password">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" id="confirm-password" placeholder="Confirm new password">
+                    </div>
+                    <button class="btn btn-primary" onclick="changeAdminPassword()">
+                        <i class="fas fa-key"></i> Update Password
+                    </button>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Order Details Modal -->
@@ -308,6 +433,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/fallbacks.js"></script>
     <script src="js/admin.js"></script>
     

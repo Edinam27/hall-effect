@@ -82,10 +82,10 @@ function updateCheckoutSummary() {
             <div class="cart-item-details">
                 <div class="cart-item-name">${item.name}</div>
                 ${item.color ? `<div class="cart-item-variant">Color: ${item.color}</div>` : ''}
-                <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                <div class="cart-item-price">${formatPrice(item.price)}</div>
                 <div class="cart-item-quantity">Qty: ${item.quantity}</div>
             </div>
-            <div class="cart-item-total">$${itemTotal.toFixed(2)}</div>
+            <div class="cart-item-total">${formatPrice(itemTotal)}</div>
         `;
         
         if (checkoutItemsContainer) {
@@ -120,11 +120,11 @@ function updateCheckoutSummary() {
     total = subtotal + shipping + tax - discount;
     
     // Update the summary elements (with null checks)
-    if (checkoutSubtotalEl) checkoutSubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-    if (checkoutShippingEl) checkoutShippingEl.textContent = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
-    if (checkoutTaxEl) checkoutTaxEl.textContent = `$${tax.toFixed(2)}`;
-    if (checkoutDiscountEl) checkoutDiscountEl.textContent = `-$${discount.toFixed(2)}`;
-    if (checkoutTotalEl) checkoutTotalEl.textContent = `$${total.toFixed(2)}`;
+    if (checkoutSubtotalEl) checkoutSubtotalEl.textContent = formatPrice(subtotal);
+    if (checkoutShippingEl) checkoutShippingEl.textContent = shipping === 0 ? 'FREE' : formatPrice(shipping);
+    if (checkoutTaxEl) checkoutTaxEl.textContent = formatPrice(tax);
+    if (checkoutDiscountEl) checkoutDiscountEl.textContent = `-${formatPrice(discount)}`;
+    if (checkoutTotalEl) checkoutTotalEl.textContent = formatPrice(total);
     
     // Update cart count in the navbar and sync with global cart
     if (window.cart) {

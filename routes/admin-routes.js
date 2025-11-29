@@ -86,6 +86,57 @@ router.get('/dashboard', async (req, res) => {
 });
 
 /**
+ * GET /api/admin/paystack/transactions
+ * List Paystack transactions (admin-only, supports legacy admin key)
+ */
+router.get('/paystack/transactions', async (req, res) => {
+  try {
+    const { page = 1, perPage = 20, status, customer, from, to } = req.query;
+
+    const params = {
+      page: parseInt(page),
+      perPage: parseInt(perPage)
+    };
+
+    if (status) params.status = status; // success | failed | abandoned
+    if (customer) params.customer = customer; // email or customer ID
+    if (from) params.from = from; // start date (timestamp or ISO)
+    if (to) params.to = to; // end date
+
+    const result = await paystackApi.listTransactions(params);
+
+    res.json({
+      success: true,
+      data: {
+        transactions: result.data || [],
+        meta: result.meta || {},
+      }
+    });
+  } catch (error) {
+    console.error('Error listing Paystack transactions:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message || 'Failed to list transactions'
+    });
+  }
+});
+
+/**
+ * POST /api/admin/paystack/sync
+ * Reconcile successful Paystack transactions into Neon orders
+ */
+router.post('/paystack/sync', async (req, res) => {
+  try {
+    const { perPage = 100, status = 'success', customer, from, to } = req.body || {};
+    const result = await orderService.syncPaystackTransactionsToOrders({ perPage, status, customer, from, to });
+    res.json({ success: true, data: result });
+  } catch (error) {
+    console.error('Error syncing Paystack transactions:', error);
+    res.status(500).json({ success: false, error: error.message || 'Failed to sync transactions' });
+  }
+});
+
+/**
  * GET /api/admin/orders
  * Get orders with pagination and filtering
  */
@@ -108,6 +159,20 @@ router.get('/orders', async (req, res) => {
       success: false,
       error: 'Failed to fetch orders'
     });
+  }
+});
+
+/**
+ * GET /api/admin/stats
+ * Get admin dashboard statistics
+ */
+router.get('/stats', async (req, res) => {
+  try {
+    const stats = await orderService.getAdminStats();
+    res.json({ success: true, data: stats });
+  } catch (error) {
+    console.error('Error fetching admin stats:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch admin stats' });
   }
 });
 
@@ -369,50 +434,126 @@ router.post('/paystack/initialize', async (req, res) => {
 });
 
 /**
+ * GET /api/admin/users
+ * Get all users (admin-only, supports legacy admin key)
+ */
+router.get('/users', async (req, res) => {
+  try {
+    const { sql } = require('../config/database');
+    const users = await sql`
+      SELECT id, username, email, role, created_at, last_login, is_active
+      FROM users
+      ORDER BY created_at DESC
+    `;
+
+    res.json({ success: true, data: { users } });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ success: false, error: 'Failed to fetch users' });
+  }
+});
+
+/**
+ * PUT /api/admin/users/:userId/status
+ * Update user active status (admin-only)
+ */
+router.put('/users/:userId/status', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { isActive } = req.body;
+    const { sql } = require('../config/database');
+
+    if (typeof isActive !== 'boolean') {
+      return res.status(400).json({ success: false, error: 'isActive must be a boolean' });
+    }
+
+    await sql`
+      UPDATE users
+      SET is_active = ${isActive}, updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${userId}
+    `;
+
+    res.json({ success: true, message: `User ${isActive ? 'activated' : 'deactivated'} successfully` });
+  } catch (error) {
+    console.error('Error updating user status:', error);
+    res.status(500).json({ success: false, error: 'Failed to update user status' });
+  }
+});
+
+/**
  * GET /api/admin/customers
  * Get customer data for admin
  */
 router.get('/customers', async (req, res) => {
   try {
-    const orders = orderService.getAllOrders();
-    
-    // Extract unique customers
+    const orders = await orderService.getAllOrders();
+
+    // Build base customer map from orders (for names/phones and last order date)
     const customersMap = new Map();
-    
+
     orders.forEach(order => {
-      const customerId = order.customer.email;
-      if (!customersMap.has(customerId)) {
-        customersMap.set(customerId, {
-          email: order.customer.email,
-          fullName: order.customer.fullName,
-          phone: order.customer.phone,
-          totalOrders: 0,
-          totalSpent: 0,
-          lastOrderDate: order.createdAt,
+      const customerInfo = order.customer_info || order.customer || {};
+      const email = (customerInfo.email || '').toLowerCase() || 'unknown@customer';
+      if (!customersMap.has(email)) {
+        customersMap.set(email, {
+          id: email, // use email as stable id
+          name: customerInfo.fullName || customerInfo.name || 'Unknown Customer',
+          email,
+          phone: customerInfo.phone || null,
+          orderCount: 0,
+          totalSpent: 0, // will be populated from transactions below
+          lastOrder: order.created_at || order.createdAt || new Date().toISOString(),
           orders: []
         });
       }
-      
-      const customer = customersMap.get(customerId);
-      customer.totalOrders++;
-      customer.totalSpent += order.total;
+
+      const customer = customersMap.get(email);
+      const total = Number(order.total_amount || order.total || order.amount || 0);
+      customer.orderCount++;
       customer.orders.push({
         id: order.id,
-        orderNumber: order.orderNumber,
+        orderNumber: order.order_number || order.orderNumber,
         status: order.status,
-        total: order.total,
-        createdAt: order.createdAt
+        total,
+        createdAt: order.created_at || order.createdAt
       });
-      
+
       // Update last order date if this order is more recent
-      if (new Date(order.createdAt) > new Date(customer.lastOrderDate)) {
-        customer.lastOrderDate = order.createdAt;
+      const created = new Date(order.created_at || order.createdAt || Date.now());
+      if (created > new Date(customer.lastOrder)) {
+        customer.lastOrder = created.toISOString();
       }
     });
-    
+
+    // Pull successful Paystack transactions and compute actual spend per customer
+    const paystackApi = require('../api/paystack-api');
+    const perPage = 50;
+    let page = 1;
+    const successfulTx = [];
+    while (true) {
+      const txResp = await paystackApi.listTransactions({ status: 'success', perPage, page });
+      const data = Array.isArray(txResp?.data) ? txResp.data : [];
+      successfulTx.push(...data);
+      if (data.length < perPage) break; // last page
+      page += 1;
+      if (page > 10) break; // safety cap to avoid excessive calls
+    }
+
+    const spentByEmail = new Map();
+    successfulTx.forEach(tx => {
+      const email = (tx.customer?.email || 'unknown@customer').toLowerCase();
+      const amountMajor = Number(tx.amount || 0) / 100; // Paystack returns smallest unit
+      spentByEmail.set(email, (spentByEmail.get(email) || 0) + amountMajor);
+    });
+
+    // Assign totalSpent from transactions map
+    customersMap.forEach((cust, email) => {
+      cust.totalSpent = Math.round(((spentByEmail.get(email) || 0) + Number.EPSILON) * 100) / 100;
+    });
+
     const customers = Array.from(customersMap.values())
-      .sort((a, b) => new Date(b.lastOrderDate) - new Date(a.lastOrderDate));
-    
+      .sort((a, b) => new Date(b.lastOrder) - new Date(a.lastOrder));
+
     res.json({
       success: true,
       data: customers

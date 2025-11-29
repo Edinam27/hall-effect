@@ -1,8 +1,17 @@
 // Database Configuration for Neon PostgreSQL
 // Handles connection setup and query execution
 
-const { neon } = require('@neondatabase/serverless');
+const { neon, neonConfig } = require('@neondatabase/serverless');
 require('dotenv').config();
+
+// Configure Neon client for better resilience
+try {
+  neonConfig.fetchTimeout = 30000; // 30s network timeout to reduce premature failures
+  neonConfig.retryAttempts = 2;    // minimal retries for transient network errors
+  neonConfig.rewriteErrorStack = true;
+} catch (_) {
+  // Older versions may not expose neonConfig; ignore if unavailable
+}
 
 // Mock database for testing if DATABASE_URL is not available or in test mode
 const mockDb = {
@@ -191,22 +200,35 @@ async function createDefaultAdmin() {
  * Execute raw SQL query
  */
 async function query(text, params = []) {
-  try {
-    if (typeof sql === 'function') {
-      // Using Neon client: prefer conventional .query for parameterized calls
-      if (Array.isArray(params) && params.length > 0) {
-        return await sql.query(text, params);
+  const maxAttempts = 3;
+  let lastError;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      if (typeof sql === 'function') {
+        // Using Neon client: prefer conventional .query for parameterized calls
+        if (Array.isArray(params) && params.length > 0) {
+          return await sql.query(text, params);
+        }
+        return await sql.query(text);
+      } else if (sql && typeof sql.raw === 'function') {
+        // Using mock database raw helper
+        return await sql.raw(text, params);
       }
-      return await sql.query(text);
-    } else if (sql && typeof sql.raw === 'function') {
-      // Using mock database raw helper
-      return await sql.raw(text, params);
+      throw new Error('No database client available');
+    } catch (error) {
+      lastError = error;
+      const msg = (error && error.message) || '';
+      const isTimeout = msg.includes('fetch failed') ||
+        (error && error.sourceError && error.sourceError.code === 'UND_ERR_CONNECT_TIMEOUT');
+      if (!isTimeout || attempt === maxAttempts) {
+        console.error('Database query error:', error);
+        throw error;
+      }
+      const backoffMs = 500 * attempt;
+      await new Promise(res => setTimeout(res, backoffMs));
     }
-    throw new Error('No database client available');
-  } catch (error) {
-    console.error('Database query error:', error);
-    throw error;
   }
+  throw lastError;
 }
 
 /**

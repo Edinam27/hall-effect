@@ -824,6 +824,19 @@ input:focus, textarea:focus, select:focus {
     100% { transform: translateY(0px) translateX(0px); }
 }
 
+/* Page Hero (used on support.html and similar) */
+.page-hero {
+    position: relative;
+    overflow: hidden;
+    padding-top: 80px; /* offset fixed navbar on desktop */
+}
+
+@media (max-width: 767px) {
+    .page-hero {
+        padding-top: 70px; /* match mobile navbar height */
+    }
+}
+
 .hero-content {
     display: grid;
     grid-template-columns: 1fr;
@@ -2051,6 +2064,175 @@ input:focus, textarea:focus, select:focus {
     width: 20px;
 }
 
+/* Contact Page Layout */
+.contact-content {
+    padding: var(--section-padding);
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+@media (min-width: 768px) {
+    .contact-grid {
+        gap: 40px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .contact-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+    }
+}
+
+.contact-info {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: var(--card-padding);
+}
+
+.contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.contact-method {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.method-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    background: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    flex-shrink: 0;
+}
+
+.method-info h3 {
+    margin-bottom: 4px;
+}
+
+.business-hours {
+    margin-top: 12px;
+}
+
+.hours-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+}
+
+@media (min-width: 640px) {
+    .hours-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.hours-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.contact-form-container {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: var(--card-padding);
+}
+
+.contact-form h2 {
+    margin-bottom: 12px;
+}
+
+.contact-form .form-group {
+    margin-bottom: 14px;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+}
+
+.checkbox-group {
+    padding: 10px 12px;
+    background: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.submit-btn {
+    margin-top: 8px;
+    width: 100%;
+}
+
+/* FAQ Quick Links */
+.faq-quick-links {
+    margin-top: 40px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.faq-quick-links h2 {
+    margin-bottom: 8px;
+}
+
+.quick-links-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+@media (min-width: 1024px) {
+    .quick-links-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.quick-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all var(--transition-normal);
+}
+
+.quick-link i {
+    color: var(--primary-color);
+}
+
+.quick-link:hover {
+    border-color: var(--primary-color);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
 .footer-bottom {
     border-top: 1px solid var(--border-color);
     padding-top: 20px;
@@ -2118,6 +2300,119 @@ input:focus, textarea:focus, select:focus {
     display: flex;
     flex-direction: column;
 }
+
+/* Support Page Layout */
+.support-options {
+    padding: var(--section-padding);
+}
+
+.support-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: stretch;
+}
+
+@media (min-width: 768px) {
+    .support-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: 1200px) {
+    .support-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.support-option {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    background: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+}
+
+.option-details {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-secondary);
+}
+
+.support-btn {
+    align-self: flex-start;
+}
+
+.quick-troubleshooting {
+    padding: var(--section-padding);
+}
+
+.troubleshooting-tabs {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.tab-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.tab-content {
+    background: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 16px;
+}
+
+.troubleshooting-steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+@media (min-width: 768px) {
+    .troubleshooting-steps { grid-template-columns: 1fr 1fr; }
+}
+
+.step {
+    display: flex;
+    gap: 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 14px;
+}
+
+.step-number {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.step-content h3 { margin-bottom: 6px; }
+.step-details ul { padding-left: 18px; }
 
 .cart-sidebar.open {
     right: 0;

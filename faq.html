@@ -17,6 +17,14 @@
     <meta name="twitter:description" content="Quick answers on drift, calibration, triggers, shipping, returns, and support.">
     <meta name="twitter:image" content="https://nextgamepro.store/images/android-chrome-512x512.png">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/android-chrome-512x512.png">
+    
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -220,6 +228,9 @@
                     </div>
                     <div class="faq-answer">
                         <p>Our controllers are designed for maximum compatibility. The GameSir controllers work with Nintendo Switch, PC (Windows/Mac/Linux), Android, iOS, and Steam Deck. Each product page lists specific compatibility details.</p>
+                        <a class="faq-read-more" href="faq-detail.html?q=compatibility-platforms" aria-label="Read full answer: Compatibility with Platforms">
+                            <i class="fas fa-file-alt"></i> Read full answer
+                        </a>
                     </div>
                 </div>
 
@@ -230,6 +241,9 @@
                     </div>
                     <div class="faq-answer">
                         <p>Hall Effect sensors use magnetic fields instead of physical contact to detect stick movement. This eliminates stick drift, provides more precise control, and significantly extends the controller's lifespan. Unlike traditional potentiometer-based sticks, Hall Effect sticks maintain their accuracy over millions of inputs.</p>
+                        <a class="faq-read-more" href="faq-detail.html?q=hall-effect-benefits" aria-label="Read full answer: Benefits of Hall Effect">
+                            <i class="fas fa-file-alt"></i> Read full answer
+                        </a>
                     </div>
                 </div>
 
@@ -240,6 +254,9 @@
                     </div>
                     <div class="faq-answer">
                         <p>Yes! All our controllers support both wireless (Bluetooth/2.4GHz) and wired (USB-C) connections. Wireless mode offers freedom of movement, while wired mode ensures zero latency for competitive gaming and keeps the controller charged. See <a href="controllers.html">Controllers</a> for details.</p>
+                        <a class="faq-read-more" href="faq-detail.html?q=wireless-vs-wired" aria-label="Read full answer: Wireless vs Wired">
+                            <i class="fas fa-file-alt"></i> Read full answer
+                        </a>
                     </div>
                 </div>
 
@@ -255,6 +272,9 @@
                                 • Express Shipping: 2-3 business days ($11.49)<br>
                                 • Overnight Shipping: Next business day ($22.99)<br>
                         Orders placed before 2 PM EST ship the same day.</p>
+                        <a class="faq-read-more" href="shipping.html" aria-label="Read full shipping information">
+                            <i class="fas fa-truck"></i> Full shipping info
+                        </a>
                     </div>
                 </div>
 
@@ -286,6 +306,9 @@
                     </div>
                     <div class="faq-answer">
                         <p>We offer a 30-day money-back guarantee. If you're not completely satisfied, you can return your controller within 30 days of delivery for a full refund. The item must be in original condition with all accessories and packaging.</p>
+                        <a class="faq-read-more" href="returns.html" aria-label="Read full returns and refunds policy">
+                            <i class="fas fa-undo"></i> Full returns policy
+                        </a>
                     </div>
                 </div>
 
@@ -728,6 +751,9 @@
                         • Charging issues<br>
                         • Connectivity problems<br>
                         The warranty does not cover physical damage from drops, spills, or normal wear and tear.</p>
+                        <a class="faq-read-more" href="warranty.html" aria-label="Read full warranty coverage details">
+                            <i class="fas fa-shield-alt"></i> Full warranty details
+                        </a>
                     </div>
                 </div>
 
@@ -841,12 +867,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="js/fallbacks.js"></script>
-    <script src="script.js"></script>
+    
     
     <script>
         // FAQ functionality
@@ -1009,5 +1030,48 @@
             });
         });
     </script>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="cart-items" id="cart-items">
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Your cart is empty</p>
+                <button class="btn-primary" onclick="scrollToProducts()">START SHOPPING</button>
+            </div>
+        </div>
+        
+        <div class="cart-footer" id="cart-footer" style="display: none;">
+            <div class="cart-total">
+                <div class="total-line">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal">$0.00</span>
+                </div>
+                <div class="total-line">
+                    <span>Shipping:</span>
+                    <span class="free-shipping">FREE</span>
+                </div>
+                <div class="total-line total">
+                    <span>Total:</span>
+                    <span id="cart-total">$0.00</span>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="window.location.href='checkout.html'">SECURE CHECKOUT</button>
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="js/fallbacks.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

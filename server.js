@@ -71,8 +71,26 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static files
-app.use(express.static(path.join(__dirname, '/')));
+// Static asset caching for better Core Web Vitals and SEO
+// Cache CSS/JS for 7 days (revalidated), images for 30 days (immutable)
+app.use((req, res, next) => {
+  try {
+    if (/\.(?:css|js)$/.test(req.path)) {
+      res.setHeader('Cache-Control', 'public, max-age=604800, must-revalidate'); // 7 days
+    } else if (/\.(?:png|jpg|jpeg|webp|svg|gif|ico)$/.test(req.path)) {
+      res.setHeader('Cache-Control', 'public, max-age=2592000, immutable'); // 30 days
+    }
+  } catch (e) {
+    // Fail open on header set
+  }
+  next();
+});
+
+// Serve static files with ETag/Last-Modified enabled
+app.use(express.static(path.join(__dirname, '/'), {
+  etag: true,
+  lastModified: true
+}));
 
 // Health check route for Render
 app.get('/health', (req, res) => {

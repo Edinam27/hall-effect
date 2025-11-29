@@ -1036,9 +1036,9 @@ function updateCartUI() {
     
     // Update totals
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    if (cartSubtotal) cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
-    if (cartTotal) cartTotal.textContent = `$${subtotal.toFixed(2)}`;
-}
+    if (cartSubtotal) cartSubtotal.textContent = formatPrice(subtotal);
+    if (cartTotal) cartTotal.textContent = formatPrice(subtotal);
+  }
 
 function toggleCart() {
     const cartSidebar = document.getElementById('cart-sidebar');
