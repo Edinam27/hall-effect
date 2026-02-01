@@ -6,402 +6,42 @@
       "variants": [
         {
           "color": "Black",
-          "stock": 9,
-          "temuStock": 44,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        },
-        {
-          "color": "White",
-          "stock": 8,
-          "temuStock": 44,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        },
-        {
-          "color": "Blue",
-          "stock": 7,
-          "temuStock": 44,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        },
-        {
-          "color": "Red",
-          "stock": 7,
-          "temuStock": 44,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        },
-        {
-          "color": "Purple",
-          "stock": 11,
-          "temuStock": 44,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        },
-        {
-          "color": "Green",
-          "stock": 9,
-          "temuStock": 44,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        }
-      ],
-      "totalStock": 44,
-      "sources": {
-        "temu": {
-          "source": "temu",
-          "productId": "gamesir-nova-lite",
-          "name": "GameSir Nova Lite Gaming Controller",
-          "stock": 44,
-          "price": {
-            "currency": "USD",
-            "amount": 21.43
-          },
-          "lastUpdated": "2025-11-28T16:33:51.453Z",
-          "url": "https://www.temu.com/gh/--lite-wireless-gaming-controller-ergonomic-wireless-wired--for-switch-for--ios-pc-steam-games-turbo-function-hall-effect-sticks-g-601099548838966.html"
-        },
-        "official": {
-          "source": "official",
-          "productId": "gamesir-nova-lite",
-          "name": "GameSir Nova Lite Gaming Controller",
-          "stock": 0,
-          "inStock": false,
-          "lastUpdated": "2025-11-28T16:33:53.023Z",
-          "url": "https://www.gamesir.hk/products/gamesir-nova-lite"
-        }
-      },
-      "lastUpdated": "2025-11-28T16:33:53.465Z"
-    },
-    {
-      "id": "gamesir-g7-se",
-      "name": "GameSir G7 SE Wired Controller",
-      "variants": [
-        {
-          "color": "Black",
-          "stock": 14,
-          "temuStock": 26,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        },
-        {
-          "color": "White",
-          "stock": 13,
-          "temuStock": 26,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        }
-      ],
-      "totalStock": 26,
-      "sources": {
-        "temu": {
-          "source": "temu",
-          "productId": "gamesir-g7-se",
-          "name": "GameSir G7 SE Wired Controller",
-          "stock": 26,
-          "price": {
-            "currency": "USD",
-            "amount": 21.43
-          },
-          "lastUpdated": "2025-11-28T16:33:51.502Z",
-          "url": "https://www.temu.com/gamesir-g7-se-wired-controller"
-        },
-        "official": {
-          "source": "official",
-          "productId": "gamesir-g7-se",
-          "name": "GameSir G7 SE Wired Controller",
-          "stock": 0,
-          "inStock": false,
-          "lastUpdated": "2025-11-28T16:33:53.465Z",
-          "url": "https://gamesir.hk/collections/promotion/products/gamesir-g7-se"
-        }
-      },
-      "lastUpdated": "2025-11-28T16:33:53.465Z"
-    },
-    {
-      "id": "gamesir-g7",
-      "name": "GameSir G7 Wired Controller",
-      "variants": [
-        {
-          "color": "Black",
-          "stock": 10,
-          "temuStock": 12,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        },
-        {
-          "color": "White",
-          "stock": 6,
-          "temuStock": 12,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        }
-      ],
-      "totalStock": 12,
-      "sources": {
-        "temu": {
-          "source": "temu",
-          "productId": "gamesir-g7",
-          "name": "GameSir G7 Wired Controller",
-          "stock": 12,
-          "price": {
-            "currency": "USD",
-            "amount": 21.43
-          },
-          "lastUpdated": "2025-11-28T16:33:51.456Z",
-          "url": "https://www.temu.com/gamesir-g7-wired-controller"
-        },
-        "official": {
-          "source": "official",
-          "productId": "gamesir-g7",
-          "name": "GameSir G7 Wired Controller",
-          "stock": 0,
-          "inStock": false,
-          "lastUpdated": "2025-11-28T16:33:53.380Z",
-          "url": "https://gamesir.hk/collections/promotion/products/gamesir-g7-se"
-        }
-      },
-      "lastUpdated": "2025-11-28T16:33:53.465Z"
-    },
-    {
-      "id": "gamesir-x2s",
-      "name": "GameSir X2s Mobile Gaming Controller",
-      "variants": [
-        {
-          "color": "Black",
-          "stock": 31,
-          "temuStock": 29,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        }
-      ],
-      "totalStock": 29,
-      "sources": {
-        "temu": {
-          "source": "temu",
-          "productId": "gamesir-x2s",
-          "name": "GameSir X2s Mobile Gaming Controller",
-          "stock": 29,
-          "price": {
-            "currency": "USD",
-            "amount": 21.43
-          },
-          "lastUpdated": "2025-11-28T16:33:51.493Z",
-          "url": "https://www.temu.com/gamesir-x2s-mobile-controller"
-        },
-        "official": {
-          "source": "official",
-          "productId": "gamesir-x2s",
-          "name": "GameSir X2s Mobile Gaming Controller",
-          "stock": 0,
-          "inStock": false,
-          "lastUpdated": "2025-11-28T16:33:53.301Z",
-          "url": "https://www.gamesir.hk/products/gamesir-x2s"
-        }
-      },
-      "lastUpdated": "2025-11-28T16:33:53.465Z"
-    },
-    {
-      "id": "gamesir-g7-pro",
-      "name": "GameSir G7 Pro Wireless Controller",
-      "variants": [
-        {
-          "color": "Black",
-          "stock": 20,
-          "temuStock": 53,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        },
-        {
-          "color": "White",
-          "stock": 21,
-          "temuStock": 53,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        },
-        {
-          "color": "Blue",
-          "stock": 19,
-          "temuStock": 53,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        }
-      ],
-      "totalStock": 53,
-      "sources": {
-        "temu": {
-          "source": "temu",
-          "productId": "gamesir-g7-pro",
-          "name": "GameSir G7 Pro Wireless Controller",
-          "stock": 53,
-          "price": {
-            "currency": "USD",
-            "amount": 21.43
-          },
-          "lastUpdated": "2025-11-28T16:33:51.484Z",
-          "url": "https://www.temu.com/gamesir-g7-pro-controller"
-        },
-        "official": {
-          "source": "official",
-          "productId": "gamesir-g7-pro",
-          "name": "GameSir G7 Pro Wireless Controller",
-          "stock": 0,
-          "inStock": false,
-          "lastUpdated": "2025-11-28T16:33:52.517Z",
-          "url": "https://www.gamesir.hk/products/gamesir-g7-pro"
-        }
-      },
-      "lastUpdated": "2025-11-28T16:33:53.465Z"
-    },
-    {
-      "id": "gamesir-super-nova",
-      "name": "GameSir Super Nova Wireless Controller",
-      "variants": [
-        {
-          "color": "Black",
-          "stock": 10,
-          "temuStock": 22,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        },
-        {
-          "color": "White",
-          "stock": 8,
-          "temuStock": 22,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        },
-        {
-          "color": "Blue",
-          "stock": 7,
-          "temuStock": 22,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        }
-      ],
-      "totalStock": 22,
-      "sources": {
-        "temu": {
-          "source": "temu",
-          "productId": "gamesir-super-nova",
-          "name": "GameSir Super Nova Wireless Controller",
-          "stock": 22,
-          "price": {
-            "currency": "USD",
-            "amount": 21.43
-          },
-          "lastUpdated": "2025-11-28T16:33:51.477Z",
-          "url": "https://www.temu.com/gamesir-super-nova-wireless"
-        },
-        "official": {
-          "source": "official",
-          "productId": "gamesir-super-nova",
-          "name": "GameSir Super Nova Wireless Controller",
-          "stock": 0,
-          "inStock": false,
-          "lastUpdated": "2025-11-28T16:33:53.125Z",
-          "url": "https://www.gamesir.hk/products/gamesir-super-nova"
-        }
-      },
-      "lastUpdated": "2025-11-28T16:33:53.465Z"
-    },
-    {
-      "id": "gamesir-t7",
-      "name": "GameSir T7 Mobile Gaming Controller",
-      "variants": [
-        {
-          "color": "White",
-          "stock": 24,
-          "temuStock": 43,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        },
-        {
-          "color": "Blue",
-          "stock": 22,
-          "temuStock": 43,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        }
-      ],
-      "totalStock": 43,
-      "sources": {
-        "temu": {
-          "source": "temu",
-          "productId": "gamesir-t7",
-          "name": "GameSir T7 Mobile Gaming Controller",
-          "stock": 43,
-          "price": {
-            "currency": "USD",
-            "amount": 21.43
-          },
-          "lastUpdated": "2025-11-28T16:33:51.491Z",
-          "url": "https://www.temu.com/gamesir-t7-mobile-controller"
-        },
-        "official": {
-          "source": "official",
-          "productId": "gamesir-t7",
-          "name": "GameSir T7 Mobile Gaming Controller",
-          "stock": 0,
-          "inStock": false,
-          "lastUpdated": "2025-11-28T16:33:52.933Z",
-          "url": "https://www.gamesir.hk/products/gamesir-t7"
-        }
-      },
-      "lastUpdated": "2025-11-28T16:33:53.465Z"
-    },
-    {
-      "id": "gamesir-x5-lite",
-      "name": "GameSir X5 Lite Mobile Controller",
-      "variants": [
-        {
-          "color": "Black",
-          "stock": 46,
-          "temuStock": 46,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        }
-      ],
-      "totalStock": 46,
-      "sources": {
-        "temu": {
-          "source": "temu",
-          "productId": "gamesir-x5-lite",
-          "name": "GameSir X5 Lite Mobile Controller",
-          "stock": 46,
-          "price": {
-            "currency": "USD",
-            "amount": 21.43
-          },
-          "lastUpdated": "2025-11-28T16:33:51.469Z",
-          "url": "https://www.temu.com/gamesir-x5-lite-controller"
-        },
-        "official": {
-          "source": "official",
-          "productId": "gamesir-x5-lite",
-          "name": "GameSir X5 Lite Mobile Controller",
-          "stock": 0,
-          "inStock": false,
-          "lastUpdated": "2025-11-28T16:33:53.223Z",
-          "url": "https://www.gamesir.hk/products/gamesir-x5-lite"
-        }
-      },
-      "lastUpdated": "2025-11-28T16:33:53.465Z"
-    },
-    {
-      "id": "gamesir-cyclone-2",
-      "name": "GameSir Cyclone 2 Wireless Controller",
-      "variants": [
-        {
-          "color": "Black",
-          "stock": 13,
+          "stock": 3,
           "temuStock": 23,
           "officialStock": 0,
           "wholesaleCost": 21.43
         },
         {
           "color": "White",
-          "stock": 11,
+          "stock": 6,
+          "temuStock": 23,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        },
+        {
+          "color": "Blue",
+          "stock": 3,
+          "temuStock": 23,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        },
+        {
+          "color": "Red",
+          "stock": 3,
+          "temuStock": 23,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        },
+        {
+          "color": "Purple",
+          "stock": 4,
+          "temuStock": 23,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        },
+        {
+          "color": "Green",
+          "stock": 4,
           "temuStock": 23,
           "officialStock": 0,
           "wholesaleCost": 21.43
@@ -411,49 +51,87 @@
       "sources": {
         "temu": {
           "source": "temu",
-          "productId": "gamesir-cyclone-2",
-          "name": "GameSir Cyclone 2 Wireless Controller",
+          "productId": "gamesir-nova-lite",
+          "name": "GameSir Nova Lite Gaming Controller",
           "stock": 23,
           "price": {
             "currency": "USD",
             "amount": 21.43
           },
-          "lastUpdated": "2025-11-28T16:33:51.499Z",
-          "url": "https://www.temu.com/gamesir-cyclone-2-controller"
+          "lastUpdated": "2025-11-29T13:56:38.851Z",
+          "url": "https://www.temu.com/gh/--lite-wireless-gaming-controller-ergonomic-wireless-wired--for-switch-for--ios-pc-steam-games-turbo-function-hall-effect-sticks-g-601099548838966.html"
         },
         "official": {
           "source": "official",
-          "productId": "gamesir-cyclone-2",
-          "name": "GameSir Cyclone 2 Wireless Controller",
+          "productId": "gamesir-nova-lite",
+          "name": "GameSir Nova Lite Gaming Controller",
           "stock": 0,
           "inStock": false,
-          "lastUpdated": "2025-11-28T16:33:52.690Z",
-          "url": "https://www.gamesir.hk/products/gamesir-cyclone2-black"
+          "lastUpdated": "2025-11-29T13:56:40.671Z",
+          "url": "https://www.gamesir.hk/products/gamesir-nova-lite"
         }
       },
-      "lastUpdated": "2025-11-28T16:33:53.465Z"
+      "lastUpdated": "2025-11-29T13:56:42.466Z"
     },
     {
-      "id": "gamesir-nova-2-lite",
-      "name": "GameSir Nova 2 Lite Gaming Controller",
+      "id": "gamesir-g7-se",
+      "name": "GameSir G7 SE Wired Controller",
       "variants": [
         {
           "color": "Black",
-          "stock": 18,
+          "stock": 22,
+          "temuStock": 40,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        },
+        {
+          "color": "White",
+          "stock": 22,
+          "temuStock": 40,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        }
+      ],
+      "totalStock": 40,
+      "sources": {
+        "temu": {
+          "source": "temu",
+          "productId": "gamesir-g7-se",
+          "name": "GameSir G7 SE Wired Controller",
+          "stock": 40,
+          "price": {
+            "currency": "USD",
+            "amount": 21.43
+          },
+          "lastUpdated": "2025-11-29T13:56:38.857Z",
+          "url": "https://www.temu.com/gamesir-g7-se-wired-controller"
+        },
+        "official": {
+          "source": "official",
+          "productId": "gamesir-g7-se",
+          "name": "GameSir G7 SE Wired Controller",
+          "stock": 0,
+          "inStock": false,
+          "lastUpdated": "2025-11-29T13:56:42.318Z",
+          "url": "https://gamesir.hk/collections/promotion/products/gamesir-g7-se"
+        }
+      },
+      "lastUpdated": "2025-11-29T13:56:42.466Z"
+    },
+    {
+      "id": "gamesir-g7",
+      "name": "GameSir G7 Wired Controller",
+      "variants": [
+        {
+          "color": "Black",
+          "stock": 26,
           "temuStock": 53,
           "officialStock": 0,
           "wholesaleCost": 21.43
         },
         {
           "color": "White",
-          "stock": 21,
-          "temuStock": 53,
-          "officialStock": 0,
-          "wholesaleCost": 21.43
-        },
-        {
-          "color": "Blue",
-          "stock": 21,
+          "stock": 29,
           "temuStock": 53,
           "officialStock": 0,
           "wholesaleCost": 21.43
@@ -463,14 +141,336 @@
       "sources": {
         "temu": {
           "source": "temu",
-          "productId": "gamesir-nova-2-lite",
-          "name": "GameSir Nova 2 Lite Gaming Controller",
+          "productId": "gamesir-g7",
+          "name": "GameSir G7 Wired Controller",
           "stock": 53,
           "price": {
             "currency": "USD",
             "amount": 21.43
           },
-          "lastUpdated": "2025-11-28T16:33:51.494Z",
+          "lastUpdated": "2025-11-29T13:56:39.018Z",
+          "url": "https://www.temu.com/gamesir-g7-wired-controller"
+        },
+        "official": {
+          "source": "official",
+          "productId": "gamesir-g7",
+          "name": "GameSir G7 Wired Controller",
+          "stock": 0,
+          "inStock": false,
+          "lastUpdated": "2025-11-29T13:56:42.466Z",
+          "url": "https://gamesir.hk/collections/promotion/products/gamesir-g7-se"
+        }
+      },
+      "lastUpdated": "2025-11-29T13:56:42.466Z"
+    },
+    {
+      "id": "gamesir-x2s",
+      "name": "GameSir X2s Mobile Gaming Controller",
+      "variants": [
+        {
+          "color": "Black",
+          "stock": 50,
+          "temuStock": 48,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        }
+      ],
+      "totalStock": 48,
+      "sources": {
+        "temu": {
+          "source": "temu",
+          "productId": "gamesir-x2s",
+          "name": "GameSir X2s Mobile Gaming Controller",
+          "stock": 48,
+          "price": {
+            "currency": "USD",
+            "amount": 21.43
+          },
+          "lastUpdated": "2025-11-29T13:56:39.104Z",
+          "url": "https://www.temu.com/gamesir-x2s-mobile-controller"
+        },
+        "official": {
+          "source": "official",
+          "productId": "gamesir-x2s",
+          "name": "GameSir X2s Mobile Gaming Controller",
+          "stock": 0,
+          "inStock": false,
+          "lastUpdated": "2025-11-29T13:56:40.739Z",
+          "url": "https://www.gamesir.hk/products/gamesir-x2s"
+        }
+      },
+      "lastUpdated": "2025-11-29T13:56:42.466Z"
+    },
+    {
+      "id": "gamesir-g7-pro",
+      "name": "GameSir G7 Pro Wireless Controller",
+      "variants": [
+        {
+          "color": "Black",
+          "stock": 8,
+          "temuStock": 24,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        },
+        {
+          "color": "White",
+          "stock": 9,
+          "temuStock": 24,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        },
+        {
+          "color": "Blue",
+          "stock": 12,
+          "temuStock": 24,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        }
+      ],
+      "totalStock": 24,
+      "sources": {
+        "temu": {
+          "source": "temu",
+          "productId": "gamesir-g7-pro",
+          "name": "GameSir G7 Pro Wireless Controller",
+          "stock": 24,
+          "price": {
+            "currency": "USD",
+            "amount": 21.43
+          },
+          "lastUpdated": "2025-11-29T13:56:39.143Z",
+          "url": "https://www.temu.com/gamesir-g7-pro-controller"
+        },
+        "official": {
+          "source": "official",
+          "productId": "gamesir-g7-pro",
+          "name": "GameSir G7 Pro Wireless Controller",
+          "stock": 0,
+          "inStock": false,
+          "lastUpdated": "2025-11-29T13:56:40.840Z",
+          "url": "https://www.gamesir.hk/products/gamesir-g7-pro"
+        }
+      },
+      "lastUpdated": "2025-11-29T13:56:42.466Z"
+    },
+    {
+      "id": "gamesir-super-nova",
+      "name": "GameSir Super Nova Wireless Controller",
+      "variants": [
+        {
+          "color": "Black",
+          "stock": 9,
+          "temuStock": 18,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        },
+        {
+          "color": "White",
+          "stock": 9,
+          "temuStock": 18,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        },
+        {
+          "color": "Blue",
+          "stock": 6,
+          "temuStock": 18,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        }
+      ],
+      "totalStock": 18,
+      "sources": {
+        "temu": {
+          "source": "temu",
+          "productId": "gamesir-super-nova",
+          "name": "GameSir Super Nova Wireless Controller",
+          "stock": 18,
+          "price": {
+            "currency": "USD",
+            "amount": 21.43
+          },
+          "lastUpdated": "2025-11-29T13:56:39.145Z",
+          "url": "https://www.temu.com/gamesir-super-nova-wireless"
+        },
+        "official": {
+          "source": "official",
+          "productId": "gamesir-super-nova",
+          "name": "GameSir Super Nova Wireless Controller",
+          "stock": 0,
+          "inStock": false,
+          "lastUpdated": "2025-11-29T13:56:41.220Z",
+          "url": "https://www.gamesir.hk/products/gamesir-super-nova"
+        }
+      },
+      "lastUpdated": "2025-11-29T13:56:42.466Z"
+    },
+    {
+      "id": "gamesir-t7",
+      "name": "GameSir T7 Mobile Gaming Controller",
+      "variants": [
+        {
+          "color": "White",
+          "stock": 9,
+          "temuStock": 16,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        },
+        {
+          "color": "Blue",
+          "stock": 11,
+          "temuStock": 16,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        }
+      ],
+      "totalStock": 16,
+      "sources": {
+        "temu": {
+          "source": "temu",
+          "productId": "gamesir-t7",
+          "name": "GameSir T7 Mobile Gaming Controller",
+          "stock": 16,
+          "price": {
+            "currency": "USD",
+            "amount": 21.43
+          },
+          "lastUpdated": "2025-11-29T13:56:39.127Z",
+          "url": "https://www.temu.com/gamesir-t7-mobile-controller"
+        },
+        "official": {
+          "source": "official",
+          "productId": "gamesir-t7",
+          "name": "GameSir T7 Mobile Gaming Controller",
+          "stock": 0,
+          "inStock": false,
+          "lastUpdated": "2025-11-29T13:56:41.160Z",
+          "url": "https://www.gamesir.hk/products/gamesir-t7"
+        }
+      },
+      "lastUpdated": "2025-11-29T13:56:42.466Z"
+    },
+    {
+      "id": "gamesir-x5-lite",
+      "name": "GameSir X5 Lite Mobile Controller",
+      "variants": [
+        {
+          "color": "Black",
+          "stock": 23,
+          "temuStock": 22,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        }
+      ],
+      "totalStock": 22,
+      "sources": {
+        "temu": {
+          "source": "temu",
+          "productId": "gamesir-x5-lite",
+          "name": "GameSir X5 Lite Mobile Controller",
+          "stock": 22,
+          "price": {
+            "currency": "USD",
+            "amount": 21.43
+          },
+          "lastUpdated": "2025-11-29T13:56:39.218Z",
+          "url": "https://www.temu.com/gamesir-x5-lite-controller"
+        },
+        "official": {
+          "source": "official",
+          "productId": "gamesir-x5-lite",
+          "name": "GameSir X5 Lite Mobile Controller",
+          "stock": 0,
+          "inStock": false,
+          "lastUpdated": "2025-11-29T13:56:41.111Z",
+          "url": "https://www.gamesir.hk/products/gamesir-x5-lite"
+        }
+      },
+      "lastUpdated": "2025-11-29T13:56:42.466Z"
+    },
+    {
+      "id": "gamesir-cyclone-2",
+      "name": "GameSir Cyclone 2 Wireless Controller",
+      "variants": [
+        {
+          "color": "Black",
+          "stock": 25,
+          "temuStock": 46,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        },
+        {
+          "color": "White",
+          "stock": 26,
+          "temuStock": 46,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        }
+      ],
+      "totalStock": 46,
+      "sources": {
+        "temu": {
+          "source": "temu",
+          "productId": "gamesir-cyclone-2",
+          "name": "GameSir Cyclone 2 Wireless Controller",
+          "stock": 46,
+          "price": {
+            "currency": "USD",
+            "amount": 21.43
+          },
+          "lastUpdated": "2025-11-29T13:56:39.482Z",
+          "url": "https://www.temu.com/gamesir-cyclone-2-controller"
+        },
+        "official": {
+          "source": "official",
+          "productId": "gamesir-cyclone-2",
+          "name": "GameSir Cyclone 2 Wireless Controller",
+          "stock": 0,
+          "inStock": false,
+          "lastUpdated": "2025-11-29T13:56:40.935Z",
+          "url": "https://www.gamesir.hk/products/gamesir-cyclone2-black"
+        }
+      },
+      "lastUpdated": "2025-11-29T13:56:42.466Z"
+    },
+    {
+      "id": "gamesir-nova-2-lite",
+      "name": "GameSir Nova 2 Lite Gaming Controller",
+      "variants": [
+        {
+          "color": "Black",
+          "stock": 17,
+          "temuStock": 50,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        },
+        {
+          "color": "White",
+          "stock": 20,
+          "temuStock": 50,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        },
+        {
+          "color": "Blue",
+          "stock": 16,
+          "temuStock": 50,
+          "officialStock": 0,
+          "wholesaleCost": 21.43
+        }
+      ],
+      "totalStock": 50,
+      "sources": {
+        "temu": {
+          "source": "temu",
+          "productId": "gamesir-nova-2-lite",
+          "name": "GameSir Nova 2 Lite Gaming Controller",
+          "stock": 50,
+          "price": {
+            "currency": "USD",
+            "amount": 21.43
+          },
+          "lastUpdated": "2025-11-29T13:56:39.214Z",
           "url": "https://www.temu.com/gamesir-nova-2-lite-controller"
         },
         "official": {
@@ -479,14 +479,14 @@
           "name": "GameSir Nova 2 Lite Gaming Controller",
           "stock": 0,
           "inStock": false,
-          "lastUpdated": "2025-11-28T16:33:52.808Z",
+          "lastUpdated": "2025-11-29T13:56:40.994Z",
           "url": "https://www.gamesir.hk/products/gamesir-nova-2-lite"
         }
       },
-      "lastUpdated": "2025-11-28T16:33:53.465Z"
+      "lastUpdated": "2025-11-29T13:56:42.466Z"
     }
   ],
-  "lastUpdated": "2025-11-28T16:33:53.467Z",
+  "lastUpdated": "2025-11-29T13:56:42.467Z",
   "cacheInfo": {
     "data": [
       {
@@ -495,402 +495,42 @@
         "variants": [
           {
             "color": "Black",
-            "stock": 9,
-            "temuStock": 44,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          },
-          {
-            "color": "White",
-            "stock": 8,
-            "temuStock": 44,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          },
-          {
-            "color": "Blue",
-            "stock": 7,
-            "temuStock": 44,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          },
-          {
-            "color": "Red",
-            "stock": 7,
-            "temuStock": 44,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          },
-          {
-            "color": "Purple",
-            "stock": 11,
-            "temuStock": 44,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          },
-          {
-            "color": "Green",
-            "stock": 9,
-            "temuStock": 44,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          }
-        ],
-        "totalStock": 44,
-        "sources": {
-          "temu": {
-            "source": "temu",
-            "productId": "gamesir-nova-lite",
-            "name": "GameSir Nova Lite Gaming Controller",
-            "stock": 44,
-            "price": {
-              "currency": "USD",
-              "amount": 21.43
-            },
-            "lastUpdated": "2025-11-28T16:33:51.453Z",
-            "url": "https://www.temu.com/gh/--lite-wireless-gaming-controller-ergonomic-wireless-wired--for-switch-for--ios-pc-steam-games-turbo-function-hall-effect-sticks-g-601099548838966.html"
-          },
-          "official": {
-            "source": "official",
-            "productId": "gamesir-nova-lite",
-            "name": "GameSir Nova Lite Gaming Controller",
-            "stock": 0,
-            "inStock": false,
-            "lastUpdated": "2025-11-28T16:33:53.023Z",
-            "url": "https://www.gamesir.hk/products/gamesir-nova-lite"
-          }
-        },
-        "lastUpdated": "2025-11-28T16:33:53.465Z"
-      },
-      {
-        "id": "gamesir-g7-se",
-        "name": "GameSir G7 SE Wired Controller",
-        "variants": [
-          {
-            "color": "Black",
-            "stock": 14,
-            "temuStock": 26,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          },
-          {
-            "color": "White",
-            "stock": 13,
-            "temuStock": 26,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          }
-        ],
-        "totalStock": 26,
-        "sources": {
-          "temu": {
-            "source": "temu",
-            "productId": "gamesir-g7-se",
-            "name": "GameSir G7 SE Wired Controller",
-            "stock": 26,
-            "price": {
-              "currency": "USD",
-              "amount": 21.43
-            },
-            "lastUpdated": "2025-11-28T16:33:51.502Z",
-            "url": "https://www.temu.com/gamesir-g7-se-wired-controller"
-          },
-          "official": {
-            "source": "official",
-            "productId": "gamesir-g7-se",
-            "name": "GameSir G7 SE Wired Controller",
-            "stock": 0,
-            "inStock": false,
-            "lastUpdated": "2025-11-28T16:33:53.465Z",
-            "url": "https://gamesir.hk/collections/promotion/products/gamesir-g7-se"
-          }
-        },
-        "lastUpdated": "2025-11-28T16:33:53.465Z"
-      },
-      {
-        "id": "gamesir-g7",
-        "name": "GameSir G7 Wired Controller",
-        "variants": [
-          {
-            "color": "Black",
-            "stock": 10,
-            "temuStock": 12,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          },
-          {
-            "color": "White",
-            "stock": 6,
-            "temuStock": 12,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          }
-        ],
-        "totalStock": 12,
-        "sources": {
-          "temu": {
-            "source": "temu",
-            "productId": "gamesir-g7",
-            "name": "GameSir G7 Wired Controller",
-            "stock": 12,
-            "price": {
-              "currency": "USD",
-              "amount": 21.43
-            },
-            "lastUpdated": "2025-11-28T16:33:51.456Z",
-            "url": "https://www.temu.com/gamesir-g7-wired-controller"
-          },
-          "official": {
-            "source": "official",
-            "productId": "gamesir-g7",
-            "name": "GameSir G7 Wired Controller",
-            "stock": 0,
-            "inStock": false,
-            "lastUpdated": "2025-11-28T16:33:53.380Z",
-            "url": "https://gamesir.hk/collections/promotion/products/gamesir-g7-se"
-          }
-        },
-        "lastUpdated": "2025-11-28T16:33:53.465Z"
-      },
-      {
-        "id": "gamesir-x2s",
-        "name": "GameSir X2s Mobile Gaming Controller",
-        "variants": [
-          {
-            "color": "Black",
-            "stock": 31,
-            "temuStock": 29,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          }
-        ],
-        "totalStock": 29,
-        "sources": {
-          "temu": {
-            "source": "temu",
-            "productId": "gamesir-x2s",
-            "name": "GameSir X2s Mobile Gaming Controller",
-            "stock": 29,
-            "price": {
-              "currency": "USD",
-              "amount": 21.43
-            },
-            "lastUpdated": "2025-11-28T16:33:51.493Z",
-            "url": "https://www.temu.com/gamesir-x2s-mobile-controller"
-          },
-          "official": {
-            "source": "official",
-            "productId": "gamesir-x2s",
-            "name": "GameSir X2s Mobile Gaming Controller",
-            "stock": 0,
-            "inStock": false,
-            "lastUpdated": "2025-11-28T16:33:53.301Z",
-            "url": "https://www.gamesir.hk/products/gamesir-x2s"
-          }
-        },
-        "lastUpdated": "2025-11-28T16:33:53.465Z"
-      },
-      {
-        "id": "gamesir-g7-pro",
-        "name": "GameSir G7 Pro Wireless Controller",
-        "variants": [
-          {
-            "color": "Black",
-            "stock": 20,
-            "temuStock": 53,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          },
-          {
-            "color": "White",
-            "stock": 21,
-            "temuStock": 53,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          },
-          {
-            "color": "Blue",
-            "stock": 19,
-            "temuStock": 53,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          }
-        ],
-        "totalStock": 53,
-        "sources": {
-          "temu": {
-            "source": "temu",
-            "productId": "gamesir-g7-pro",
-            "name": "GameSir G7 Pro Wireless Controller",
-            "stock": 53,
-            "price": {
-              "currency": "USD",
-              "amount": 21.43
-            },
-            "lastUpdated": "2025-11-28T16:33:51.484Z",
-            "url": "https://www.temu.com/gamesir-g7-pro-controller"
-          },
-          "official": {
-            "source": "official",
-            "productId": "gamesir-g7-pro",
-            "name": "GameSir G7 Pro Wireless Controller",
-            "stock": 0,
-            "inStock": false,
-            "lastUpdated": "2025-11-28T16:33:52.517Z",
-            "url": "https://www.gamesir.hk/products/gamesir-g7-pro"
-          }
-        },
-        "lastUpdated": "2025-11-28T16:33:53.465Z"
-      },
-      {
-        "id": "gamesir-super-nova",
-        "name": "GameSir Super Nova Wireless Controller",
-        "variants": [
-          {
-            "color": "Black",
-            "stock": 10,
-            "temuStock": 22,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          },
-          {
-            "color": "White",
-            "stock": 8,
-            "temuStock": 22,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          },
-          {
-            "color": "Blue",
-            "stock": 7,
-            "temuStock": 22,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          }
-        ],
-        "totalStock": 22,
-        "sources": {
-          "temu": {
-            "source": "temu",
-            "productId": "gamesir-super-nova",
-            "name": "GameSir Super Nova Wireless Controller",
-            "stock": 22,
-            "price": {
-              "currency": "USD",
-              "amount": 21.43
-            },
-            "lastUpdated": "2025-11-28T16:33:51.477Z",
-            "url": "https://www.temu.com/gamesir-super-nova-wireless"
-          },
-          "official": {
-            "source": "official",
-            "productId": "gamesir-super-nova",
-            "name": "GameSir Super Nova Wireless Controller",
-            "stock": 0,
-            "inStock": false,
-            "lastUpdated": "2025-11-28T16:33:53.125Z",
-            "url": "https://www.gamesir.hk/products/gamesir-super-nova"
-          }
-        },
-        "lastUpdated": "2025-11-28T16:33:53.465Z"
-      },
-      {
-        "id": "gamesir-t7",
-        "name": "GameSir T7 Mobile Gaming Controller",
-        "variants": [
-          {
-            "color": "White",
-            "stock": 24,
-            "temuStock": 43,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          },
-          {
-            "color": "Blue",
-            "stock": 22,
-            "temuStock": 43,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          }
-        ],
-        "totalStock": 43,
-        "sources": {
-          "temu": {
-            "source": "temu",
-            "productId": "gamesir-t7",
-            "name": "GameSir T7 Mobile Gaming Controller",
-            "stock": 43,
-            "price": {
-              "currency": "USD",
-              "amount": 21.43
-            },
-            "lastUpdated": "2025-11-28T16:33:51.491Z",
-            "url": "https://www.temu.com/gamesir-t7-mobile-controller"
-          },
-          "official": {
-            "source": "official",
-            "productId": "gamesir-t7",
-            "name": "GameSir T7 Mobile Gaming Controller",
-            "stock": 0,
-            "inStock": false,
-            "lastUpdated": "2025-11-28T16:33:52.933Z",
-            "url": "https://www.gamesir.hk/products/gamesir-t7"
-          }
-        },
-        "lastUpdated": "2025-11-28T16:33:53.465Z"
-      },
-      {
-        "id": "gamesir-x5-lite",
-        "name": "GameSir X5 Lite Mobile Controller",
-        "variants": [
-          {
-            "color": "Black",
-            "stock": 46,
-            "temuStock": 46,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          }
-        ],
-        "totalStock": 46,
-        "sources": {
-          "temu": {
-            "source": "temu",
-            "productId": "gamesir-x5-lite",
-            "name": "GameSir X5 Lite Mobile Controller",
-            "stock": 46,
-            "price": {
-              "currency": "USD",
-              "amount": 21.43
-            },
-            "lastUpdated": "2025-11-28T16:33:51.469Z",
-            "url": "https://www.temu.com/gamesir-x5-lite-controller"
-          },
-          "official": {
-            "source": "official",
-            "productId": "gamesir-x5-lite",
-            "name": "GameSir X5 Lite Mobile Controller",
-            "stock": 0,
-            "inStock": false,
-            "lastUpdated": "2025-11-28T16:33:53.223Z",
-            "url": "https://www.gamesir.hk/products/gamesir-x5-lite"
-          }
-        },
-        "lastUpdated": "2025-11-28T16:33:53.465Z"
-      },
-      {
-        "id": "gamesir-cyclone-2",
-        "name": "GameSir Cyclone 2 Wireless Controller",
-        "variants": [
-          {
-            "color": "Black",
-            "stock": 13,
+            "stock": 3,
             "temuStock": 23,
             "officialStock": 0,
             "wholesaleCost": 21.43
           },
           {
             "color": "White",
-            "stock": 11,
+            "stock": 6,
+            "temuStock": 23,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          },
+          {
+            "color": "Blue",
+            "stock": 3,
+            "temuStock": 23,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          },
+          {
+            "color": "Red",
+            "stock": 3,
+            "temuStock": 23,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          },
+          {
+            "color": "Purple",
+            "stock": 4,
+            "temuStock": 23,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          },
+          {
+            "color": "Green",
+            "stock": 4,
             "temuStock": 23,
             "officialStock": 0,
             "wholesaleCost": 21.43
@@ -900,49 +540,87 @@
         "sources": {
           "temu": {
             "source": "temu",
-            "productId": "gamesir-cyclone-2",
-            "name": "GameSir Cyclone 2 Wireless Controller",
+            "productId": "gamesir-nova-lite",
+            "name": "GameSir Nova Lite Gaming Controller",
             "stock": 23,
             "price": {
               "currency": "USD",
               "amount": 21.43
             },
-            "lastUpdated": "2025-11-28T16:33:51.499Z",
-            "url": "https://www.temu.com/gamesir-cyclone-2-controller"
+            "lastUpdated": "2025-11-29T13:56:38.851Z",
+            "url": "https://www.temu.com/gh/--lite-wireless-gaming-controller-ergonomic-wireless-wired--for-switch-for--ios-pc-steam-games-turbo-function-hall-effect-sticks-g-601099548838966.html"
           },
           "official": {
             "source": "official",
-            "productId": "gamesir-cyclone-2",
-            "name": "GameSir Cyclone 2 Wireless Controller",
+            "productId": "gamesir-nova-lite",
+            "name": "GameSir Nova Lite Gaming Controller",
             "stock": 0,
             "inStock": false,
-            "lastUpdated": "2025-11-28T16:33:52.690Z",
-            "url": "https://www.gamesir.hk/products/gamesir-cyclone2-black"
+            "lastUpdated": "2025-11-29T13:56:40.671Z",
+            "url": "https://www.gamesir.hk/products/gamesir-nova-lite"
           }
         },
-        "lastUpdated": "2025-11-28T16:33:53.465Z"
+        "lastUpdated": "2025-11-29T13:56:42.466Z"
       },
       {
-        "id": "gamesir-nova-2-lite",
-        "name": "GameSir Nova 2 Lite Gaming Controller",
+        "id": "gamesir-g7-se",
+        "name": "GameSir G7 SE Wired Controller",
         "variants": [
           {
             "color": "Black",
-            "stock": 18,
+            "stock": 22,
+            "temuStock": 40,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          },
+          {
+            "color": "White",
+            "stock": 22,
+            "temuStock": 40,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          }
+        ],
+        "totalStock": 40,
+        "sources": {
+          "temu": {
+            "source": "temu",
+            "productId": "gamesir-g7-se",
+            "name": "GameSir G7 SE Wired Controller",
+            "stock": 40,
+            "price": {
+              "currency": "USD",
+              "amount": 21.43
+            },
+            "lastUpdated": "2025-11-29T13:56:38.857Z",
+            "url": "https://www.temu.com/gamesir-g7-se-wired-controller"
+          },
+          "official": {
+            "source": "official",
+            "productId": "gamesir-g7-se",
+            "name": "GameSir G7 SE Wired Controller",
+            "stock": 0,
+            "inStock": false,
+            "lastUpdated": "2025-11-29T13:56:42.318Z",
+            "url": "https://gamesir.hk/collections/promotion/products/gamesir-g7-se"
+          }
+        },
+        "lastUpdated": "2025-11-29T13:56:42.466Z"
+      },
+      {
+        "id": "gamesir-g7",
+        "name": "GameSir G7 Wired Controller",
+        "variants": [
+          {
+            "color": "Black",
+            "stock": 26,
             "temuStock": 53,
             "officialStock": 0,
             "wholesaleCost": 21.43
           },
           {
             "color": "White",
-            "stock": 21,
-            "temuStock": 53,
-            "officialStock": 0,
-            "wholesaleCost": 21.43
-          },
-          {
-            "color": "Blue",
-            "stock": 21,
+            "stock": 29,
             "temuStock": 53,
             "officialStock": 0,
             "wholesaleCost": 21.43
@@ -952,14 +630,336 @@
         "sources": {
           "temu": {
             "source": "temu",
-            "productId": "gamesir-nova-2-lite",
-            "name": "GameSir Nova 2 Lite Gaming Controller",
+            "productId": "gamesir-g7",
+            "name": "GameSir G7 Wired Controller",
             "stock": 53,
             "price": {
               "currency": "USD",
               "amount": 21.43
             },
-            "lastUpdated": "2025-11-28T16:33:51.494Z",
+            "lastUpdated": "2025-11-29T13:56:39.018Z",
+            "url": "https://www.temu.com/gamesir-g7-wired-controller"
+          },
+          "official": {
+            "source": "official",
+            "productId": "gamesir-g7",
+            "name": "GameSir G7 Wired Controller",
+            "stock": 0,
+            "inStock": false,
+            "lastUpdated": "2025-11-29T13:56:42.466Z",
+            "url": "https://gamesir.hk/collections/promotion/products/gamesir-g7-se"
+          }
+        },
+        "lastUpdated": "2025-11-29T13:56:42.466Z"
+      },
+      {
+        "id": "gamesir-x2s",
+        "name": "GameSir X2s Mobile Gaming Controller",
+        "variants": [
+          {
+            "color": "Black",
+            "stock": 50,
+            "temuStock": 48,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          }
+        ],
+        "totalStock": 48,
+        "sources": {
+          "temu": {
+            "source": "temu",
+            "productId": "gamesir-x2s",
+            "name": "GameSir X2s Mobile Gaming Controller",
+            "stock": 48,
+            "price": {
+              "currency": "USD",
+              "amount": 21.43
+            },
+            "lastUpdated": "2025-11-29T13:56:39.104Z",
+            "url": "https://www.temu.com/gamesir-x2s-mobile-controller"
+          },
+          "official": {
+            "source": "official",
+            "productId": "gamesir-x2s",
+            "name": "GameSir X2s Mobile Gaming Controller",
+            "stock": 0,
+            "inStock": false,
+            "lastUpdated": "2025-11-29T13:56:40.739Z",
+            "url": "https://www.gamesir.hk/products/gamesir-x2s"
+          }
+        },
+        "lastUpdated": "2025-11-29T13:56:42.466Z"
+      },
+      {
+        "id": "gamesir-g7-pro",
+        "name": "GameSir G7 Pro Wireless Controller",
+        "variants": [
+          {
+            "color": "Black",
+            "stock": 8,
+            "temuStock": 24,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          },
+          {
+            "color": "White",
+            "stock": 9,
+            "temuStock": 24,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          },
+          {
+            "color": "Blue",
+            "stock": 12,
+            "temuStock": 24,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          }
+        ],
+        "totalStock": 24,
+        "sources": {
+          "temu": {
+            "source": "temu",
+            "productId": "gamesir-g7-pro",
+            "name": "GameSir G7 Pro Wireless Controller",
+            "stock": 24,
+            "price": {
+              "currency": "USD",
+              "amount": 21.43
+            },
+            "lastUpdated": "2025-11-29T13:56:39.143Z",
+            "url": "https://www.temu.com/gamesir-g7-pro-controller"
+          },
+          "official": {
+            "source": "official",
+            "productId": "gamesir-g7-pro",
+            "name": "GameSir G7 Pro Wireless Controller",
+            "stock": 0,
+            "inStock": false,
+            "lastUpdated": "2025-11-29T13:56:40.840Z",
+            "url": "https://www.gamesir.hk/products/gamesir-g7-pro"
+          }
+        },
+        "lastUpdated": "2025-11-29T13:56:42.466Z"
+      },
+      {
+        "id": "gamesir-super-nova",
+        "name": "GameSir Super Nova Wireless Controller",
+        "variants": [
+          {
+            "color": "Black",
+            "stock": 9,
+            "temuStock": 18,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          },
+          {
+            "color": "White",
+            "stock": 9,
+            "temuStock": 18,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          },
+          {
+            "color": "Blue",
+            "stock": 6,
+            "temuStock": 18,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          }
+        ],
+        "totalStock": 18,
+        "sources": {
+          "temu": {
+            "source": "temu",
+            "productId": "gamesir-super-nova",
+            "name": "GameSir Super Nova Wireless Controller",
+            "stock": 18,
+            "price": {
+              "currency": "USD",
+              "amount": 21.43
+            },
+            "lastUpdated": "2025-11-29T13:56:39.145Z",
+            "url": "https://www.temu.com/gamesir-super-nova-wireless"
+          },
+          "official": {
+            "source": "official",
+            "productId": "gamesir-super-nova",
+            "name": "GameSir Super Nova Wireless Controller",
+            "stock": 0,
+            "inStock": false,
+            "lastUpdated": "2025-11-29T13:56:41.220Z",
+            "url": "https://www.gamesir.hk/products/gamesir-super-nova"
+          }
+        },
+        "lastUpdated": "2025-11-29T13:56:42.466Z"
+      },
+      {
+        "id": "gamesir-t7",
+        "name": "GameSir T7 Mobile Gaming Controller",
+        "variants": [
+          {
+            "color": "White",
+            "stock": 9,
+            "temuStock": 16,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          },
+          {
+            "color": "Blue",
+            "stock": 11,
+            "temuStock": 16,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          }
+        ],
+        "totalStock": 16,
+        "sources": {
+          "temu": {
+            "source": "temu",
+            "productId": "gamesir-t7",
+            "name": "GameSir T7 Mobile Gaming Controller",
+            "stock": 16,
+            "price": {
+              "currency": "USD",
+              "amount": 21.43
+            },
+            "lastUpdated": "2025-11-29T13:56:39.127Z",
+            "url": "https://www.temu.com/gamesir-t7-mobile-controller"
+          },
+          "official": {
+            "source": "official",
+            "productId": "gamesir-t7",
+            "name": "GameSir T7 Mobile Gaming Controller",
+            "stock": 0,
+            "inStock": false,
+            "lastUpdated": "2025-11-29T13:56:41.160Z",
+            "url": "https://www.gamesir.hk/products/gamesir-t7"
+          }
+        },
+        "lastUpdated": "2025-11-29T13:56:42.466Z"
+      },
+      {
+        "id": "gamesir-x5-lite",
+        "name": "GameSir X5 Lite Mobile Controller",
+        "variants": [
+          {
+            "color": "Black",
+            "stock": 23,
+            "temuStock": 22,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          }
+        ],
+        "totalStock": 22,
+        "sources": {
+          "temu": {
+            "source": "temu",
+            "productId": "gamesir-x5-lite",
+            "name": "GameSir X5 Lite Mobile Controller",
+            "stock": 22,
+            "price": {
+              "currency": "USD",
+              "amount": 21.43
+            },
+            "lastUpdated": "2025-11-29T13:56:39.218Z",
+            "url": "https://www.temu.com/gamesir-x5-lite-controller"
+          },
+          "official": {
+            "source": "official",
+            "productId": "gamesir-x5-lite",
+            "name": "GameSir X5 Lite Mobile Controller",
+            "stock": 0,
+            "inStock": false,
+            "lastUpdated": "2025-11-29T13:56:41.111Z",
+            "url": "https://www.gamesir.hk/products/gamesir-x5-lite"
+          }
+        },
+        "lastUpdated": "2025-11-29T13:56:42.466Z"
+      },
+      {
+        "id": "gamesir-cyclone-2",
+        "name": "GameSir Cyclone 2 Wireless Controller",
+        "variants": [
+          {
+            "color": "Black",
+            "stock": 25,
+            "temuStock": 46,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          },
+          {
+            "color": "White",
+            "stock": 26,
+            "temuStock": 46,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          }
+        ],
+        "totalStock": 46,
+        "sources": {
+          "temu": {
+            "source": "temu",
+            "productId": "gamesir-cyclone-2",
+            "name": "GameSir Cyclone 2 Wireless Controller",
+            "stock": 46,
+            "price": {
+              "currency": "USD",
+              "amount": 21.43
+            },
+            "lastUpdated": "2025-11-29T13:56:39.482Z",
+            "url": "https://www.temu.com/gamesir-cyclone-2-controller"
+          },
+          "official": {
+            "source": "official",
+            "productId": "gamesir-cyclone-2",
+            "name": "GameSir Cyclone 2 Wireless Controller",
+            "stock": 0,
+            "inStock": false,
+            "lastUpdated": "2025-11-29T13:56:40.935Z",
+            "url": "https://www.gamesir.hk/products/gamesir-cyclone2-black"
+          }
+        },
+        "lastUpdated": "2025-11-29T13:56:42.466Z"
+      },
+      {
+        "id": "gamesir-nova-2-lite",
+        "name": "GameSir Nova 2 Lite Gaming Controller",
+        "variants": [
+          {
+            "color": "Black",
+            "stock": 17,
+            "temuStock": 50,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          },
+          {
+            "color": "White",
+            "stock": 20,
+            "temuStock": 50,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          },
+          {
+            "color": "Blue",
+            "stock": 16,
+            "temuStock": 50,
+            "officialStock": 0,
+            "wholesaleCost": 21.43
+          }
+        ],
+        "totalStock": 50,
+        "sources": {
+          "temu": {
+            "source": "temu",
+            "productId": "gamesir-nova-2-lite",
+            "name": "GameSir Nova 2 Lite Gaming Controller",
+            "stock": 50,
+            "price": {
+              "currency": "USD",
+              "amount": 21.43
+            },
+            "lastUpdated": "2025-11-29T13:56:39.214Z",
             "url": "https://www.temu.com/gamesir-nova-2-lite-controller"
           },
           "official": {
@@ -968,14 +968,14 @@
             "name": "GameSir Nova 2 Lite Gaming Controller",
             "stock": 0,
             "inStock": false,
-            "lastUpdated": "2025-11-28T16:33:52.808Z",
+            "lastUpdated": "2025-11-29T13:56:40.994Z",
             "url": "https://www.gamesir.hk/products/gamesir-nova-2-lite"
           }
         },
-        "lastUpdated": "2025-11-28T16:33:53.465Z"
+        "lastUpdated": "2025-11-29T13:56:42.466Z"
       }
     ],
-    "lastUpdated": "2025-11-28T16:33:53.465Z",
+    "lastUpdated": "2025-11-29T13:56:42.466Z",
     "cacheTimeout": 300000
   }
 }

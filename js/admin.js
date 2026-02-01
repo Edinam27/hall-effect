@@ -41,6 +41,13 @@ async function apiCall(endpoint, options = {}) {
             ...options.headers
         }
     };
+    // Attach JWT Authorization header when available
+    try {
+        const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+        if (token) {
+            mergedOptions.headers['Authorization'] = `Bearer ${token}`;
+        }
+    } catch (_) {}
     
     try {
         const response = await fetch(endpoint, mergedOptions);

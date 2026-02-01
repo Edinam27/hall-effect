@@ -204,9 +204,9 @@
             
             <form id="loginForm" class="login-form">
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required autocomplete="username">
-                    <i class="fas fa-user input-icon"></i>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required autocomplete="email">
+                    <i class="fas fa-envelope input-icon"></i>
                 </div>
                 
                 <div class="form-group">
@@ -228,7 +228,7 @@
     </div>
     
     <script>
-        // Admin credentials (in production, this should be handled server-side)
+        // Legacy admin credentials fallback (kept temporarily for backward compatibility)
         const ADMIN_CREDENTIALS = {
             'admin': 'admin123',
             'gamezonepro': 'secure2024',
@@ -237,7 +237,7 @@
         
         // DOM elements
         const loginForm = document.getElementById('loginForm');
-        const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
         const loginBtn = document.getElementById('loginBtn');
         const errorMessage = document.getElementById('errorMessage');
@@ -259,45 +259,67 @@
         
         // Handle login
         async function handleLogin() {
-            const username = usernameInput.value.trim();
+            const email = emailInput.value.trim();
             const password = passwordInput.value;
             
-            if (!username || !password) {
-                showError('Please enter both username and password.');
+            if (!email || !password) {
+                showError('Please enter both email and password.');
                 return;
             }
             
             setLoading(true);
             hideMessages();
             
-            // Simulate API call delay
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            if (validateCredentials(username, password)) {
-                // Store login session
-                const sessionData = {
-                    username: username,
-                    loginTime: new Date().toISOString(),
-                    sessionId: generateSessionId()
-                };
-                
-                localStorage.setItem('adminSession', JSON.stringify(sessionData));
-                localStorage.setItem('adminLoggedIn', 'true');
-                
-                showSuccess('Login successful! Redirecting...');
-                
-                setTimeout(() => {
-                    redirectToAdmin();
-                }, 1500);
-            } else {
-                showError('Invalid username or password. Please try again.');
-                setLoading(false);
+            // First, try JWT login against the backend
+            try {
+                const resp = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await resp.json();
+                if (resp.ok && data.success && data.token) {
+                    // Store JWT auth token for admin features (enables password change)
+                    localStorage.setItem('authToken', data.token);
+
+                    // Also store legacy admin session for UI navigation compatibility
+                    const sessionData = {
+                        username: data.user?.username || data.user?.email || email,
+                        loginTime: new Date().toISOString(),
+                        sessionId: generateSessionId()
+                    };
+                    localStorage.setItem('adminSession', JSON.stringify(sessionData));
+                    localStorage.setItem('adminLoggedIn', 'true');
+
+                    showSuccess('Login successful! Redirecting...');
+                    setTimeout(() => redirectToAdmin(), 800);
+                    return;
+                }
+                // If backend login failed, fall back to legacy credentials
+                throw new Error(data.error || 'Login failed');
+            } catch (err) {
+                // Fallback: support legacy static credentials
+                await new Promise(resolve => setTimeout(resolve, 400));
+                if (validateLegacy(email, password)) {
+                    const sessionData = {
+                        username: email,
+                        loginTime: new Date().toISOString(),
+                        sessionId: generateSessionId()
+                    };
+                    localStorage.setItem('adminSession', JSON.stringify(sessionData));
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    showSuccess('Legacy login OK. Note: password changes disabled.');
+                    setTimeout(() => redirectToAdmin(), 800);
+                } else {
+                    showError(err.message || 'Invalid credentials.');
+                    setLoading(false);
+                }
             }
         }
         
         // Validate credentials
-        function validateCredentials(username, password) {
-            return ADMIN_CREDENTIALS[username] === password;
+        function validateLegacy(usernameOrEmail, password) {
+            return ADMIN_CREDENTIALS[usernameOrEmail] === password;
         }
         
         // Check if user is logged in
@@ -374,11 +396,11 @@
         }
         
         function showForgotPassword() {
-            alert('Please contact the system administrator to reset your password.\n\nDefault credentials:\nUsername: admin\nPassword: admin123');
+            alert('If you created your account via email, use JWT login above to enable password changes.\n\nDefault legacy credentials (no password change):\nUser: admin / Pass: admin123');
         }
         
-        // Auto-focus username field
-        usernameInput.focus();
+        // Auto-focus email field
+        emailInput.focus();
     </script>
 </body>
 </html>

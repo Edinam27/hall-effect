@@ -1007,7 +1007,7 @@ async function simulateTemuOrderPlacement(orderData) {
   return {
     orderId: `TEMU-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
     trackingNumber: `TM${Date.now().toString().slice(-8)}`,
-    estimatedDelivery: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(),
+    estimatedDelivery: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000).toISOString(),
     status: 'confirmed'
   };
 }

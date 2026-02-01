@@ -32,11 +32,12 @@ Allow: /js/
 # Disallow crawling of sensitive or unnecessary files
 Disallow: /api/
 Disallow: /config/
-Disallow: /data/
 Disallow: /services/
 Disallow: /routes/
 Disallow: /templates/
-Disallow: /*.json$
+Disallow: /scripts/
+Disallow: /middleware/
+Disallow: /data/
 Disallow: /test-*
 Disallow: /run-tests.js
 Disallow: /server.js
