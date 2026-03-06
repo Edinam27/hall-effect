@@ -4,10 +4,9 @@
 
 class PaymentProcessor {
     constructor() {
-        this.paystackPublicKey = null;
+        this.publicKey = null;
         this.initialized = false;
         this.isStaticServer = false;
-        this.loadPaystackScript();
     }
 
     async initialize() {
@@ -18,26 +17,26 @@ class PaymentProcessor {
             
             if (isStaticServer) {
                 // Skip API call entirely for static servers
-                this.paystackPublicKey = 'pk_test_demo_key_for_static_server';
+                this.publicKey = 'pk_test_demo_key_for_static_server';
                 this.initialized = true;
                 console.log('Static server detected - Payment processor initialized in demo mode');
                 return true;
             } else {
                 // Set demo mode as fallback
-                this.paystackPublicKey = 'pk_test_demo_key_for_static_server';
+                this.publicKey = 'pk_test_demo_key_for_static_server';
                 this.initialized = true;
                 console.log('Payment processor initialized in demo mode');
                 
                 try {
-                    // Try to fetch the Paystack public key from the server
-                    const response = await fetch('/api/paystack/config');
+                    // Try to fetch the Payment public key from the server
+                    const response = await fetch('/api/payment/config');
                     
                     // If server responds, use the real key
                     if (response.ok) {
                         const data = await response.json();
                         
                         if (data.publicKey) {
-                            this.paystackPublicKey = data.publicKey;
+                            this.publicKey = data.publicKey;
                             console.log('Payment processor updated with server key:', data.publicKey);
                         }
                     } else {
@@ -53,7 +52,7 @@ class PaymentProcessor {
             console.error('Failed to initialize payment processor:', error.message);
             // Ensure we're still initialized even if something unexpected happens
             if (!this.initialized) {
-                this.paystackPublicKey = 'pk_test_demo_key_for_static_server';
+                this.publicKey = 'pk_test_demo_key_for_static_server';
                 this.initialized = true;
                 console.log('Payment processor initialized in fallback demo mode');
             }
@@ -81,23 +80,7 @@ class PaymentProcessor {
     }
 
     loadPaystackScript() {
-        // Load the Paystack script if it's not already loaded
-        if (!document.getElementById('paystack-script')) {
-            const script = document.createElement('script');
-            script.id = 'paystack-script';
-            script.src = 'https://js.paystack.co/v1/inline.js';
-            script.async = true;
-            
-            script.onload = () => {
-                console.log('Paystack script loaded');
-            };
-            
-            script.onerror = () => {
-                console.error('Failed to load Paystack script');
-            };
-            
-            document.head.appendChild(script);
-        }
+        // Legacy Paystack script loader removed for Kora integration
     }
 
     async processCheckout(customerInfo) {
@@ -144,7 +127,7 @@ class PaymentProcessor {
                 shipping,
                 tax,
                 total,
-                paymentMethod: 'paystack'
+                paymentMethod: 'kora'
             };
             
             console.log('Creating order with enhanced customer data:', {
@@ -155,7 +138,7 @@ class PaymentProcessor {
             });
             
             // Check if we're in demo mode (static server environment)
-            if (this.paystackPublicKey === 'pk_test_demo_key_for_static_server') {
+            if (this.publicKey === 'pk_test_demo_key_for_static_server') {
                 console.log('Demo mode detected, creating mock order without API call');
                 // Create a mock order response for static server environment
                 const mockOrder = {
@@ -218,15 +201,22 @@ class PaymentProcessor {
                     orderId: order.id
                 };
             } else {
-                // Initialize Paystack payment (only in production mode)
-                const paymentResponse = await fetch(`/api/payment/initialize/${order.id}`, {
+                // Initialize Kora payment (only in production mode)
+                const paymentResponse = await fetch('/api/payment/initialize', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ 
                         email: customerInfo.email,
-                        customerId: customerInfo.customerId
+                        customerId: customerInfo.customerId,
+                        amount: total,
+                        reference: 'ORD-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+                        callbackUrl: window.location.origin + '/payment/callback',
+                        metadata: {
+                            orderId: order.id
+                        },
+                        customerName: customerInfo.fullName
                     })
                 });
                 
@@ -256,15 +246,16 @@ class PaymentProcessor {
                 total: order.total,
                 createdAt: order.createdAt
             }));
+            localStorage.setItem('lastOrderId', order.id);
             
-            console.log('Payment initialized, redirecting to Paystack...');
+            console.log('Payment initialized, redirecting to Payment Gateway...');
             
             // Check if we're in demo mode (static server)
             if (paymentData && paymentData.paymentUrl === '#demo-payment') {
                 console.log('Demo mode: Simulating payment process');
                 
                 // Show demo message to user
-                alert('Demo Mode: In production, you would be redirected to Paystack payment page. Simulating successful payment.');
+                alert('Demo Mode: In production, you would be redirected to the payment page. Simulating successful payment.');
                 
                 // Simulate successful payment verification and redirect to success page
                 setTimeout(async () => {
@@ -281,7 +272,7 @@ class PaymentProcessor {
                 return;
             }
             
-            // Redirect to Paystack authorization URL returned by server
+            // Redirect to authorization URL returned by server
             if (paymentData && paymentData.paymentUrl) {
                 window.location.href = paymentData.paymentUrl;
             } else if (paymentData && paymentData.data && paymentData.data.authorization_url) {

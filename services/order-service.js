@@ -1099,24 +1099,24 @@ exports.getAdminStats = async () => {
         return total + orderProfit;
       }, 0);
     
-    // Derive totals from Paystack transactions (source of truth)
-    let paystackOrderCount = 0;
-    let paystackRevenue = 0;
+    // Derive totals from Kora transactions (source of truth)
+    let koraOrderCount = 0;
+    let koraRevenue = 0;
     const currencyCounts = {};
     let dominantCurrency = null;
     try {
-      const paystackApi = require('../api/paystack-api');
+      const koraApi = require('../api/kora-api');
       const perPage = 100;
       let page = 1;
       // Limit pagination to avoid heavy loads; adjust as needed
       while (page <= 3) {
-        const txResp = await paystackApi.listTransactions({ status: 'success', perPage, page });
+        const txResp = await koraApi.listTransactions({ status: 'success', perPage, page });
         const txs = Array.isArray(txResp?.data) ? txResp.data : [];
         txs.forEach(tx => {
-          paystackOrderCount += 1;
-          // Paystack amounts are in the smallest unit (e.g. kobo); normalize by /100
+          koraOrderCount += 1;
+          // Kora amounts are normalized to minor units in our API wrapper, so /100
           const amt = Number(tx.amount || 0) / 100;
-          paystackRevenue += amt;
+          koraRevenue += amt;
           const cur = (tx.currency || 'NGN').toUpperCase();
           currencyCounts[cur] = (currencyCounts[cur] || 0) + 1;
         });
@@ -1125,11 +1125,11 @@ exports.getAdminStats = async () => {
       }
       dominantCurrency = Object.keys(currencyCounts).sort((a, b) => (currencyCounts[b] || 0) - (currencyCounts[a] || 0))[0] || null;
     } catch (err) {
-      console.warn('Failed to fetch Paystack transactions for stats:', err.message);
+      console.warn('Failed to fetch Kora transactions for stats:', err.message);
     }
 
-    const finalTotalOrders = paystackOrderCount || allOrders.length;
-    const finalTotalRevenue = paystackRevenue || totalRevenueFallback;
+    const finalTotalOrders = koraOrderCount || allOrders.length;
+    const finalTotalRevenue = koraRevenue || totalRevenueFallback;
     const finalProfitMargin = finalTotalRevenue > 0 ? Math.round((totalProfit / finalTotalRevenue) * 100) : 0;
 
     return {
@@ -1166,18 +1166,18 @@ exports.getAdminOrders = async (page = 1, limit = 20, status = 'all') => {
     
     const allOrders = await query;
 
-    // Build a transaction map from Paystack to override Neon order fields
+    // Build a transaction map from Kora to override Neon order fields
     // Keys: orderId, orderNumber, reference
     const txByKey = new Map();
     try {
-      const paystackApi = require('../api/paystack-api');
+      const koraApi = require('../api/kora-api');
       const perPage = 100;
       const statuses = ['success', 'failed', 'abandoned'];
       for (const st of statuses) {
         let p = 1;
         // Limit pages to avoid heavy loads; adjust as needed
         while (p <= 3) {
-          const txResp = await paystackApi.listTransactions({ status: st, perPage, page: p });
+          const txResp = await koraApi.listTransactions({ status: st, perPage, page: p });
           const txs = Array.isArray(txResp?.data) ? txResp.data : [];
           txs.forEach(tx => {
             const md = tx.metadata || {};
@@ -1197,10 +1197,10 @@ exports.getAdminOrders = async (page = 1, limit = 20, status = 'all') => {
         }
       }
     } catch (refErr) {
-      console.warn('Paystack transactions fetch failed for admin orders mapping:', refErr.message);
+      console.warn('Kora transactions fetch failed for admin orders mapping:', refErr.message);
     }
     
-    // Normalize order fields from Paystack: status, payment_status, total_amount
+    // Normalize order fields from Kora: status, payment_status, total_amount
     const normalizedOrders = allOrders.map(order => {
       let out = { ...order };
       const matchKeys = [
@@ -1224,7 +1224,7 @@ exports.getAdminOrders = async (page = 1, limit = 20, status = 'all') => {
           out.status = 'pending';
         }
 
-        // amount override from Paystack (minor units → major)
+        // amount override from Kora (minor units → major)
         if (typeof tx.amount === 'number') {
           const majorAmount = Math.round((tx.amount / 100 + Number.EPSILON) * 100) / 100;
           out.total_amount = majorAmount;

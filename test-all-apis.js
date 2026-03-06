@@ -9,8 +9,8 @@ const BASE_URL = 'http://localhost:8080';
 // Test results tracking
 const testResults = {
   health: false,
-  paystack_initialize: false,
-  paystack_verify: false,
+  kora_initialize: false,
+  kora_verify: false,
   orders_get: false,
   orders_post: false,
   orders_get_by_id: false,
@@ -39,46 +39,46 @@ async function testHealthEndpoint() {
 }
 
 /**
- * Test Paystack Payment Initialization
+ * Test Kora Payment Initialization
  */
-async function testPaystackInitialize() {
-  console.log('\n💳 Testing Paystack Payment Initialization...');
+async function testKoraInitialize() {
+  console.log('\n💳 Testing Kora Payment Initialization...');
   try {
-    const response = await axios.post(`${BASE_URL}/api/paystack/initialize`, {
+    const response = await axios.post(`${BASE_URL}/api/payment/initialize`, {
       email: 'test@example.com',
       amount: 5000
     });
     
     if (response.status === 200 && response.data.status && response.data.data.authorization_url) {
-      testResults.paystack_initialize = true;
-      console.log('  ✅ Paystack initialization working');
+      testResults.kora_initialize = true;
+      console.log('  ✅ Kora initialization working');
       console.log(`  ℹ️ Authorization URL: ${response.data.data.authorization_url}`);
       return response.data.data.reference;
     }
   } catch (error) {
-    console.log(`  ❌ Paystack initialization failed: ${error.message}`);
-    testResults.errors.push({ test: 'paystack_initialize', error: error.message });
+    console.log(`  ❌ Kora initialization failed: ${error.message}`);
+    testResults.errors.push({ test: 'kora_initialize', error: error.message });
   }
   return null;
 }
 
 /**
- * Test Paystack Payment Verification
+ * Test Kora Payment Verification
  */
-async function testPaystackVerify(reference) {
-  console.log('\n🔍 Testing Paystack Payment Verification...');
+async function testKoraVerify(reference) {
+  console.log('\n🔍 Testing Kora Payment Verification...');
   try {
-    const response = await axios.get(`${BASE_URL}/api/paystack/verify/${reference}`);
+    const response = await axios.get(`${BASE_URL}/api/payment/verify/${reference}`);
     
     if (response.status === 200) {
-      testResults.paystack_verify = true;
-      console.log('  ✅ Paystack verification endpoint working');
+      testResults.kora_verify = true;
+      console.log('  ✅ Kora verification endpoint working');
       console.log(`  ℹ️ Status: ${response.data.data.status}`);
       return true;
     }
   } catch (error) {
-    console.log(`  ❌ Paystack verification failed: ${error.message}`);
-    testResults.errors.push({ test: 'paystack_verify', error: error.message });
+    console.log(`  ❌ Kora verification failed: ${error.message}`);
+    testResults.errors.push({ test: 'kora_verify', error: error.message });
   }
   return false;
 }
@@ -231,10 +231,12 @@ async function runAllTests() {
     return;
   }
   
-  // Test Paystack APIs
-  const paymentRef = await testPaystackInitialize();
+  // Test Kora Payment APIs
+  const paymentRef = await testKoraInitialize();
   if (paymentRef) {
-    await testPaystackVerify(paymentRef);
+    await testKoraVerify(paymentRef);
+  } else {
+    console.log('  ⚠️ Skipping verification due to initialization failure');
   }
   
   // Test Orders APIs

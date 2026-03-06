@@ -2,7 +2,7 @@ no# 🎮 GameZone Pro - AI-Powered Dropshipping Store
 
 ## 🚀 Project Overview
 
-A complete premium gaming controller store with modern UI/UX design, advanced SEO optimization, and integrated Paystack payment processing. This project provides a full e-commerce solution with cart management, checkout flow, and order processing.
+A complete premium gaming controller store with modern UI/UX design, advanced SEO optimization, and integrated Kora payment processing. This project provides a full e-commerce solution with cart management, checkout flow, and order processing.
 
 ## 📁 Project Structure
 
@@ -23,16 +23,16 @@ Hall Effect/
 │   └── checkout.css          # Checkout-specific styles
 ├── script.js                 # Interactive JavaScript features
 ├── js/
-│   ├── payment.js            # Paystack payment processing
+│   ├── payment.js            # Kora payment processing
 │   └── checkout.js           # Checkout page functionality
 ├── server.js                 # Express server for API endpoints
 ├── routes/
 │   ├── aliexpress-routes.js  # AliExpress API routes
-│   ├── paystack-routes.js    # Paystack payment routes
+│   ├── payment-routes.js     # Kora payment routes
 │   └── order-routes.js       # Order management routes
 ├── api/
 │   ├── aliexpress-api.js     # AliExpress API integration
-│   └── paystack-api.js       # Paystack API integration
+│   └── kora-api.js           # Kora API integration
 ├── services/
 │   ├── email-service.js      # Email notification service
 │   └── order-service.js      # Order processing service
@@ -57,7 +57,7 @@ Hall Effect/
 - Node.js v20.11.1 or higher
 - npm (comes with Node.js)
 - Modern web browser
-- Paystack account for payment processing
+- Kora (Korapay) account for payment processing
 
 ### Installation
 
@@ -75,9 +75,9 @@ Hall Effect/
    - Rename `.env.example` to `.env` (if not already done)
    - Update the following variables in the `.env` file:
      ```
-     # Paystack API Configuration
-     PAYSTACK_SECRET_KEY=your_paystack_secret_key_here
-     PAYSTACK_PUBLIC_KEY=your_paystack_public_key_here
+     # Kora API Configuration
+     KORA_SECRET_KEY=your_kora_secret_key_here
+     KORA_PUBLIC_KEY=your_kora_public_key_here
      
      # Email Configuration (for order notifications)
      EMAIL_USER=your_email@gmail.com

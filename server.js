@@ -21,10 +21,10 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 const CANONICAL_HOST = process.env.CANONICAL_HOST || 'nextgamepro.store';
 
 // Import custom modules with error handling
-let paystackApi, emailService, orderService;
+let koraApi, emailService, orderService;
 try {
-  if (fs.existsSync('./api/paystack-api.js')) {
-    paystackApi = require('./api/paystack-api');
+  if (fs.existsSync('./api/kora-api.js')) {
+    koraApi = require('./api/kora-api');
   }
   if (fs.existsSync('./services/email-service.js')) {
     emailService = require('./services/email-service');
@@ -104,9 +104,7 @@ if (fs.existsSync('./routes/auth-routes.js')) {
 if (fs.existsSync('./routes/user-profile-routes.js')) {
   app.use('/api/profile', require('./routes/user-profile-routes'));
 }
-if (fs.existsSync('./routes/paystack-routes.js')) {
-  app.use('/api/paystack', require('./routes/paystack-routes'));
-}
+// Paystack routes removed in favor of generic payment routes
 if (fs.existsSync('./routes/order-routes.js')) {
   app.use('/api/orders', require('./routes/order-routes'));
 }
@@ -127,8 +125,8 @@ app.get('/payment/callback', (req, res) => {
 });
 
 // Webhook routes with error handling
-if (paystackApi && paystackApi.handleWebhook) {
-  app.post('/webhooks/paystack', paystackApi.handleWebhook);
+if (koraApi && koraApi.handleWebhook) {
+  app.post('/webhooks/kora', koraApi.handleWebhook);
 }
 
 // Catch-all route for SPA (only for non-API routes)

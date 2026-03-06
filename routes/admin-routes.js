@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 const orderService = require('../services/order-service');
 const inventoryService = require('../services/inventory-service');
-const paystackApi = require('../api/paystack-api');
+const koraApi = require('../api/kora-api');
 const { authenticateToken, requireAdmin, legacyAdminAuth, logAdminAction } = require('../middleware/auth-middleware');
 
 // Use legacy admin auth as fallback for backward compatibility
@@ -86,10 +86,10 @@ router.get('/dashboard', async (req, res) => {
 });
 
 /**
- * GET /api/admin/paystack/transactions
- * List Paystack transactions (admin-only, supports legacy admin key)
+ * GET /api/admin/kora/transactions
+ * List Kora transactions (admin-only, supports legacy admin key)
  */
-router.get('/paystack/transactions', async (req, res) => {
+router.get('/kora/transactions', async (req, res) => {
   try {
     const { page = 1, perPage = 20, status, customer, from, to } = req.query;
 
@@ -97,26 +97,26 @@ router.get('/paystack/transactions', async (req, res) => {
       page: parseInt(page),
       perPage: parseInt(perPage)
     };
+    
+    if (status) params.status = status;
+    if (customer) params.customer = customer;
+    if (from) params.from = from;
+    if (to) params.to = to;
 
-    if (status) params.status = status; // success | failed | abandoned
-    if (customer) params.customer = customer; // email or customer ID
-    if (from) params.from = from; // start date (timestamp or ISO)
-    if (to) params.to = to; // end date
-
-    const result = await paystackApi.listTransactions(params);
-
+    const result = await koraApi.listTransactions(params);
+    
     res.json({
       success: true,
       data: {
-        transactions: result.data || [],
-        meta: result.meta || {},
+        transactions: result.data,
+        meta: result.meta
       }
     });
   } catch (error) {
-    console.error('Error listing Paystack transactions:', error);
+    console.error('Error fetching Kora transactions:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Failed to list transactions'
+      error: 'Failed to fetch transactions'
     });
   }
 });
@@ -399,33 +399,34 @@ router.post('/inventory/check-stock', async (req, res) => {
 });
 
 /**
- * POST /api/admin/paystack/initialize
- * Initialize Paystack payment for Temu order
+ * POST /api/admin/kora/initialize
+ * Initialize Kora payment for Temu order
  */
-router.post('/paystack/initialize', async (req, res) => {
+router.post('/kora/initialize', async (req, res) => {
   try {
     const { orderId, amount, email, metadata } = req.body;
     
-    // Initialize Paystack payment for Temu order cost
+    // Initialize Kora payment for Temu order cost
+    // Kora amount is in standard units (no * 100 needed)
     const paymentData = {
       email,
-      amount: Math.round(amount * 100), // Convert to kobo
+      amount: Number(amount), 
       metadata: {
         orderId,
         purpose: 'temu_order_payment',
         ...metadata
       },
-      callback_url: `${req.protocol}://${req.get('host')}/admin.html?payment=success`
+      callbackUrl: `${req.protocol}://${req.get('host')}/admin.html?payment=success`
     };
     
-    const result = await paystackApi.initializePayment(paymentData);
+    const result = await koraApi.initializeTransaction(paymentData);
     
     res.json({
       success: true,
       data: result
     });
   } catch (error) {
-    console.error('Error initializing Paystack payment:', error);
+    console.error('Error initializing Kora payment:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to initialize payment'
@@ -525,13 +526,13 @@ router.get('/customers', async (req, res) => {
       }
     });
 
-    // Pull successful Paystack transactions and compute actual spend per customer
-    const paystackApi = require('../api/paystack-api');
+    // Pull successful Kora transactions and compute actual spend per customer
+    const koraApi = require('../api/kora-api');
     const perPage = 50;
     let page = 1;
     const successfulTx = [];
     while (true) {
-      const txResp = await paystackApi.listTransactions({ status: 'success', perPage, page });
+      const txResp = await koraApi.listTransactions({ status: 'success', perPage, page });
       const data = Array.isArray(txResp?.data) ? txResp.data : [];
       successfulTx.push(...data);
       if (data.length < perPage) break; // last page
@@ -542,7 +543,9 @@ router.get('/customers', async (req, res) => {
     const spentByEmail = new Map();
     successfulTx.forEach(tx => {
       const email = (tx.customer?.email || 'unknown@customer').toLowerCase();
-      const amountMajor = Number(tx.amount || 0) / 100; // Paystack returns smallest unit
+      // Kora listTransactions wrapper returns amount in minor units (because we mapped it * 100)
+      // So we divide by 100 to get major units
+      const amountMajor = Number(tx.amount || 0) / 100; 
       spentByEmail.set(email, (spentByEmail.get(email) || 0) + amountMajor);
     });
 
@@ -595,7 +598,7 @@ router.post('/test-order', async (req, res) => {
           temuUrl: 'https://www.temu.com/gh/--lite-wireless-gaming-controller-ergonomic-wireless-wired--for-switch-for--ios-pc-steam-games-turbo-function-hall-effect-sticks-g-601099548838966.html'
         }
       ],
-      paymentMethod: 'paystack',
+      paymentMethod: 'kora',
       status: 'paid',
       paymentStatus: 'completed'
     };

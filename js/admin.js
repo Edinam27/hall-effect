@@ -823,7 +823,7 @@ async function loadTransactions(page = 1, perPage = 20) {
         const status = statusSelect ? statusSelect.value : '';
         const params = new URLSearchParams({ page, perPage });
         if (status) params.set('status', status);
-        const res = await apiCall(`/api/admin/paystack/transactions?${params.toString()}`);
+        const res = await apiCall(`/api/admin/kora/transactions?${params.toString()}`);
         const transactions = (res && res.data && res.data.transactions) ? res.data.transactions : [];
         renderTransactionsTable(transactions);
     } catch (error) {
@@ -859,11 +859,11 @@ function renderTransactionsTable(transactions) {
     });
 }
 
-// Trigger Paystack → Neon reconciliation
-async function syncPaystack() {
+// Trigger Kora → Neon reconciliation
+async function syncKora() {
     try {
         showLoading && showLoading(true);
-        const res = await apiCall('/api/admin/paystack/sync', {
+        const res = await apiCall('/api/admin/kora/sync', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ perPage: 100, status: 'success' })
@@ -876,8 +876,8 @@ async function syncPaystack() {
         await refreshOrders && refreshOrders();
         await loadDashboardData();
     } catch (error) {
-        console.error('Error syncing Paystack:', error);
-        showAlert && showAlert('Failed to sync Paystack transactions', 'error');
+        console.error('Error syncing Kora:', error);
+        showAlert && showAlert('Failed to sync Kora transactions', 'error');
     } finally {
         showLoading && showLoading(false);
     }
