@@ -87,7 +87,8 @@ app.use((req, res, next) => {
 });
 
 // Serve static files with ETag/Last-Modified enabled
-app.use(express.static(path.join(__dirname, '/'), {
+// Use process.cwd() for Vercel compatibility
+app.use(express.static(path.join(process.cwd(), '/'), {
   etag: true,
   lastModified: true
 }));
@@ -135,7 +136,7 @@ app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api/')) {
     return next();
   }
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(process.cwd(), 'index.html'));
 });
 
 // Error handling middleware
@@ -149,19 +150,24 @@ app.use((err, req, res, next) => {
 });
 
 // Start server with database initialization
-startServer().then(() => {
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 GameZone Pro Server running on port ${PORT}`);
-    console.log(`📍 Environment: ${NODE_ENV}`);
-    console.log(`🌐 Server URL: http://localhost:${PORT}`);
-    console.log(`⚡ Ready to handle requests!`);
-    console.log(`📊 Health check: http://localhost:${PORT}/health`);
-    console.log(`🔐 Authentication: http://localhost:${PORT}/api/auth`);
+if (require.main === module) {
+  startServer().then(() => {
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 GameZone Pro Server running on port ${PORT}`);
+      console.log(`📍 Environment: ${NODE_ENV}`);
+      console.log(`🌐 Server URL: http://localhost:${PORT}`);
+      console.log(`⚡ Ready to handle requests!`);
+      console.log(`📊 Health check: http://localhost:${PORT}/health`);
+      console.log(`🔐 Authentication: http://localhost:${PORT}/api/auth`);
+    });
+  }).catch(error => {
+    console.error('Failed to start server:', error);
+    process.exit(1);
   });
-}).catch(error => {
-  console.error('Failed to start server:', error);
-  process.exit(1);
-});
+}
+
+// Export app for Vercel
+module.exports = app;
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
