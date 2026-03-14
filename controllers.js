@@ -49,14 +49,14 @@ function toggleWishlist(productId) {
 }
 
 function loadWishlistFromStorage() {
-    const saved = localStorage.getItem('gamezone_wishlist');
+    const saved = localStorage.getItem('Next Game Pro_wishlist');
     if (saved) {
         wishlist = JSON.parse(saved);
     }
 }
 
 function saveWishlistToStorage() {
-    localStorage.setItem('gamezone_wishlist', JSON.stringify(wishlist));
+    localStorage.setItem('Next Game Pro_wishlist', JSON.stringify(wishlist));
 }
 
 function updateWishlistUI(productId) {
@@ -99,7 +99,7 @@ function toggleCompare(productId) {
 }
 
 function loadCompareFromStorage() {
-    const saved = localStorage.getItem('gamezone_compare');
+    const saved = localStorage.getItem('Next Game Pro_compare');
     if (saved) {
         compareList = JSON.parse(saved);
     }
@@ -107,7 +107,7 @@ function loadCompareFromStorage() {
 }
 
 function saveCompareToStorage() {
-    localStorage.setItem('gamezone_compare', JSON.stringify(compareList));
+    localStorage.setItem('Next Game Pro_compare', JSON.stringify(compareList));
 }
 
 function updateCompareUI(productId) {
@@ -1318,7 +1318,7 @@ function generateProductJsonLd(productList) {
                 name: p.name,
                 description: p.description,
                 sku: p.id,
-                brand: p.brand ? { '@type': 'Brand', name: p.brand } : { '@type': 'Brand', name: 'GameZone Pro' },
+                brand: p.brand ? { '@type': 'Brand', name: p.brand } : { '@type': 'Brand', name: 'Next Game Pro' },
                 image: images,
                 offers,
                 ...(aggregateRating ? { aggregateRating } : {})

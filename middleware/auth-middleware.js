@@ -146,7 +146,7 @@ function legacyAdminAuth(req, res, next) {
     req.user = {
       id: 1,
       username: 'admin',
-      email: 'admin@gamezonepro.com',
+      email: 'admin@nextgamepro.store',
       role: 'admin'
     };
     

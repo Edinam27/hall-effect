@@ -1,7 +1,7 @@
 {
   "name": "hall-effect",
   "version": "1.0.0",
-  "description": "GameZone Pro - Premium gaming controller store with advanced features",
+  "description": "Next Game Pro - Premium gaming controller store with advanced features",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -28,7 +28,7 @@
     "nintendo",
     "pc",
     "gaming",
-    "gamezonepro"
+    "Next Game Propro"
   ],
   "author": "",
   "license": "ISC",

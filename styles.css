@@ -1,4 +1,4 @@
-/* GameZone Pro - Premium Gaming Controllers Store */
+/* Next Game Pro - Premium Gaming Controllers Store */
 /* Modern CSS with 3D animations and responsive design */
 
 :root {
@@ -927,7 +927,7 @@ input:focus, textarea:focus, select:focus {
     margin-bottom: 30px;
     animation: slideInLeft 1s ease-out 0.4s both;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start; /* Ensure left alignment */
 }
 
 @media (min-width: 768px) {
@@ -946,7 +946,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .stat {
-    text-align: center;
+    text-align: left; /* Left align text inside stat block */
 }
 
 .stat-number {

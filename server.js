@@ -1,4 +1,4 @@
-// GameZone Pro - Backend Server
+// Next Game Pro - Backend Server
 // Production-ready server for Render deployment
 
 const express = require('express');
@@ -153,7 +153,7 @@ app.use((err, req, res, next) => {
 if (require.main === module) {
   startServer().then(() => {
     app.listen(PORT, '0.0.0.0', () => {
-      console.log(`🚀 GameZone Pro Server running on port ${PORT}`);
+      console.log(`🚀 Next Game Pro Server running on port ${PORT}`);
       console.log(`📍 Environment: ${NODE_ENV}`);
       console.log(`🌐 Server URL: http://localhost:${PORT}`);
       console.log(`⚡ Ready to handle requests!`);

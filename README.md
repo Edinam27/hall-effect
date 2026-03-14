@@ -1,4 +1,4 @@
-no# 🎮 GameZone Pro - AI-Powered Dropshipping Store
+no# 🎮 Next Game Pro - AI-Powered Dropshipping Store
 
 ## 🚀 Project Overview
 
@@ -499,4 +499,4 @@ This project is created for educational and commercial use. All product images a
 
 ---
 
-**🎮 GameZone Pro** - Revolutionizing gaming controller e-commerce with AI-powered automation and modern design.
+**🎮 Next Game Pro** - Revolutionizing gaming controller e-commerce with AI-powered automation and modern design.

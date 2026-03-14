@@ -53,7 +53,7 @@ async function sendEmail(options) {
   
   try {
     const info = await transporter.sendMail({
-      from: `"${process.env.EMAIL_FROM_NAME || 'GameZone Pro'}" <${process.env.EMAIL_FROM || 'noreply@gamezonepro.com'}>`,
+      from: `"${process.env.EMAIL_FROM_NAME || 'Next Game Pro'}" <${process.env.EMAIL_FROM || 'noreply@nextgamepro.store'}>`,
       to: options.to,
       subject: options.subject,
       html: options.html
@@ -138,7 +138,7 @@ exports.sendOrderConfirmation = async (orderId) => {
         <p>{{shippingAddress.city}}, {{shippingAddress.state}} {{shippingAddress.zip}}</p>
         <p>{{shippingAddress.country}}</p>
         <p><strong>Estimated Delivery:</strong> {{estimatedDelivery}}</p>
-        <p>Thank you for shopping with GameZone Pro!</p>
+        <p>Thank you for shopping with Next Game Pro!</p>
       `);
     }
     
@@ -148,7 +148,7 @@ exports.sendOrderConfirmation = async (orderId) => {
     // Send email
     await sendEmail({
       to: order.customer.email,
-      subject: `GameZone Pro - Order Confirmation #${order.orderNumber}`,
+      subject: `Next Game Pro - Order Confirmation #${order.orderNumber}`,
       html
     });
     
@@ -215,7 +215,7 @@ exports.sendShippingConfirmation = async (orderId, trackingInfo) => {
         <p>{{shippingAddress.street}}</p>
         <p>{{shippingAddress.city}}, {{shippingAddress.state}} {{shippingAddress.zip}}</p>
         <p>{{shippingAddress.country}}</p>
-        <p>Thank you for shopping with GameZone Pro!</p>
+        <p>Thank you for shopping with Next Game Pro!</p>
       `);
     }
     
@@ -225,7 +225,7 @@ exports.sendShippingConfirmation = async (orderId, trackingInfo) => {
     // Send email
     await sendEmail({
       to: order.customer.email,
-      subject: `GameZone Pro - Your Order #${order.orderNumber} Has Shipped!`,
+      subject: `Next Game Pro - Your Order #${order.orderNumber} Has Shipped!`,
       html
     });
     
@@ -277,8 +277,8 @@ exports.sendDeliveryConfirmation = async (orderId) => {
           <li>{{name}} (Qty: {{quantity}})</li>
           {{/each}}
         </ul>
-        <p>If you have any questions or need assistance with your product, please visit our <a href="https://gamezonepro.com/support">support page</a>.</p>
-        <p>Thank you for shopping with GameZone Pro!</p>
+        <p>If you have any questions or need assistance with your product, please visit our <a href="https://nextgamepro.store/support">support page</a>.</p>
+        <p>Thank you for shopping with Next Game Pro!</p>
       `);
     }
     
@@ -288,7 +288,7 @@ exports.sendDeliveryConfirmation = async (orderId) => {
     // Send email
     await sendEmail({
       to: order.customer.email,
-      subject: `GameZone Pro - Your Order #${order.orderNumber} Has Been Delivered!`,
+      subject: `Next Game Pro - Your Order #${order.orderNumber} Has Been Delivered!`,
       html
     });
     

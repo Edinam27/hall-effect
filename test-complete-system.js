@@ -28,7 +28,7 @@ async function testCompleteSystem() {
     // Test 3: Admin Login
     console.log('\n3️⃣ Testing admin login...');
     const adminLoginResponse = await axios.post(`${BASE_URL}/api/auth/login`, {
-      email: 'admin@gamezonepro.com',
+      email: 'admin@nextgamepro.store',
       password: 'admin123'
     });
     console.log('✅ Admin login:', adminLoginResponse.data.success ? 'PASSED' : 'FAILED');

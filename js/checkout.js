@@ -1,4 +1,4 @@
-// GameZone Pro - Checkout Page Script
+// Next Game Pro - Checkout Page Script
 // Handles checkout form submission and payment processing
 
 // Initialize variables (use global cart from script.js if available)
@@ -28,7 +28,7 @@ if (!checkoutForm || !checkoutItemsContainer) {
 // Load cart data from localStorage
 function loadCartFromStorage() {
     // Load cart from localStorage directly
-    const savedCart = localStorage.getItem('gamezonepro_cart');
+    const savedCart = localStorage.getItem('Next Game Propro_cart');
     if (savedCart) {
         checkoutCart = JSON.parse(savedCart);
     }
@@ -199,15 +199,15 @@ function saveCustomerInfoLocally(customerInfo) {
         };
         
         // Save to localStorage
-        localStorage.setItem('gamezonepro_customer_info', JSON.stringify(customerData));
+        localStorage.setItem('Next Game Propro_customer_info', JSON.stringify(customerData));
         
         // Also maintain a history of customer information
-        let customerHistory = JSON.parse(localStorage.getItem('gamezonepro_customer_history') || '[]');
+        let customerHistory = JSON.parse(localStorage.getItem('Next Game Propro_customer_history') || '[]');
         customerHistory.unshift(customerData);
         
         // Keep only last 5 customer records
         customerHistory = customerHistory.slice(0, 5);
-        localStorage.setItem('gamezonepro_customer_history', JSON.stringify(customerHistory));
+        localStorage.setItem('Next Game Propro_customer_history', JSON.stringify(customerHistory));
         
         console.log('Customer information saved locally:', customerData.id);
         return customerData;
@@ -225,7 +225,7 @@ function generateCustomerId() {
 // Load saved customer information
 function loadSavedCustomerInfo() {
     try {
-        const savedCustomer = localStorage.getItem('gamezonepro_customer_info');
+        const savedCustomer = localStorage.getItem('Next Game Propro_customer_info');
         if (savedCustomer) {
             const customerData = JSON.parse(savedCustomer);
             
@@ -484,7 +484,7 @@ async function verifyPayment(reference, orderId) {
             showSuccessMessage(orderId);
             
             // Clear cart and discount
-            localStorage.removeItem('gamezonepro_cart');
+            localStorage.removeItem('Next Game Propro_cart');
             localStorage.removeItem('discount');
         } else {
             // Show error message
@@ -528,7 +528,7 @@ function showSuccessMessage(orderId) {
     successMessage.style.display = 'block';
     
     // Update page title
-    document.title = 'Order Confirmation - GameZone Pro';
+    document.title = 'Order Confirmation - Next Game Pro';
 }
 
 // Country code mapping

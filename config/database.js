@@ -184,11 +184,11 @@ async function createDefaultAdmin() {
 
       await sql`
         INSERT INTO users (username, email, password_hash, role)
-        VALUES ('admin', 'admin@gamezonepro.com', ${hashedPassword}, 'admin')
+        VALUES ('admin', 'admin@nextgamepro.store', ${hashedPassword}, 'admin')
       `;
 
       console.log('✅ Default admin user created');
-      console.log('📧 Email: admin@gamezonepro.com');
+      console.log('📧 Email: admin@nextgamepro.store');
       console.log('🔑 Password: admin123 (Please change this!)');
     }
   } catch (error) {

@@ -270,7 +270,7 @@ class AuthManager {
                     this.updateCartDisplay(data.cart);
                     
                     // Merge with local cart if exists
-            const localCart = JSON.parse(localStorage.getItem('gamezonepro_cart') || localStorage.getItem('cart') || '[]');
+            const localCart = JSON.parse(localStorage.getItem('Next Game Propro_cart') || localStorage.getItem('cart') || '[]');
             if (localCart.length > 0) {
                 await this.mergeLocalCart(localCart);
             }
@@ -298,7 +298,7 @@ class AuthManager {
             
             // Clear local cart after merging
             localStorage.removeItem('cart');
-            localStorage.removeItem('gamezonepro_cart');
+            localStorage.removeItem('Next Game Propro_cart');
             
             // Reload cart to get updated data
             await this.loadUserCart();
@@ -310,7 +310,7 @@ class AuthManager {
     async addToCart(item) {
         if (!this.isAuthenticated) {
             // Add to local storage if not authenticated
-            const localCart = JSON.parse(localStorage.getItem('gamezonepro_cart') || '[]');
+            const localCart = JSON.parse(localStorage.getItem('Next Game Propro_cart') || '[]');
             const existingIndex = localCart.findIndex(cartItem => 
                 cartItem.id === item.id && cartItem.color === item.color
             );
@@ -321,7 +321,7 @@ class AuthManager {
                 localCart.push(item);
             }
             
-            localStorage.setItem('gamezonepro_cart', JSON.stringify(localCart));
+            localStorage.setItem('Next Game Propro_cart', JSON.stringify(localCart));
             localStorage.setItem('cart', JSON.stringify(localCart)); // Keep both for compatibility
             this.updateCartDisplay(localCart);
             return;
@@ -353,11 +353,11 @@ class AuthManager {
 
     async removeFromCart(itemId, color) {
         if (!this.isAuthenticated) {
-            const localCart = JSON.parse(localStorage.getItem('gamezonepro_cart') || '[]');
+            const localCart = JSON.parse(localStorage.getItem('Next Game Propro_cart') || '[]');
             const updatedCart = localCart.filter(item => 
                 !(item.id === itemId && item.color === color)
             );
-            localStorage.setItem('gamezonepro_cart', JSON.stringify(updatedCart));
+            localStorage.setItem('Next Game Propro_cart', JSON.stringify(updatedCart));
             localStorage.setItem('cart', JSON.stringify(updatedCart)); // Keep both for compatibility
             this.updateCartDisplay(updatedCart);
             return;

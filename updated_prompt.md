@@ -1,4 +1,4 @@
-# GameZone Pro — Updated Application Prompt (Functions, Tools, Schemas)
+# Next Game Pro — Updated Application Prompt (Functions, Tools, Schemas)
 
 ## Overview
 - Build a premium gaming controller e‑commerce store with advanced SEO optimization.

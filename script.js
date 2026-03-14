@@ -1,4 +1,4 @@
-// GameZone Pro - Interactive JavaScript
+// Next Game Pro - Interactive JavaScript
 // AI-Powered Gaming Controller Store
 
 // Global Variables
@@ -610,7 +610,7 @@ const aiTestimonials = [
         name: 'Mike Rodriguez',
         role: 'Gaming Enthusiast',
         avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
-        text: 'Amazing build quality and customer service! My controller arrived quickly and works flawlessly across all my gaming platforms. GameZone Pro definitely knows their stuff!',
+        text: 'Amazing build quality and customer service! My controller arrived quickly and works flawlessly across all my gaming platforms. Next Game Pro definitely knows their stuff!',
         product: 'Both Controllers',
         rating: 5
     }
@@ -1048,13 +1048,13 @@ function toggleCart() {
 }
 
 function saveCartToStorage() {
-    localStorage.setItem('gamezonepro_cart', JSON.stringify(cart));
+    localStorage.setItem('Next Game Propro_cart', JSON.stringify(cart));
     // Sync with global cart
     window.cart = cart;
 }
 
 function loadCartFromStorage() {
-    const savedCart = localStorage.getItem('gamezonepro_cart');
+    const savedCart = localStorage.getItem('Next Game Propro_cart');
     if (savedCart) {
         cart = JSON.parse(savedCart);
         updateCartUI();
@@ -1094,11 +1094,11 @@ function toggleWishlist(productId) {
 }
 
 function saveWishlistToStorage() {
-    localStorage.setItem('gamezonepro_wishlist', JSON.stringify(wishlist));
+    localStorage.setItem('Next Game Propro_wishlist', JSON.stringify(wishlist));
 }
 
 function loadWishlistFromStorage() {
-    const savedWishlist = localStorage.getItem('gamezonepro_wishlist');
+    const savedWishlist = localStorage.getItem('Next Game Propro_wishlist');
     if (savedWishlist) {
         wishlist = JSON.parse(savedWishlist);
         
@@ -2072,10 +2072,10 @@ function filterProducts(category) {
 
 function updatePageTitleForCategory(category) {
     const categoryTitles = {
-        'pc': 'Best Gaming Controller for PC | Hall Effect Joysticks - GameZone Pro',
-        'xbox': 'Buy Xbox Controller Wireless | Xbox Elite Series 2 - GameZone Pro',
-        'mobile': 'Bluetooth Controller for Mobile Gaming | Under $58 - GameZone Pro',
-        'pro': 'Pro Gaming Controllers | Tournament Legal | Custom Design - GameZone Pro'
+        'pc': 'Best Gaming Controller for PC | Hall Effect Joysticks - Next Game Pro',
+        'xbox': 'Buy Xbox Controller Wireless | Xbox Elite Series 2 - Next Game Pro',
+        'mobile': 'Bluetooth Controller for Mobile Gaming | Under $58 - Next Game Pro',
+        'pro': 'Pro Gaming Controllers | Tournament Legal | Custom Design - Next Game Pro'
     };
     
     if (categoryTitles[category]) {

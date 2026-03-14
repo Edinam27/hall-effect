@@ -602,7 +602,7 @@ exports.processAliExpressOrder = async (orderId) => {
           },
           
           // Order metadata
-          order_memo: `GameZone Pro Order #${order.orderNumber} - Customer: ${order.customer.fullName}${order.notes ? ' - ' + order.notes : ''}`,
+          order_memo: `Next Game Pro Order #${order.orderNumber} - Customer: ${order.customer.fullName}${order.notes ? ' - ' + order.notes : ''}`,
           
           // Product details
           unit_price: {

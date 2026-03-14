@@ -1,4 +1,4 @@
-// GameZone Pro - Payment Integration
+// Next Game Pro - Payment Integration
 // Handles Paystack payment processing and AliExpress order fulfillment
 // Updated: 2025-01-05 16:55 - Fixed static server detection
 
@@ -91,7 +91,7 @@ class PaymentProcessor {
             }
             
             // Get cart data
-            const cart = JSON.parse(localStorage.getItem('gamezonepro_cart') || '[]');
+            const cart = JSON.parse(localStorage.getItem('Next Game Propro_cart') || '[]');
             
             if (cart.length === 0) {
                 throw new Error('Cart is empty');
@@ -238,7 +238,7 @@ class PaymentProcessor {
             }
             
             // Store comprehensive order information for verification
-            localStorage.setItem('gamezonepro_pending_order', JSON.stringify({
+            localStorage.setItem('Next Game Propro_pending_order', JSON.stringify({
                 orderId: order.id,
                 orderNumber: order.orderNumber,
                 customerId: order.customerId,
@@ -326,7 +326,7 @@ class PaymentProcessor {
     async verifyPayment(reference, orderId) {
         try {
             // Get pending order information
-            const pendingOrderData = localStorage.getItem('gamezonepro_pending_order');
+            const pendingOrderData = localStorage.getItem('Next Game Propro_pending_order');
             let pendingOrder = null;
             
             if (pendingOrderData) {
@@ -379,11 +379,11 @@ class PaymentProcessor {
                 });
                 
                 // Clear cart and pending order data
-                localStorage.removeItem('gamezonepro_cart');
-                localStorage.removeItem('gamezonepro_pending_order');
+                localStorage.removeItem('Next Game Propro_cart');
+                localStorage.removeItem('Next Game Propro_pending_order');
                 
                 // Store successful order information for confirmation page
-                localStorage.setItem('gamezonepro_last_order', JSON.stringify({
+                localStorage.setItem('Next Game Propro_last_order', JSON.stringify({
                     orderId: data.orderId,
                     orderNumber: data.orderNumber,
                     customerId: data.customerId,
