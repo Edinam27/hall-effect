@@ -130,6 +130,14 @@ if (koraApi && koraApi.handleWebhook) {
   app.post('/webhooks/kora', koraApi.handleWebhook);
 }
 
+// Explicitly serve sitemap.xml and robots.txt to prevent catch-all from returning HTML
+app.get('/sitemap.xml', (req, res) => {
+  res.sendFile(path.join(process.cwd(), 'sitemap.xml'));
+});
+app.get('/robots.txt', (req, res) => {
+  res.sendFile(path.join(process.cwd(), 'robots.txt'));
+});
+
 // Catch-all route for SPA (only for non-API routes)
 app.get('*', (req, res, next) => {
   // Skip catch-all for API routes
